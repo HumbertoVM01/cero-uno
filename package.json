@@ -1,6 +1,6 @@
 {
   "name": "cero-uno-primer-deploy",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "private": true,
   "description": "Primer Deploy Cero Uno: Netlify + Neon + secuencia binaria universal.",
   "scripts": {
