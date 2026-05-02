@@ -5,21 +5,53 @@ import { playTapSound, playSequence, playDeployChime } from './audio.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
-const state = { current: null, published: [], parentId: null };
+const state = { current: null, published: [], parentId: null, currentTab: 'inicio' };
 
-const demoZeroOnes = [
-  { id: 'demo-1', body_hex: '#FFFFFF', top_hex: '#67FFF0', left_arm_hex: '#000000', right_arm_hex: '#000000', left_leg_hex: '#7F7F7F', right_leg_hex: '#7F7F7F', left_eye_hex: '#FFFFFF', right_eye_hex: '#FF66CC', scent: 'coco digital con baby powder', genome_code: '', tap_count: 1011, depth: 0 },
-  { id: 'demo-2', body_hex: '#6D45C9', top_hex: '#FF66CC', left_arm_hex: '#3A2477', right_arm_hex: '#3A2477', left_leg_hex: '#57349B', right_leg_hex: '#57349B', left_eye_hex: '#E8D7FF', right_eye_hex: '#FFFFFF', scent: 'uva congelada del futuro', genome_code: '', tap_count: 404, depth: 0 },
-  { id: 'demo-3', body_hex: '#121212', top_hex: '#FFFFFF', left_arm_hex: '#67FFF0', right_arm_hex: '#67FFF0', left_leg_hex: '#FFFFFF', right_leg_hex: '#FFFFFF', left_eye_hex: '#FFFFFF', right_eye_hex: '#67FFF0', scent: 'lluvia binaria', genome_code: '', tap_count: 256, depth: 0 }
-];
+function showTab(id, pushHash = true) {
+  const targetId = id || 'inicio';
+  const target = document.getElementById(targetId) || document.getElementById('inicio');
+  const resolvedId = target?.id || 'inicio';
+
+  $$('.tab-panel').forEach((section) => {
+    section.classList.toggle('active-tab', section.id === resolvedId);
+    section.setAttribute('aria-hidden', section.id === resolvedId ? 'false' : 'true');
+  });
+
+  $$('.nav a').forEach((a) => {
+    const isActive = a.getAttribute('href') === `#${resolvedId}`;
+    a.classList.toggle('active', isActive);
+    a.setAttribute('aria-current', isActive ? 'page' : 'false');
+  });
+
+  document.body.dataset.space = resolvedId;
+  state.currentTab = resolvedId;
+  if (pushHash) history.replaceState(null, '', `#${resolvedId}`);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
 function initNav() {
-  $$('.nav a').forEach((a) => {
+  $$('.nav a, a[href^="#"]').forEach((a) => {
     a.addEventListener('click', (e) => {
-      e.preventDefault();
-      const target = $(a.getAttribute('href'));
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const href = a.getAttribute('href');
+      if (!href || !href.startsWith('#')) return;
+      const id = href.slice(1);
+      if (document.getElementById(id)) {
+        e.preventDefault();
+        showTab(id);
+      }
     });
+  });
+
+  const initial = location.hash && document.getElementById(location.hash.slice(1))
+    ? location.hash.slice(1)
+    : 'inicio';
+  showTab(initial, false);
+
+  window.addEventListener('hashchange', () => {
+    const id = location.hash && document.getElementById(location.hash.slice(1))
+      ? location.hash.slice(1)
+      : 'inicio';
+    showTab(id, false);
   });
 }
 
@@ -78,19 +110,35 @@ async function publishCurrent() {
     playDeployChime();
     state.parentId = null;
     await loadGallery('top');
+    await initStats();
+    showTab('galeria');
   } catch (err) {
-    showToast(`No se publicó: ${err.message}. Revisa DATABASE_URL y schema.sql.`);
+    showToast(`No se publicó: ${err.message}. Revisa DATABASE_URL o NEON_DATABASE_URL y schema.sql.`);
   } finally {
     button.disabled = false;
     button.textContent = 'Publicar comparecencia';
   }
 }
 
-function renderGallery(items) {
+function renderGallery(items, mode = 'connected') {
   const grid = $('#gallery-grid');
   grid.innerHTML = '';
-  const list = items.length ? items : demoZeroOnes;
-  $('#gallery-mode').textContent = items.length ? 'Conectado a Neon' : 'Modo demo local';
+  const list = Array.isArray(items) ? items : [];
+
+  if (!list.length) {
+    $('#gallery-mode').textContent = mode === 'error'
+      ? 'Sin conexión a Neon'
+      : 'Neon conectado · esperando el primer Cero Uno publicado';
+    grid.innerHTML = `
+      <article class="empty-gallery glass">
+        <h3>La galería todavía está en silencio.</h3>
+        <p>Aún no hay Cero Unos publicados. Esto es correcto: el desarrollo de la plataforma debe empezar desde comparecencias reales, no desde ejemplos arbitrarios.</p>
+        <a class="button" href="#creator">Crear el primer Cero Uno</a>
+      </article>`;
+    return;
+  }
+
+  $('#gallery-mode').textContent = 'Conectado a Neon';
   list.forEach((z) => {
     const card = document.createElement('article');
     card.className = 'zero-card glass';
@@ -119,10 +167,10 @@ async function loadGallery(sort = 'top') {
   try {
     const { data } = await listZeroOnes(sort);
     state.published = data.zero_ones || [];
-    renderGallery(state.published);
+    renderGallery(state.published, 'connected');
   } catch (err) {
-    renderGallery([]);
-    showToast('Galería en modo demo: conecta Neon y aplica schema.sql para activar publicaciones reales.');
+    renderGallery([], 'error');
+    showToast('No pude leer Neon. Revisa NEON_DATABASE_URL / DATABASE_URL, schema.sql y Functions.');
   }
 }
 
@@ -132,18 +180,14 @@ async function handleTap(z, card) {
   button.disabled = true;
   playTapSound(z.genome_hash || genomeCode(z));
   setTimeout(() => { button.disabled = false; }, 1000);
-  if (String(z.id).startsWith('demo-')) {
-    z.tap_count = Number(z.tap_count || 0) + 1;
-    count.textContent = z.tap_count.toLocaleString('es-MX');
-    return;
-  }
   try {
     const { data } = await tapZeroOne(z.id);
     if (data.tap_count != null) {
       z.tap_count = data.tap_count;
       count.textContent = Number(data.tap_count).toLocaleString('es-MX');
+      await initStats();
     }
-    if (!data.accepted) showToast('Un tap por segundo. La secuencia no acepta autoclicker.');
+    if (!data.accepted) showToast('Un tap por segundo. La sequencia no acepta autoclicker.');
   } catch (err) {
     showToast(`Tap no registrado: ${err.message}`);
   }
@@ -153,9 +197,9 @@ function loadIntoCreator(z) {
   const form = $('#creator-form');
   PART_KEYS.forEach((key) => { form.elements[key].value = z[key]; });
   form.elements.scent.value = z.scent || '';
-  state.parentId = String(z.id).startsWith('demo-') ? null : z.id;
+  state.parentId = z.id || null;
   syncCreator();
-  $('#creator').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  showTab('creator');
   showToast('Mutación cargada en preview. Sólo se guarda si la publicas.');
 }
 
@@ -225,15 +269,20 @@ async function initStats() {
     $('#stat-today').textContent = Number(data.today.taps_today || 0).toLocaleString('es-MX');
     const changelog = $('#changelog-list');
     changelog.innerHTML = '';
-    (data.changelog || []).forEach((row) => {
-      const li = document.createElement('li');
-      li.innerHTML = `<strong>${row.deploy_version} · ${row.title}</strong><span>${row.body}</span>`;
-      changelog.appendChild(li);
-    });
+    if (Array.isArray(data.changelog) && data.changelog.length) {
+      data.changelog.forEach((row) => {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${row.deploy_version} · ${row.title}</strong><span>${row.body}</span>`;
+        changelog.appendChild(li);
+      });
+    } else {
+      changelog.innerHTML = '<li><strong>Sin eventos todavía</strong><span>Neon está conectado, pero el changelog todavía no ha recibido nuevas entradas además de la base inicial.</span></li>';
+    }
   } catch (err) {
     $('#stat-zero-ones').textContent = '—';
     $('#stat-taps').textContent = '—';
     $('#stat-today').textContent = '—';
+    $('#changelog-list').innerHTML = '<li><strong>Sin conexión</strong><span>No pude leer el changelog. Revisa NEON_DATABASE_URL / DATABASE_URL y vuelve a desplegar.</span></li>';
   }
 }
 
@@ -261,8 +310,14 @@ function showToast(text) {
 }
 
 async function main() {
-  await loadAssets();
   initNav();
+  try {
+    await loadAssets();
+  } catch (err) {
+    console.error('No se pudieron cargar assets:', err);
+    showToast('Los assets visuales no cargaron, pero la navegación sigue activa.');
+  }
+
   const form = $('#creator-form');
   form.addEventListener('input', syncCreator);
   $('#mutate-button').addEventListener('click', mutateCurrent);
