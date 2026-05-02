@@ -24,22 +24,30 @@ function tone(freq, duration = 0.09, gainValue = 0.05, type = 'sine', startOffse
 
 export function playTapSound(seed = 'tap') {
   const bits = bitSeed(seed, 4);
-  for (let i = 0; i < bits.length; i++) {
-    const b = bits[i];
-    tone(b === '1' ? 660 + i * 40 : 260 + i * 30, 0.08, 0.035, b === '1' ? 'triangle' : 'sine', i * 0.035);
-  }
+  playBits(bits, { step: 0.035, duration: 0.08, gain: 0.035 });
 }
 
-export function playSequence(seed = 'cero-uno', count = 32) {
-  const bits = bitSeed(seed, count);
-  bits.split('').forEach((bit, i) => {
-    const pair = bits.slice(i, i + 2);
+export function playBits(bits, opts = {}) {
+  const clean = String(bits || '').replace(/[^01]/g, '').slice(0, 128);
+  const step = opts.step ?? 0.105;
+  const duration = opts.duration ?? 0.08;
+  const gain = opts.gain ?? 0.032;
+  clean.split('').forEach((bit, i) => {
+    const pair = clean.slice(i, i + 2);
     let freq = bit === '1' ? 660 : 330;
     let type = bit === '1' ? 'triangle' : 'sine';
     if (pair === '11') { freq = 990; type = 'sawtooth'; }
     if (pair === '00') { freq = 220; type = 'sine'; }
-    tone(freq, 0.08, pair === '00' ? 0.018 : 0.032, type, i * 0.105);
+    if (pair === '01') { freq = 520; type = 'triangle'; }
+    if (pair === '10') { freq = 410; type = 'square'; }
+    tone(freq, duration, pair === '00' ? gain * 0.56 : gain, type, i * step);
   });
+  return clean;
+}
+
+export function playSequence(seed = 'cero-uno', count = 32) {
+  const bits = bitSeed(seed, count);
+  playBits(bits);
   return bits;
 }
 

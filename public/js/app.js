@@ -1,11 +1,32 @@
 import { loadAssets, renderZeroOne, genomeFromForm, genomeCode, PART_KEYS, drawCertificate } from './renderer.js';
 import { createZeroOne, listZeroOnes, tapZeroOne, getStats } from './api.js';
-import { bitOfDay, bitSeed, interpretBits, generarBits, hashToUint32, mulberry32 } from './sequence.js';
-import { playTapSound, playSequence, playDeployChime } from './audio.js';
+import {
+  bitSeed,
+  interpretBits,
+  generarBits,
+  hashToUint32,
+  mulberry32,
+  randomSegment,
+  clampFirstBitCount,
+  DEFAULT_FIRST_BITS,
+  MAX_FIRST_BITS_MOBILE,
+  DEFAULT_RANDOM_OFFSET_MAX
+} from './sequence.js';
+import { playTapSound, playBits, playSequence, playDeployChime } from './audio.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
-const state = { current: null, published: [], parentId: null, currentTab: 'inicio', assetsLoaded: false };
+const state = {
+  current: null,
+  published: [],
+  parentId: null,
+  currentTab: 'inicio',
+  assetsLoaded: false,
+  consultedBits: '',
+  consultedOffset: ''
+};
+
+const HEX_SYMBOLS = '0123456789ABCDEF';
 
 function safeText(sel, text) {
   const el = $(sel);
@@ -78,33 +99,11 @@ function cryptoUnit() {
   }
 }
 
-function componentToHex(n) {
-  return Math.max(0, Math.min(255, Math.round(n))).toString(16).padStart(2, '0').toUpperCase();
-}
-
-function hslToHex(h, s, l) {
-  s /= 100;
-  l /= 100;
-  const c = (1 - Math.abs(2 * l - 1)) * s;
-  const x = c * (1 - Math.abs((h / 60) % 2 - 1));
-  const m = l - c / 2;
-  let r = 0; let g = 0; let b = 0;
-  if (h < 60) [r, g, b] = [c, x, 0];
-  else if (h < 120) [r, g, b] = [x, c, 0];
-  else if (h < 180) [r, g, b] = [0, c, x];
-  else if (h < 240) [r, g, b] = [0, x, c];
-  else if (h < 300) [r, g, b] = [x, 0, c];
-  else [r, g, b] = [c, 0, x];
-  return `#${componentToHex((r + m) * 255)}${componentToHex((g + m) * 255)}${componentToHex((b + m) * 255)}`;
-}
-
 function randomHex(rng = cryptoUnit) {
-  const neutrals = ['#FFFFFF', '#000000', '#7F7F7F'];
-  const roll = rng();
-  if (roll < 0.18) return neutrals[Math.floor(rng() * neutrals.length)];
-  const hue = Math.floor(rng() * 12) * 30;
-  const lightness = 48 + Math.floor(rng() * 24);
-  return hslToHex(hue, 100, lightness);
+  // HTML color inputs aceptan #RRGGBB. Cada uno de los 6 dígitos sale de 16 símbolos HEX.
+  let out = '#';
+  for (let i = 0; i < 6; i++) out += HEX_SYMBOLS[Math.floor(rng() * 16) % 16];
+  return out;
 }
 
 function seededRandomHex(seed) {
@@ -198,7 +197,7 @@ async function publishCurrent() {
     await initStats();
     showTab('galeria');
   } catch (err) {
-    showToast(`No se publicó: ${err.message}. Revisa DATABASE_URL / NEON_DATABASE_URL y schema.sql.`);
+    showToast(`No se publicó: ${err.message}. Revisa DATABASE_URL, schema.sql y Functions.`);
   } finally {
     button.disabled = false;
     button.textContent = 'Publicar comparecencia';
@@ -290,28 +289,49 @@ function loadIntoCreator(z) {
   showToast('Mutación cargada en preview. Sólo se guarda si la publicas.');
 }
 
+function sanitizeOffsetInput() {
+  const el = $('#segment-max-offset');
+  if (!el) return DEFAULT_RANDOM_OFFSET_MAX;
+  const raw = String(el.value || '').replace(/[^0-9]/g, '');
+  let value = DEFAULT_RANDOM_OFFSET_MAX;
+  try { value = raw ? BigInt(raw) : DEFAULT_RANDOM_OFFSET_MAX; } catch (_) { value = DEFAULT_RANDOM_OFFSET_MAX; }
+  if (value < 32n) value = 32n;
+  if (value > DEFAULT_RANDOM_OFFSET_MAX) value = DEFAULT_RANDOM_OFFSET_MAX;
+  el.value = value.toString();
+  return value;
+}
+
+function consultSequenceSegment({ play = false } = {}) {
+  const maxOffset = sanitizeOffsetInput();
+  const segment = randomSegment(32, maxOffset);
+  state.consultedBits = segment.bits;
+  state.consultedOffset = segment.offset;
+  safeText('#sequence-offset', `Offset aleatorio: ${Number(segment.offset).toLocaleString('es-MX')} · rango: 0–${Number(maxOffset).toLocaleString('es-MX')}`);
+  safeText('#oracle-bits', segment.bits);
+  safeText('#oracle-reading', interpretBits(segment.bits));
+  if (play) playBits(segment.bits);
+  return segment.bits;
+}
+
+function computeFirstBits() {
+  const input = $('#first-bit-count');
+  const count = clampFirstBitCount(input?.value || DEFAULT_FIRST_BITS);
+  if (input) input.value = String(count);
+  const bits = generarBits(count);
+  safeText('#first-500', bits);
+  safeText('#first-bits-meta', `${count.toLocaleString('es-MX')} bits computados on-device · máximo móvil recomendado: ${MAX_FIRST_BITS_MOBILE.toLocaleString('es-MX')}`);
+}
+
 function initSequenceLab() {
-  const today = bitOfDay();
-  safeText('#bit-day', today);
-  safeText('#bit-day-meaning', today === '0'
-    ? '0 = gestación, pausa, potencia todavía no desplegada.'
-    : '1 = aparición, decisión, forma que entra al mundo.');
-
-  const firstBits = generarBits(192);
-  safeText('#first-500', firstBits);
-
-  $('#consult-sequence')?.addEventListener('click', () => {
-    const seed = `oracle-${Date.now()}-${navigator.userAgent}`;
-    const bits = bitSeed(seed, 32);
-    safeText('#oracle-bits', bits);
-    safeText('#oracle-reading', interpretBits(bits));
-    playSequence(seed, 18);
-  });
-
+  computeFirstBits();
+  safeText('#sequence-offset', 'Consulta 32 bits para escuchar ese mismo segmento.');
+  $('#consult-sequence')?.addEventListener('click', () => consultSequenceSegment({ play: false }));
   $('#play-sequence')?.addEventListener('click', () => {
-    const bits = playSequence(`listen-${new Date().toISOString().slice(0, 10)}`, 32);
-    safeText('#sound-bits', bits);
+    const bits = state.consultedBits || consultSequenceSegment({ play: false });
+    playBits(bits);
   });
+  $('#compute-first-bits')?.addEventListener('click', computeFirstBits);
+  $('#first-bit-count')?.addEventListener('change', computeFirstBits);
 }
 
 function initAemp() {
@@ -369,7 +389,7 @@ async function initStats() {
           changelog.appendChild(li);
         });
       } else {
-        changelog.innerHTML = '<li><strong>Sin eventos todavía</strong><span>Neon está conectado, pero el changelog todavía no ha recibido nuevas entradas además de la base inicial.</span></li>';
+        changelog.innerHTML = '<li><strong>Sin eventos todavía</strong><span>Neon está conectado, pero la memoria de deploys todavía no ha recibido nuevas entradas además de la base inicial.</span></li>';
       }
     }
   } catch (err) {
@@ -377,7 +397,7 @@ async function initStats() {
     safeText('#stat-taps', '—');
     safeText('#stat-today', '—');
     const changelog = $('#changelog-list');
-    if (changelog) changelog.innerHTML = '<li><strong>Sin conexión</strong><span>No pude leer el changelog. Revisa DATABASE_URL / NEON_DATABASE_URL y vuelve a desplegar.</span></li>';
+    if (changelog) changelog.innerHTML = '<li><strong>Sin conexión</strong><span>No pude leer la memoria de deploys. Revisa DATABASE_URL / NEON_DATABASE_URL y vuelve a desplegar.</span></li>';
   }
 }
 

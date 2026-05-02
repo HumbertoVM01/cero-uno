@@ -17,7 +17,6 @@
     <a href="#aemp">AEMP</a>
     <a href="#origen">Cero Uno</a>
     <a href="#archivo">Archivo</a>
-    <a href="#changelog">Changelog</a>
   </nav>
 
   <main>
@@ -118,29 +117,34 @@
       <div class="page-shell">
         <div class="page-intro glass">
           <div class="tagline">Observatorio binario</div>
-          <h2>Interactuar con la sequencia</h2>
-          <p>La sequencia comparece como bit del día, oráculo de deploy, motor de aura, visualizador y sonido. No se guarda en la base de datos: se invoca desde el navegador.</p>
+          <h2>Consultar y escuchar la sequencia</h2>
+          <p>La sequencia es la concatenación de todos los strings binarios posibles por longitud: 0, 1, 00, 01, 10, 11, 000... Como es infinita, la consulta aleatoria usa un rango finito configurable y se computa on-device.</p>
         </div>
-        <div class="lab-grid">
-          <article class="lab-card glass">
-            <h3>Bit del día</h3>
-            <div class="big-bit" id="bit-day">0</div>
-            <p id="bit-day-meaning"></p>
-          </article>
-          <article class="lab-card glass">
-            <h3>Oráculo de deploy</h3>
-            <button id="consult-sequence">Consultar 32 bits</button>
-            <p class="mono" id="oracle-bits"></p>
+        <div class="lab-grid sequence-lab-grid">
+          <article class="lab-card glass sequence-query-card">
+            <h3>Consultar 32 bits</h3>
+            <label class="compact-field">Rango máximo de búsqueda / offset
+              <input id="segment-max-offset" type="number" min="32" max="1000000000000" step="1" value="1000000000000" inputmode="numeric" />
+            </label>
+            <div class="form-actions">
+              <button id="consult-sequence">Consultar segmento aleatorio</button>
+              <button id="play-sequence" class="yellow">Escuchar esta sequencia</button>
+            </div>
+            <p class="mono sequence-meta" id="sequence-offset">Sin segmento consultado todavía.</p>
+            <p class="mono bit-stream query-bits" id="oracle-bits"></p>
             <p id="oracle-reading"></p>
           </article>
-          <article class="lab-card glass">
-            <h3>Escuchar la sequencia</h3>
-            <button id="play-sequence" class="yellow">Play Web Audio</button>
-            <p class="mono" id="sound-bits"></p>
-          </article>
-          <article class="lab-card glass">
+          <article class="lab-card glass first-bits-card">
             <h3>Primeros bits</h3>
-            <p class="bit-stream" id="first-500"></p>
+            <p>Calcula y muestra los primeros bits de la sequencia en tu dispositivo. En móvil el límite recomendado es 8,192 bits.</p>
+            <label class="compact-field">Bits a computar y mostrar
+              <input id="first-bit-count" type="number" min="16" max="8192" step="16" value="512" inputmode="numeric" />
+            </label>
+            <div class="form-actions">
+              <button id="compute-first-bits" class="ghost-button">Calcular primeros bits</button>
+            </div>
+            <p class="mono sequence-meta" id="first-bits-meta"></p>
+            <p class="bit-stream first-bits-output" id="first-500"></p>
           </article>
         </div>
       </div>
@@ -205,31 +209,30 @@
     <section id="archivo" class="tab-panel page page--archivo">
       <div class="page-shell">
         <div class="page-intro glass">
-          <div class="tagline">Archivo de conceptos</div>
-          <h2>Glosario vivo</h2>
-          <p>Aquí no se fabrica ni se vota: aquí se estabilizan definiciones suficientes para que la plataforma no se disuelva.</p>
+          <div class="tagline">Centro de memoria vivo</div>
+          <h2>Archivo Cero Uno</h2>
+          <p>El Archivo es la memoria viva de la plataforma: definiciones, reglas operativas, deploys y cambios que ya entraron al mundo.</p>
         </div>
-        <div class="concepts">
-          <details class="glass" open><summary>Cero Uno</summary><p>Humberto Vega convertido en obra, presencia, sistema, criatura, plataforma y mundo.</p></details>
-          <details class="glass"><summary>0100011011</summary><p>Sequencia binaria universal: concatenación de todos los strings binarios posibles por longitud — 0, 1, 00, 01, 10, 11, 000... — apropiada como semilla de diferencia, decisión, presencia y recombinación.</p></details>
-          <details class="glass"><summary>Criatura</summary><p>Un Cero Uno material o digital. No es sólo producto: es una pequeña comparecencia de la secuencia viva.</p></details>
-          <details class="glass"><summary>Tap</summary><p>Voto rítmico, no like genérico. Un tap por segundo para influir sin autoclicker.</p></details>
-          <details class="glass"><summary>Mutación</summary><p>Variación generada localmente. Sólo entra a Neon cuando se publica como comparecencia.</p></details>
-          <details class="glass"><summary>Deploy</summary><p>Una actualización del mundo Cero Uno. No sólo código: cambio visible de forma, lenguaje y acción.</p></details>
+        <div class="memory-grid">
+          <section class="memory-block glass">
+            <h3>Glosario vivo</h3>
+            <div class="concepts">
+              <details class="glass" open><summary>Cero Uno</summary><p>Humberto Vega convertido en obra, presencia, sistema, criatura, plataforma y mundo.</p></details>
+              <details class="glass"><summary>0100011011</summary><p>Sequencia binaria universal: concatenación de todos los strings binarios posibles por longitud — 0, 1, 00, 01, 10, 11, 000... — apropiada como semilla de diferencia, decisión, presencia y recombinación.</p></details>
+              <details class="glass"><summary>Criatura</summary><p>Un Cero Uno material o digital. No es sólo producto: es una pequeña comparecencia de la secuencia viva.</p></details>
+              <details class="glass"><summary>Tap</summary><p>Voto rítmico, no like genérico. Un tap por segundo para influir sin autoclicker.</p></details>
+              <details class="glass"><summary>Mutación</summary><p>Variación generada localmente. Sólo entra a Neon cuando se publica como comparecencia.</p></details>
+              <details class="glass"><summary>Deploy</summary><p>Una actualización del mundo Cero Uno. No sólo código: cambio visible de forma, lenguaje y acción.</p></details>
+            </div>
+          </section>
+          <section class="memory-block glass">
+            <h3>Memoria de deploys</h3>
+            <p>Esta lista viene de Neon cuando la base está conectada.</p>
+            <ul id="changelog-list" class="changelog-list">
+              <li><strong>Modo local</strong><span>Conecta DATABASE_URL o NEON_DATABASE_URL y aplica schema.sql para activar la memoria de deploys desde Neon.</span></li>
+            </ul>
+          </section>
         </div>
-      </div>
-    </section>
-
-    <section id="changelog" class="tab-panel page page--changelog">
-      <div class="page-shell">
-        <div class="page-intro glass">
-          <div class="tagline">Bitácora viva</div>
-          <h2>El deploy está cambiando</h2>
-          <p>Este marco registra lo que ya entró al mundo. Si Neon no está conectado, aquí se ve el silencio del changelog.</p>
-        </div>
-        <ul id="changelog-list" class="changelog-list">
-          <li><strong>Modo local</strong><span>Conecta DATABASE_URL o NEON_DATABASE_URL y aplica schema.sql para activar el changelog desde Neon.</span></li>
-        </ul>
       </div>
     </section>
   </main>
@@ -240,7 +243,7 @@
   <script>
     // v0.1.6 rescue nav: tabs funcionan aunque falle el módulo principal.
     (function () {
-      const validSpaces = new Set(['inicio','creator','galeria','sequencia','aemp','origen','archivo','changelog']);
+      const validSpaces = new Set(['inicio','creator','galeria','sequencia','aemp','origen','archivo']);
       function resolveTab(id) {
         return validSpaces.has(id) && document.getElementById(id) ? id : 'inicio';
       }

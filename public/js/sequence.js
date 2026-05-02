@@ -1,8 +1,13 @@
 // sequencia-binario-universal.js
-// v0.1.6
+// v0.1.7
 // Definición: concatenación de TODOS los strings binarios posibles por longitud:
 // 0 1 00 01 10 11 000 001 010 011 100 101 110 111 0000...
-// La secuencia se invoca: no se guarda en Neon.
+// La secuencia es infinita. Por eso no existe una selección uniforme sobre "toda" la secuencia.
+// Para consultas aleatorias usamos un rango finito configurable de offsets computables.
+
+export const MAX_FIRST_BITS_MOBILE = 8192;
+export const DEFAULT_FIRST_BITS = 512;
+export const DEFAULT_RANDOM_OFFSET_MAX = 1000000000000n; // 1 billón de posiciones; directo y rápido con BigInt.
 
 export function* sequenciaBinariaUniversal() {
   for (let length = 1; ; length++) {
@@ -16,9 +21,14 @@ export function* sequenciaBinariaUniversal() {
 
 const bitCache = new Map();
 
+export function clampFirstBitCount(value) {
+  const n = Math.floor(Number(value) || DEFAULT_FIRST_BITS);
+  return Math.max(1, Math.min(MAX_FIRST_BITS_MOBILE, n));
+}
+
 export function generarBits(cantidad) {
-  const count = Math.max(0, Number(cantidad) || 0);
-  const key = `0:${count}`;
+  const count = clampFirstBitCount(cantidad);
+  const key = `first:${count}`;
   if (bitCache.has(key)) return bitCache.get(key);
   const generador = sequenciaBinariaUniversal();
   let resultado = '';
@@ -27,17 +37,79 @@ export function generarBits(cantidad) {
   return resultado;
 }
 
+function normalizeBigInt(value, fallback = 0n) {
+  try {
+    if (typeof value === 'bigint') return value < 0n ? 0n : value;
+    const clean = String(value ?? '').replace(/[^0-9]/g, '');
+    if (!clean) return fallback;
+    const out = BigInt(clean);
+    return out < 0n ? 0n : out;
+  } catch (_) {
+    return fallback;
+  }
+}
+
+function totalBitsThroughLength(length) {
+  const L = BigInt(length);
+  if (L <= 0n) return 0n;
+  // Sum_{k=1..L} k * 2^k = (L - 1) * 2^(L + 1) + 2
+  return (L - 1n) * (2n ** (L + 1n)) + 2n;
+}
+
+function lengthForOffset(offset) {
+  const target = normalizeBigInt(offset);
+  let lo = 1n;
+  let hi = 1n;
+  while (totalBitsThroughLength(hi) <= target) hi *= 2n;
+  while (lo < hi) {
+    const mid = (lo + hi) >> 1n;
+    if (totalBitsThroughLength(mid) > target) hi = mid;
+    else lo = mid + 1n;
+  }
+  return lo;
+}
+
+export function bitAtOffset(offset) {
+  const target = normalizeBigInt(offset);
+  const length = lengthForOffset(target);
+  const prevTotal = totalBitsThroughLength(length - 1n);
+  const local = target - prevTotal;
+  const stringIndex = local / length;
+  const bitIndex = Number(local % length);
+  const binary = stringIndex.toString(2).padStart(Number(length), '0');
+  return binary[bitIndex] || '0';
+}
+
 export function generarBitsDesdeOffset(offset, cantidad) {
-  const start = Math.max(0, Number(offset) || 0);
-  const count = Math.max(0, Number(cantidad) || 0);
-  const key = `${start}:${count}`;
+  const start = normalizeBigInt(offset);
+  const count = Math.max(0, Math.min(4096, Math.floor(Number(cantidad) || 0)));
+  const key = `offset:${start.toString()}:${count}`;
   if (bitCache.has(key)) return bitCache.get(key);
-  const generador = sequenciaBinariaUniversal();
-  for (let i = 0; i < start; i++) generador.next();
   let resultado = '';
-  for (let i = 0; i < count; i++) resultado += generador.next().value;
+  for (let i = 0; i < count; i++) resultado += bitAtOffset(start + BigInt(i));
   bitCache.set(key, resultado);
   return resultado;
+}
+
+export function cryptoRandomBigInt(maxInclusive = DEFAULT_RANDOM_OFFSET_MAX) {
+  const max = normalizeBigInt(maxInclusive, DEFAULT_RANDOM_OFFSET_MAX);
+  const limit = max <= 0n ? 1n : max + 1n;
+  try {
+    const arr = new Uint32Array(2);
+    crypto.getRandomValues(arr);
+    const value = (BigInt(arr[0]) << 32n) + BigInt(arr[1]);
+    return value % limit;
+  } catch (_) {
+    return BigInt(Math.floor(Math.random() * Number(limit < 9007199254740991n ? limit : 9007199254740991n)));
+  }
+}
+
+export function randomSegment(count = 32, maxOffset = DEFAULT_RANDOM_OFFSET_MAX) {
+  const offset = cryptoRandomBigInt(maxOffset);
+  return {
+    offset: offset.toString(),
+    bits: generarBitsDesdeOffset(offset, count)
+  };
 }
 
 export function hashToUint32(input) {
@@ -62,14 +134,8 @@ export function mulberry32(seed) {
 }
 
 export function bitSeed(seed, count = 32) {
-  const offset = hashToUint32(seed) % 4096;
+  const offset = BigInt(hashToUint32(seed) % 1000000);
   return generarBitsDesdeOffset(offset, count);
-}
-
-export function bitOfDay(date = new Date()) {
-  const key = date.toISOString().slice(0, 10);
-  const bits = bitSeed(`cero-uno-day-${key}`, 8);
-  return bits[bits.length - 1];
 }
 
 export function interpretBits(bits) {
@@ -79,8 +145,5 @@ export function interpretBits(bits) {
   let alternations = 0;
   for (let i = 1; i < clean.length; i++) if (clean[i] !== clean[i - 1]) alternations++;
   const density = ones / Math.max(1, clean.length);
-  if (alternations > clean.length * 0.62) return 'Alta alternancia: muta sin romper tu centro.';
-  if (density > 0.68) return 'Alta aparición: convierte una idea en forma visible.';
-  if (density < 0.32) return 'Alta gestación: observa antes de desplegar.';
-  return 'Equilibrio 0/1: sostén pausa y acción al mismo tiempo.';
+  return `32 bits consultados · ${zeros} ceros · ${ones} unos · ${alternations} alternancias · densidad de 1: ${density.toFixed(2)}`;
 }
