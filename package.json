@@ -1,0 +1,20 @@
+{
+  "name": "cero-uno-primer-deploy",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Primer Deploy Cero Uno: Netlify + Neon + secuencia binaria universal.",
+  "scripts": {
+    "dev": "netlify dev",
+    "deploy:dry": "netlify deploy --dir=public --functions=netlify/functions --dry-run",
+    "db:apply": "node scripts/apply-schema.js"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.36.4"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

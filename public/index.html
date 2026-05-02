@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cero Uno · Primer Deploy</title>
+  <meta name="description" content="Crea Cero Unos, interactúa con la secuencia binaria universal y entra al Primer Deploy de Cero Uno." />
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <nav class="nav">
+    <strong>0100011011</strong>
+    <a href="#inicio">Inicio</a>
+    <a href="#creator">Creador</a>
+    <a href="#galeria">Galería</a>
+    <a href="#sequencia">Sequencia</a>
+    <a href="#aemp">AEMP</a>
+    <a href="#origen">Cero Uno</a>
+    <a href="#archivo">Archivo</a>
+  </nav>
+
+  <main>
+    <section id="inicio" class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="tagline">Primer Deploy · Netlify + Neon</div>
+          <h1>CERO UNO COMPARECE</h1>
+          <p class="lede">La sequencia de binario universal no es un adorno. Es una semilla. Cada módulo de esta página la invoca para convertirla en forma, sonido, lectura, criatura, archivo o deploy.</p>
+          <div class="truths">
+            <div><strong>1. Humberto Vega es Cero Uno.</strong><span>Cero Uno es Humberto convertido en obra, presencia, sistema y mundo.</span></div>
+            <div><strong>2. Los Cero Unos son criaturas.</strong><span>Cada uno nace de la secuencia viva y tiene un cuerpo/genoma hexadecimal.</span></div>
+            <div><strong>3. La comunidad transforma la plataforma.</strong><span>Los taps, deseos, dudas y señales influyen en el desarrollo.</span></div>
+          </div>
+        </div>
+        <div class="hero-card glass" data-seed="seed: sequencia-binario-universal">
+          <canvas id="preview-canvas" aria-label="Vista previa de Cero Uno"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section id="creator">
+      <div class="tagline">Crear · Publicar · Mutar</div>
+      <h2>Creador de Cero Unos</h2>
+      <p>El nombre de cada Cero Uno es su código HEX en orden: cuerpo, Pom Pom, brazo izquierdo, brazo derecho, pierna izquierda, pierna derecha, ojo izquierdo, ojo derecho. El olor se describe en menos de 100 caracteres.</p>
+      <div class="creator-shell">
+        <div class="preview-panel glass">
+          <h3>Comparecencia actual</h3>
+          <div class="genome-box mono" id="genome-code"></div>
+          <p id="scent-count">0/100</p>
+          <div class="form-actions">
+            <button type="button" id="mutate-button" class="pink">Mutar localmente</button>
+            <button type="button" id="download-certificate" class="ghost-button">Descargar certificado</button>
+          </div>
+        </div>
+        <form id="creator-form" class="form-panel glass">
+          <div class="color-grid">
+            <label>Cuerpo <input type="color" name="body_hex" value="#ffffff" /></label>
+            <label>Pom Pom / bolita de arriba <input type="color" name="top_hex" value="#67fff0" /></label>
+            <label>Brazo izquierdo <input type="color" name="left_arm_hex" value="#000000" /></label>
+            <label>Brazo derecho <input type="color" name="right_arm_hex" value="#000000" /></label>
+            <label>Pierna izquierda <input type="color" name="left_leg_hex" value="#7f7f7f" /></label>
+            <label>Pierna derecha <input type="color" name="right_leg_hex" value="#7f7f7f" /></label>
+            <label>Ojo izquierdo <input type="color" name="left_eye_hex" value="#ffffff" /></label>
+            <label>Ojo derecho <input type="color" name="right_eye_hex" value="#ff66cc" /></label>
+          </div>
+          <p></p>
+          <label>Olor del Cero Uno
+            <input type="text" name="scent" maxlength="100" placeholder="Ej. coco digital con baby powder" />
+          </label>
+          <div class="form-actions">
+            <button type="button" id="publish-button">Publicar comparecencia</button>
+            <a class="button ghost-button" href="#galeria">Ver galería</a>
+          </div>
+          <p class="mono">Neon guarda comparecencias. El navegador sueña mutaciones.</p>
+        </form>
+      </div>
+    </section>
+
+    <section id="galeria">
+      <div class="tagline">Galería viva</div>
+      <h2>Cero Unos publicados</h2>
+      <p>Cada tap es una señal. Sólo se permite un tap por segundo por visitante para impedir autoclicker. Los rankings influyen la evolución visual y sensorial del sistema.</p>
+      <div class="stats">
+        <div class="stat glass"><strong id="stat-zero-ones">—</strong><span>Cero Unos</span></div>
+        <div class="stat glass"><strong id="stat-taps">—</strong><span>Taps históricos</span></div>
+        <div class="stat glass"><strong id="stat-today">—</strong><span>Taps hoy</span></div>
+      </div>
+      <div class="gallery-toolbar">
+        <span id="gallery-mode" class="mono">Cargando...</span>
+        <div>
+          <button id="sort-top" class="ghost-button">Más tapeados</button>
+          <button id="sort-new" class="ghost-button">Más nuevos</button>
+        </div>
+      </div>
+      <div id="gallery-grid" class="gallery-grid"></div>
+    </section>
+
+    <section id="sequencia">
+      <div class="tagline">Seed universal</div>
+      <h2>Interactuar con la sequencia</h2>
+      <p>La sequencia comparece como bit del día, oráculo de deploy, motor de aura, visualizador y sonido. No se guarda en la base de datos: se invoca desde el navegador.</p>
+      <div class="lab-grid">
+        <article class="lab-card glass">
+          <h3>Bit del día</h3>
+          <div class="big-bit" id="bit-day">0</div>
+          <p id="bit-day-meaning"></p>
+        </article>
+        <article class="lab-card glass">
+          <h3>Oráculo de deploy</h3>
+          <button id="consult-sequence">Consultar 32 bits</button>
+          <p class="mono" id="oracle-bits"></p>
+          <p id="oracle-reading"></p>
+        </article>
+        <article class="lab-card glass">
+          <h3>Escuchar la sequencia</h3>
+          <button id="play-sequence" class="yellow">Play Web Audio</button>
+          <p class="mono" id="sound-bits"></p>
+        </article>
+        <article class="lab-card glass">
+          <h3>Primeros bits</h3>
+          <p class="bit-stream" id="first-500"></p>
+        </article>
+      </div>
+    </section>
+
+    <section id="aemp">
+      <div class="tagline">Laboratorio AEMP</div>
+      <h2>Aprender a sostener marcos</h2>
+      <p>No se enseña AEMP como teoría muerta. Se muestra cómo cambia una interpretación cuando cambia el marco.</p>
+      <div class="two-col">
+        <article class="glass form-panel">
+          <h3>Frase de prueba</h3>
+          <p class="lede">“Los Cero Unos están caros.”</p>
+          <div class="frame-buttons">
+            <button class="frame-button" data-frame="economico">Marco económico</button>
+            <button class="frame-button" data-frame="artistico">Marco artístico</button>
+            <button class="frame-button" data-frame="ontologico">Marco ontológico</button>
+            <button class="frame-button" data-frame="comunitario">Marco comunitario</button>
+            <button class="frame-button" data-frame="tecnico">Marco técnico</button>
+          </div>
+          <div class="output-box">
+            <strong id="aemp-frame-title">Elige un marco</strong>
+            <p id="aemp-frame-body">Cada marco ve algo real, pero ninguno ve todo.</p>
+            <p><em id="aemp-blindspot">Aquí aparecerá su punto ciego.</em></p>
+          </div>
+        </article>
+        <article class="glass form-panel">
+          <h3>Cuatro modos</h3>
+          <div class="mode-buttons">
+            <button class="mode-button" data-mode="liberacion">Liberación</button>
+            <button class="mode-button" data-mode="examen">Examen</button>
+            <button class="mode-button" data-mode="construccion">Construcción</button>
+            <button class="mode-button" data-mode="proteccion">Protección</button>
+          </div>
+          <div class="output-box" id="aemp-mode-output">Aplica un modo a: “Esto sólo es un pompón.”</div>
+        </article>
+      </div>
+    </section>
+
+    <section id="origen">
+      <div class="tagline">Cámara de Origen</div>
+      <h2>Humberto Vega es Cero Uno</h2>
+      <p class="lede">Cero Uno no nace de un solo campo. Nace de atravesarlos todos buscando la forma que los une. Es todología convertida en criatura, plataforma, comercio, estética, filosofía, archivo y mundo.</p>
+      <div class="origin-map">
+        <div><strong>Matemáticas</strong><span> patrón, combinatoria, código HEX, secuencia.</span></div>
+        <div><strong>Física</strong><span> forma, campo, materia, cuerpo.</span></div>
+        <div><strong>IA</strong><span> cámara de comparecencia, lenguaje, simulación.</span></div>
+        <div><strong>Manualidad</strong><span> pompón, gema, textura, cuerpo hecho a mano.</span></div>
+        <div><strong>Filosofía</strong><span> AEMP, marcos, ontología, comparecencia.</span></div>
+        <div><strong>Comunidad</strong><span> taps, dudas, deseos, señales y evolución.</span></div>
+      </div>
+    </section>
+
+    <section id="archivo">
+      <div class="tagline">Archivo de conceptos</div>
+      <h2>Glosario vivo</h2>
+      <div class="concepts">
+        <details class="glass" open><summary>Cero Uno</summary><p>Humberto Vega convertido en obra, presencia, sistema, criatura, plataforma y mundo.</p></details>
+        <details class="glass"><summary>0100011011</summary><p>Sequencia binaria universal apropiada como semilla: diferencia, posibilidad, decisión, presencia, ausencia y recombinación.</p></details>
+        <details class="glass"><summary>Criatura</summary><p>Un Cero Uno material o digital. No es sólo producto: es una pequeña comparecencia de la secuencia viva.</p></details>
+        <details class="glass"><summary>Tap</summary><p>Voto rítmico, no like genérico. Un tap por segundo para influir sin autoclicker.</p></details>
+        <details class="glass"><summary>Mutación</summary><p>Variación generada localmente. Sólo entra a Neon cuando se publica como comparecencia.</p></details>
+        <details class="glass"><summary>Deploy</summary><p>Una actualización del mundo Cero Uno. No sólo código: cambio visible de forma, lenguaje y acción.</p></details>
+      </div>
+    </section>
+
+    <section id="changelog">
+      <div class="tagline">Changelog Vivo</div>
+      <h2>El deploy está cambiando</h2>
+      <ul id="changelog-list" class="changelog-list">
+        <li><strong>Modo local</strong><span>Conecta DATABASE_URL y aplica schema.sql para activar el changelog desde Neon.</span></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="footer">Cero Uno · Primer Deploy · la secuencia se invoca, no se almacena.</footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
