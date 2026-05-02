@@ -166,3 +166,26 @@ html, body {
   overflow-x: hidden;
   overflow-y: auto;
 }
+
+/* v0.1.6: reparación funcional */
+.zero-preview-canvas {
+  width: 100%;
+  min-height: 320px;
+  display: block;
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 50% 48%, rgba(var(--accent-rgb), 0.18), transparent 48%),
+    rgba(0,0,0,0.22);
+}
+.hero-card .zero-preview-canvas {
+  min-height: min(54vh, 460px);
+}
+.nav a[aria-current="page"] {
+  color: #000 !important;
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+}
+.nav a:not([aria-current="page"]) {
+  color: var(--muted) !important;
+  background: rgba(0,0,0,0.12) !important;
+}
