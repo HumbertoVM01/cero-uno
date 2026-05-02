@@ -11,15 +11,30 @@ function showTab(id, pushHash = true) {
   const targetId = id || 'inicio';
   const target = document.getElementById(targetId) || document.getElementById('inicio');
   const resolvedId = target?.id || 'inicio';
-  $$('.tab-panel').forEach((section) => {
-    section.classList.toggle('active-tab', section.id === resolvedId);
-    section.setAttribute('aria-hidden', section.id === resolvedId ? 'false' : 'true');
+
+  // Si existe el script de rescate del HTML, úsalo para que la navegación sea una sola fuente de verdad.
+  if (window.__ceroUnoShowTab && !showTab.__fromRescue) {
+    window.__ceroUnoShowTab(resolvedId, pushHash);
+    state.currentTab = resolvedId;
+    return;
+  }
+
+  $$('main > section').forEach((section) => {
+    const active = section.id === resolvedId;
+    section.classList.toggle('active-tab', active);
+    section.setAttribute('aria-hidden', active ? 'false' : 'true');
+    if (section.classList.contains('tab-panel')) {
+      section.style.setProperty('display', active ? 'block' : 'none', 'important');
+    }
   });
+
   $$('.nav a').forEach((a) => {
     const isActive = a.getAttribute('href') === `#${resolvedId}`;
     a.classList.toggle('active', isActive);
-    a.setAttribute('aria-current', isActive ? 'page' : 'false');
+    if (isActive) a.setAttribute('aria-current', 'page');
+    else a.removeAttribute('aria-current');
   });
+
   document.body.dataset.space = resolvedId;
   state.currentTab = resolvedId;
   if (pushHash) history.replaceState(null, '', `#${resolvedId}`);
@@ -38,38 +53,14 @@ function initNav() {
       }
     });
   });
+
   const initial = location.hash && document.getElementById(location.hash.slice(1)) ? location.hash.slice(1) : 'inicio';
   showTab(initial, false);
+
   window.addEventListener('hashchange', () => {
     const id = location.hash && document.getElementById(location.hash.slice(1)) ? location.hash.slice(1) : 'inicio';
     showTab(id, false);
   });
-}
-
-
-function safeRender(canvas, z, opts = {}) {
-  if (!canvas || !z) return;
-  renderZeroOne(canvas, z, opts);
-}
-
-function renderCurrentPreviews() {
-  if (!state.current) return;
-  safeRender($('#hero-canvas'), state.current);
-  safeRender($('#creator-canvas'), state.current);
-}
-
-function randomHex(rng = Math.random) {
-  const hues = ['#FFFFFF', '#000000', '#7F7F7F', '#67FFF0', '#FF66CC', '#FFFF66', '#66FF66', '#2362AE', '#6D45C9', '#FF7A00'];
-  return hues[Math.floor(rng() * hues.length)];
-}
-
-function randomUnit() {
-  if (window.crypto?.getRandomValues) {
-    const arr = new Uint32Array(1);
-    window.crypto.getRandomValues(arr);
-    return arr[0] / 0xFFFFFFFF;
-  }
-  return Math.random();
 }
 
 function randomizeCreator({ keepScent = false, announce = false } = {}) {

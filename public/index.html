@@ -236,6 +236,55 @@
 
   <footer class="footer">Cero Uno · Primer Deploy · la sequencia se invoca, no se almacena.</footer>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // v0.1.5 rescue nav: tabs funcionan aunque falle el módulo principal.
+    (function () {
+      const validSpaces = new Set(['inicio','creator','galeria','sequencia','aemp','origen','archivo','changelog']);
+      function resolveTab(id) {
+        return validSpaces.has(id) && document.getElementById(id) ? id : 'inicio';
+      }
+      function setImportantDisplay(el, value) {
+        try { el.style.setProperty('display', value, 'important'); }
+        catch (e) { el.style.display = value; }
+      }
+      function showTab(id, pushHash) {
+        const resolved = resolveTab(id);
+        document.querySelectorAll('main > section').forEach((section) => {
+          const active = section.id === resolved;
+          section.classList.toggle('active-tab', active);
+          section.setAttribute('aria-hidden', active ? 'false' : 'true');
+          if (section.classList.contains('tab-panel')) setImportantDisplay(section, active ? 'block' : 'none');
+        });
+        document.querySelectorAll('.nav a').forEach((a) => {
+          const active = a.getAttribute('href') === '#' + resolved;
+          a.classList.toggle('active', active);
+          if (active) a.setAttribute('aria-current', 'page');
+          else a.removeAttribute('aria-current');
+        });
+        document.body.dataset.space = resolved;
+        if (pushHash) history.replaceState(null, '', '#' + resolved);
+        window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
+      }
+      function currentHashTab() {
+        return location.hash ? location.hash.slice(1) : 'inicio';
+      }
+      document.addEventListener('DOMContentLoaded', function () {
+        showTab(currentHashTab(), false);
+        document.addEventListener('click', function (event) {
+          const a = event.target.closest && event.target.closest('a[href^="#"]');
+          if (!a) return;
+          const id = a.getAttribute('href').slice(1);
+          if (!document.getElementById(id)) return;
+          event.preventDefault();
+          showTab(id, true);
+        }, true);
+      });
+      window.addEventListener('hashchange', function () { showTab(currentHashTab(), false); });
+      window.__ceroUnoShowTab = showTab;
+    })();
+  </script>
+
   <script type="module" src="/js/app.js"></script>
 </body>
 </html>
