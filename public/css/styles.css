@@ -176,3 +176,17 @@ summary { cursor: pointer; font-weight: 800; color: var(--cyan); }
   .nav { position: static; }
   section { padding-top: 48px; }
 }
+
+main > section.tab-panel {
+  display: none !important;
+}
+
+main > section.tab-panel.active-tab {
+  display: block !important;
+}
+
+.nav a.active {
+  border-color: rgba(103, 255, 240, 0.95);
+  color: #ffffff;
+  background: rgba(103, 255, 240, 0.12);
+}
