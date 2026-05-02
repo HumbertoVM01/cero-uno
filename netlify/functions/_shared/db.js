@@ -1,6 +1,7 @@
 const { neon } = require('@neondatabase/serverless');
 
 let sql;
+
 function getConnectionString() {
   return process.env.DATABASE_URL || process.env.NEON_DATABASE_URL || '';
 }

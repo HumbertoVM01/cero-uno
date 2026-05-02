@@ -41,7 +41,7 @@
             </div>
           </div>
           <div class="hero-card glass" data-seed="seed: sequencia-binario-universal">
-            <canvas id="preview-canvas" aria-label="Vista previa de Cero Uno"></canvas>
+            <canvas id="hero-canvas" class="zero-preview-canvas" aria-label="Vista previa aleatoria de Cero Uno"></canvas>
           </div>
         </div>
       </div>
@@ -57,9 +57,11 @@
         <div class="creator-shell">
           <div class="preview-panel glass">
             <h3>Comparecencia actual</h3>
+            <canvas id="creator-canvas" class="zero-preview-canvas creator-preview-canvas" aria-label="Cero Uno que estás creando"></canvas>
             <div class="genome-box mono" id="genome-code"></div>
             <p id="scent-count">0/100</p>
             <div class="form-actions">
+              <button type="button" id="randomize-button" class="yellow">Invocar aleatorio</button>
               <button type="button" id="mutate-button" class="pink">Mutar localmente</button>
               <button type="button" id="download-certificate" class="ghost-button">Descargar certificado</button>
             </div>

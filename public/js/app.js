@@ -11,18 +11,15 @@ function showTab(id, pushHash = true) {
   const targetId = id || 'inicio';
   const target = document.getElementById(targetId) || document.getElementById('inicio');
   const resolvedId = target?.id || 'inicio';
-
   $$('.tab-panel').forEach((section) => {
     section.classList.toggle('active-tab', section.id === resolvedId);
     section.setAttribute('aria-hidden', section.id === resolvedId ? 'false' : 'true');
   });
-
   $$('.nav a').forEach((a) => {
     const isActive = a.getAttribute('href') === `#${resolvedId}`;
     a.classList.toggle('active', isActive);
     a.setAttribute('aria-current', isActive ? 'page' : 'false');
   });
-
   document.body.dataset.space = resolvedId;
   state.currentTab = resolvedId;
   if (pushHash) history.replaceState(null, '', `#${resolvedId}`);
@@ -41,18 +38,51 @@ function initNav() {
       }
     });
   });
-
-  const initial = location.hash && document.getElementById(location.hash.slice(1))
-    ? location.hash.slice(1)
-    : 'inicio';
+  const initial = location.hash && document.getElementById(location.hash.slice(1)) ? location.hash.slice(1) : 'inicio';
   showTab(initial, false);
-
   window.addEventListener('hashchange', () => {
-    const id = location.hash && document.getElementById(location.hash.slice(1))
-      ? location.hash.slice(1)
-      : 'inicio';
+    const id = location.hash && document.getElementById(location.hash.slice(1)) ? location.hash.slice(1) : 'inicio';
     showTab(id, false);
   });
+}
+
+
+function safeRender(canvas, z, opts = {}) {
+  if (!canvas || !z) return;
+  renderZeroOne(canvas, z, opts);
+}
+
+function renderCurrentPreviews() {
+  if (!state.current) return;
+  safeRender($('#hero-canvas'), state.current);
+  safeRender($('#creator-canvas'), state.current);
+}
+
+function randomHex(rng = Math.random) {
+  const hues = ['#FFFFFF', '#000000', '#7F7F7F', '#67FFF0', '#FF66CC', '#FFFF66', '#66FF66', '#2362AE', '#6D45C9', '#FF7A00'];
+  return hues[Math.floor(rng() * hues.length)];
+}
+
+function randomUnit() {
+  if (window.crypto?.getRandomValues) {
+    const arr = new Uint32Array(1);
+    window.crypto.getRandomValues(arr);
+    return arr[0] / 0xFFFFFFFF;
+  }
+  return Math.random();
+}
+
+function randomizeCreator({ keepScent = false, announce = false } = {}) {
+  const form = $('#creator-form');
+  PART_KEYS.forEach((key) => {
+    form.elements[key].value = randomHex(randomUnit);
+  });
+  if (!keepScent) form.elements.scent.value = '';
+  syncCreator();
+  if (announce) {
+    showToast('La sequencia invocó una comparecencia aleatoria. No se guarda hasta publicar.');
+    playSequence(`${genomeCode(state.current)}|randomize`, 10);
+  }
 }
 
 function syncCreator() {
@@ -61,12 +91,12 @@ function syncCreator() {
   state.current = z;
   $('#genome-code').textContent = genomeCode(z);
   $('#scent-count').textContent = `${z.scent.length}/100`;
-  renderZeroOne($('#preview-canvas'), z);
+  renderCurrentPreviews();
 }
 
 function startPreviewLoop() {
   function frame() {
-    if (state.current) renderZeroOne($('#preview-canvas'), state.current);
+    if (state.current) renderCurrentPreviews();
     $$('.zero-card canvas').forEach((canvas) => {
       const data = canvas.__zeroOne;
       if (data) renderZeroOne(canvas, data, { scale: 0.9 });
@@ -76,12 +106,7 @@ function startPreviewLoop() {
   frame();
 }
 
-function randomHex(rng = Math.random) {
-  const hues = ['#FFFFFF', '#000000', '#7F7F7F', '#67FFF0', '#FF66CC', '#FFFF66', '#66FF66', '#2362AE', '#6D45C9', '#FF7A00'];
-  return hues[Math.floor(rng() * hues.length)];
-}
-
-function mutateCurrent() {
+unction mutateCurrent() {
   const form = $('#creator-form');
   const seed = `${genomeCode(state.current)}|${Date.now()}`;
   const bits = bitSeed(seed, 16);
@@ -124,7 +149,6 @@ function renderGallery(items, mode = 'connected') {
   const grid = $('#gallery-grid');
   grid.innerHTML = '';
   const list = Array.isArray(items) ? items : [];
-
   if (!list.length) {
     $('#gallery-mode').textContent = mode === 'error'
       ? 'Sin conexión a Neon'
@@ -137,7 +161,6 @@ function renderGallery(items, mode = 'connected') {
       </article>`;
     return;
   }
-
   $('#gallery-mode').textContent = 'Conectado a Neon';
   list.forEach((z) => {
     const card = document.createElement('article');
@@ -309,17 +332,22 @@ function showToast(text) {
   showToast.timer = setTimeout(() => toast.classList.remove('show'), 4200);
 }
 
+function timeout(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 async function main() {
   initNav();
-  try {
-    await loadAssets();
-  } catch (err) {
-    console.error('No se pudieron cargar assets:', err);
-    showToast('Los assets visuales no cargaron, pero la navegación sigue activa.');
-  }
-
+  await Promise.race([
+    loadAssets().catch((err) => {
+      console.error('No se pudieron cargar assets:', err);
+      showToast('Los assets visuales no cargaron; se usará modo fallback.');
+    }),
+    timeout(4000)
+  ]);
   const form = $('#creator-form');
   form.addEventListener('input', syncCreator);
+  $('#randomize-button').addEventListener('click', () => randomizeCreator({ announce: true }));
   $('#mutate-button').addEventListener('click', mutateCurrent);
   $('#publish-button').addEventListener('click', publishCurrent);
   $('#sort-top').addEventListener('click', () => loadGallery('top'));
@@ -327,7 +355,7 @@ async function main() {
   initSequenceLab();
   initAemp();
   initCertificate();
-  syncCreator();
+  randomizeCreator();
   startPreviewLoop();
   await loadGallery('top');
   await initStats();

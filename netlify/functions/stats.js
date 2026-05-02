@@ -7,8 +7,8 @@ exports.handler = async (event) => {
   try {
     const sql = getSql();
     const [totals, today, topColors, changelog] = await Promise.all([
-      sql`select count(*)::int as zero_ones, coalesce(sum(tap_count),0)::bigint as taps from zero_ones`,
-      sql`select coalesce(sum(tap_count),0)::bigint as taps_today from zero_one_tap_daily where day = current_date`,
+      sql`select count(*)::int as zero_ones, coalesce(sum(tap_count),0)::int as taps from zero_ones`,
+      sql`select coalesce(sum(tap_count),0)::int as taps_today from zero_one_tap_daily where day = current_date`,
       sql`
         select body_hex as color, count(*)::int as count
         from zero_ones

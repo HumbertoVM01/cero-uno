@@ -21,6 +21,21 @@ export async function loadAssets() {
 }
 
 function drawTinted(ctx, img, cx, cy, size, color, material = 'pompom') {
+  if (!img) {
+    ctx.save();
+    ctx.fillStyle = color || '#ffffff';
+    ctx.beginPath();
+    ctx.arc(cx, cy, size / 2, 0, Math.PI * 2);
+    ctx.fill();
+    if (material === 'gem') {
+      ctx.fillStyle = 'rgba(255,255,255,0.35)';
+      ctx.beginPath();
+      ctx.arc(cx - size * 0.12, cy - size * 0.12, size * 0.16, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+    return;
+  }
   const temp = document.createElement('canvas');
   temp.width = size;
   temp.height = size;
