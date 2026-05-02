@@ -1,4 +1,4 @@
--- CERO UNO · Primer Deploy · Neon schema
+-- CERO UNO · Primer Deploy · Neon schema · v0.1.8
 -- Run this in the Neon SQL Editor before publishing the Netlify site.
 
 create extension if not exists pgcrypto;
@@ -72,19 +72,6 @@ create table if not exists signals (
   created_at timestamptz not null default now()
 );
 
-create table if not exists deploy_changelog (
-  id uuid primary key default gen_random_uuid(),
-  deploy_version text not null,
-  title text not null,
-  body text not null,
-  created_at timestamptz not null default now()
-);
-
-insert into deploy_changelog (deploy_version, title, body)
-values
-  ('v0.1.0', 'Primer Deploy', 'Nace la página viva: creador de Cero Unos, galería, taps, secuencia binaria universal, Laboratorio AEMP, Cámara de Origen y Archivo de Conceptos.'),
-  ('v0.1.1', 'Regla de base de datos', 'Neon guarda comparecencias. El navegador sueña mutaciones. La secuencia anima el sueño.')
-on conflict do nothing;
 
 -- Optional cleanup job to run manually or via scheduled function later:
 -- delete from tap_guard where created_at < now() - interval '24 hours';

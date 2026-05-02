@@ -28,7 +28,7 @@ export function playTapSound(seed = 'tap') {
 }
 
 export function playBits(bits, opts = {}) {
-  const clean = String(bits || '').replace(/[^01]/g, '').slice(0, 128);
+  const clean = String(bits || '').replace(/[^01]/g, '').slice(0, 256);
   const step = opts.step ?? 0.105;
   const duration = opts.duration ?? 0.08;
   const gain = opts.gain ?? 0.032;
@@ -48,6 +48,35 @@ export function playBits(bits, opts = {}) {
 export function playSequence(seed = 'cero-uno', count = 32) {
   const bits = bitSeed(seed, count);
   playBits(bits);
+  return bits;
+}
+
+
+export function genomeToBinary(input) {
+  const genome = typeof input === 'string'
+    ? input
+    : [
+        input?.body_hex,
+        input?.top_hex,
+        input?.left_arm_hex,
+        input?.right_arm_hex,
+        input?.left_leg_hex,
+        input?.right_leg_hex,
+        input?.left_eye_hex,
+        input?.right_eye_hex
+      ].filter(Boolean).join('');
+
+  return String(genome || '')
+    .toUpperCase()
+    .replace(/[^0-9A-F]/g, '')
+    .split('')
+    .map((digit) => Number.parseInt(digit, 16).toString(2).padStart(4, '0'))
+    .join('');
+}
+
+export function playZeroOneSound(z) {
+  const bits = genomeToBinary(z);
+  playBits(bits, { step: 0.034, duration: 0.055, gain: 0.026 });
   return bits;
 }
 

@@ -12,7 +12,7 @@ import {
   MAX_FIRST_BITS_MOBILE,
   DEFAULT_RANDOM_OFFSET_MAX
 } from './sequence.js';
-import { playTapSound, playBits, playSequence, playDeployChime } from './audio.js';
+import { playTapSound, playBits, playSequence, playDeployChime, playZeroOneSound } from './audio.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -146,6 +146,17 @@ function syncCreator() {
   renderCurrentPreviews();
 }
 
+
+function listenToZeroOne(z = state.current) {
+  if (!z) {
+    syncCreator();
+    z = state.current;
+  }
+  const bits = playZeroOneSound(z);
+  showToast(`Sonando el Cero Uno: ${bits.length} bits derivados de su genoma HEX.`);
+  return bits;
+}
+
 function startPreviewLoop() {
   function frame() {
     if (state.current) renderCurrentPreviews();
@@ -234,6 +245,7 @@ function renderGallery(items, mode = 'connected') {
           <button class="tap-button">TAP</button>
           <strong class="tap-count">${toInt(z.tap_count).toLocaleString('es-MX')}</strong>
         </div>
+        <button class="ghost-button listen-zero">Escuchar</button>
         <button class="ghost-button mutate-from">Mutar este Cero Uno</button>
       </div>`;
     const canvas = $('canvas', card);
@@ -241,6 +253,7 @@ function renderGallery(items, mode = 'connected') {
     $('.genome-small', card).textContent = z.genome_code || genomeCode(z);
     $('.scent', card).textContent = z.scent ? `Olor: ${z.scent}` : 'Olor: sin olor declarado';
     $('.tap-button', card).addEventListener('click', () => handleTap(z, card));
+    $('.listen-zero', card).addEventListener('click', () => listenToZeroOne(z));
     $('.mutate-from', card).addEventListener('click', () => loadIntoCreator(z));
     grid.appendChild(card);
   });
@@ -379,25 +392,12 @@ async function initStats() {
     safeText('#stat-zero-ones', toInt(data.totals?.zero_ones).toLocaleString('es-MX'));
     safeText('#stat-taps', toInt(data.totals?.taps).toLocaleString('es-MX'));
     safeText('#stat-today', toInt(data.today?.taps_today).toLocaleString('es-MX'));
-    const changelog = $('#changelog-list');
-    if (changelog) {
-      changelog.innerHTML = '';
-      if (Array.isArray(data.changelog) && data.changelog.length) {
-        data.changelog.forEach((row) => {
-          const li = document.createElement('li');
-          li.innerHTML = `<strong>${row.deploy_version} · ${row.title}</strong><span>${row.body}</span>`;
-          changelog.appendChild(li);
-        });
-      } else {
-        changelog.innerHTML = '<li><strong>Sin eventos todavía</strong><span>Neon está conectado, pero la memoria de deploys todavía no ha recibido nuevas entradas además de la base inicial.</span></li>';
-      }
-    }
+    // Archivo v0.1.8 es memoria holística local, no changelog técnico desde Neon.
   } catch (err) {
     safeText('#stat-zero-ones', '—');
     safeText('#stat-taps', '—');
     safeText('#stat-today', '—');
-    const changelog = $('#changelog-list');
-    if (changelog) changelog.innerHTML = '<li><strong>Sin conexión</strong><span>No pude leer la memoria de deploys. Revisa DATABASE_URL / NEON_DATABASE_URL y vuelve a desplegar.</span></li>';
+    // No hay memoria técnica que actualizar en Archivo.
   }
 }
 
@@ -448,6 +448,7 @@ async function main() {
   form?.addEventListener('input', syncCreator);
   $('#randomize-button')?.addEventListener('click', () => randomizeCreator({ announce: true }));
   $('#mutate-button')?.addEventListener('click', mutateCurrent);
+  $('#listen-current-button')?.addEventListener('click', () => listenToZeroOne());
   $('#publish-button')?.addEventListener('click', publishCurrent);
   $('#sort-top')?.addEventListener('click', () => loadGallery('top'));
   $('#sort-new')?.addEventListener('click', () => loadGallery('new'));
