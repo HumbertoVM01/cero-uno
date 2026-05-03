@@ -1,0 +1,42 @@
+{
+  "phase": "5_platform_ready_applied",
+  "principle": "No se registran Cero Unos. Se propagan comparecencias.",
+  "modules": [
+    {
+      "id": "creator",
+      "exports": [
+        "acta_de_comparecencia_png",
+        "listen_cero_uno",
+        "scent_suggestion"
+      ]
+    },
+    {
+      "id": "gallery",
+      "exports": [
+        "tap_contact",
+        "social_signal",
+        "listen_zero_one"
+      ]
+    },
+    {
+      "id": "sequencia",
+      "exports": [
+        "listen_sequence",
+        "bit_pair_sonification"
+      ]
+    },
+    {
+      "id": "archive",
+      "exports": [
+        "living_memory",
+        "not_registry_copy"
+      ]
+    }
+  ],
+  "frontend_assets": {
+    "pompom": "/assets/pompom.png",
+    "gem": "/assets/gem.png",
+    "platform_assets": "/js/platform-assets.js",
+    "sequence_audio_base": "/assets/cero-uno-system/audio/sequence"
+  }
+}

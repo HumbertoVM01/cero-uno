@@ -1,4 +1,5 @@
-import { loadAssets, renderZeroOne, genomeFromForm, genomeCode, PART_KEYS, drawCertificate } from './renderer.js';
+import { loadAssets, renderZeroOne, genomeFromForm, genomeCode, PART_KEYS, drawActa } from './renderer.js';
+import { scentFromSeed, PLATFORM_COPY } from './platform-assets.js';
 import { createZeroOne, listZeroOnes, tapZeroOne, getStats } from './api.js';
 import {
   bitSeed,
@@ -13,6 +14,7 @@ import {
   DEFAULT_RANDOM_OFFSET_MAX
 } from './sequence.js';
 import { playTapSound, playBits, playSequence, playDeployChime, playZeroOneSound } from './audio.js';
+import { initCommentField } from './comment-field-renderer.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -183,8 +185,7 @@ function mutateCurrent() {
     }
   });
   if (bits[10] === '1') {
-    const scents = ['coco digital', 'baby powder lunar', 'limón eléctrico', 'uva congelada', 'pompón recién nacido', 'chicle ontológico', 'algodón de deploy'];
-    form.elements.scent.value = scents[Number.parseInt(bits.slice(11, 14), 2) % scents.length];
+    form.elements.scent.value = scentFromSeed(`${seed}|scent|${bits.slice(11, 14)}`);
   }
   syncCreator();
   showToast(`Mutación local: ${changed.length ? changed.join(', ') : 'sólo aura binaria'}. No se guardó en Neon.`);
@@ -201,7 +202,7 @@ async function publishCurrent() {
     const payload = { ...state.current, parent_id: state.parentId };
     const { data } = await createZeroOne(payload);
     if (!data.ok) throw new Error(data.error || 'No se pudo publicar.');
-    showToast('Cero Uno publicado. Entró al mundo.');
+    showToast('Comparecencia publicada. Entró al archivo visible sin volverse oficial.');
     playDeployChime();
     state.parentId = null;
     await loadGallery('top');
@@ -223,12 +224,12 @@ function renderGallery(items, mode = 'connected') {
   if (!list.length) {
     safeText('#gallery-mode', mode === 'error'
       ? 'Sin conexión a Neon'
-      : 'Neon conectado · esperando el primer Cero Uno publicado');
+      : 'Neon conectado · esperando comparecencias publicadas');
     grid.innerHTML = `
       <article class="empty-gallery glass">
         <h3>La galería todavía está en silencio.</h3>
-        <p>Aún no hay Cero Unos publicados. Esto es correcto: el desarrollo de la plataforma debe empezar desde comparecencias reales, no desde ejemplos arbitrarios.</p>
-        <a class="button" href="#creator">Crear el primer Cero Uno</a>
+        <p>${PLATFORM_COPY.galleryEmpty}</p>
+        <a class="button" href="#creator">Crear una comparecencia</a>
       </article>`;
     return;
   }
@@ -286,6 +287,7 @@ async function handleTap(z, card) {
       await initStats();
     }
     if (!data.accepted) showToast('Un tap por segundo. La sequencia no acepta autoclicker.');
+    else { card.classList.add('tap-pulse'); setTimeout(() => card.classList.remove('tap-pulse'), 520); }
   } catch (err) {
     showToast(`Tap no registrado: ${err.message}`);
   }
@@ -401,17 +403,28 @@ async function initStats() {
   }
 }
 
-function initCertificate() {
-  $('#download-certificate')?.addEventListener('click', () => {
+function suggestScent({ announce = true } = {}) {
+  const form = $('#creator-form');
+  if (!form) return;
+  if (!state.current) syncCreator();
+  const seed = `${genomeCode(state.current)}|${Date.now()}|${cryptoUnit()}`;
+  form.elements.scent.value = scentFromSeed(seed).slice(0, 100);
+  syncCreator();
+  if (announce) showToast('Olor sugerido desde el léxico material/sonoro de Cero Uno. Puedes cambiarlo libremente.');
+}
+
+function initActa() {
+
+  $('#download-acta')?.addEventListener('click', () => {
     if (!state.current) syncCreator();
     const c = document.createElement('canvas');
     c.width = 900;
     c.height = 1200;
     c.style.width = '900px';
     c.style.height = '1200px';
-    drawCertificate(c, state.current);
+    drawActa(c, state.current);
     const a = document.createElement('a');
-    a.download = `certificado-cero-uno-${Date.now()}.png`;
+    a.download = `${PLATFORM_COPY.acta.filenamePrefix}-${Date.now()}.png`;
     a.href = c.toDataURL('image/png');
     a.click();
   });
@@ -449,13 +462,15 @@ async function main() {
   $('#randomize-button')?.addEventListener('click', () => randomizeCreator({ announce: true }));
   $('#mutate-button')?.addEventListener('click', mutateCurrent);
   $('#listen-current-button')?.addEventListener('click', () => listenToZeroOne());
+  $('#suggest-scent-button')?.addEventListener('click', () => suggestScent());
   $('#publish-button')?.addEventListener('click', publishCurrent);
   $('#sort-top')?.addEventListener('click', () => loadGallery('top'));
   $('#sort-new')?.addEventListener('click', () => loadGallery('new'));
 
   initSequenceLab();
   initAemp();
-  initCertificate();
+  initActa();
+  await initCommentField();
   randomizeCreator();
   startPreviewLoop();
   await Promise.allSettled([loadGallery('top'), initStats()]);

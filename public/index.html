@@ -4,13 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Cero Uno · Primer Deploy</title>
-  <meta name="description" content="Crea Cero Unos, interactúa con la sequencia binaria universal y entra al Primer Deploy de Cero Uno." />
+  <meta name="description" content="Crea comparecencias de Cero Uno, escucha la sequencia binaria universal y entra al sistema abierto de propagación." />
   <link rel="stylesheet" href="/css/styles.css" />
 </head>
 <body data-space="inicio">
   <nav class="nav">
     <strong>0100011011</strong>
     <a href="#inicio">Inicio</a>
+    <a href="#campo">Campo</a>
     <a href="#creator">Creador</a>
     <a href="#galeria">Galería</a>
     <a href="#sequencia">Sequencia</a>
@@ -21,27 +22,161 @@
 
   <main>
     <section id="inicio" class="tab-panel active-tab page page--inicio">
-      <div class="page-shell hero">
-        <div class="page-intro glass">
-          <div class="tagline">Umbral · Cámara de entrada</div>
-          <h1>CERO UNO COMPARECE</h1>
-          <p class="lede">La sequencia de binario universal no es un adorno. Es una semilla. Cada módulo de esta página la invoca para convertirla en forma, sonido, lectura, criatura, archivo o deploy.</p>
+      <div class="page-shell hero umbral-shell">
+        <div class="umbral-hero glass">
+          <div class="umbral-copy">
+            <div class="tagline">Umbral Vivo · Home alimentada por comentarios</div>
+            <h1>CERO UNO ESCUCHA</h1>
+            <p class="lede">La plataforma no empieza explicándose como producto terminado. Empieza escuchando el campo social: preguntas, ternura, ruido, deseo, defensa, duda y contradicción.</p>
+            <p>La sequencia ya comparece en cuerpos, pantallas, sonidos, comentarios y artefactos. Este umbral metaboliza el snapshot más reciente para decidir qué debe aclarar, qué debe abrir y qué debe transformar.</p>
+            <div class="umbral-actions form-actions">
+              <a class="button" href="#creator">Crear desde la sequencia</a>
+              <a class="button ghost-button" href="#campo">Escuchar al colectivo</a>
+              <button type="button" id="home-listen-field" class="ghost-button">Sonar el umbral</button>
+            </div>
+          </div>
+          <div class="hero-card umbral-orb glass" data-seed="seed: campo-social-vivo">
+            <canvas id="hero-canvas" class="zero-preview-canvas" aria-label="Cero Uno escuchando el campo social"></canvas>
+            <div class="umbral-orb-caption">
+              <strong id="home-field-top">Campo cargando</strong>
+              <span id="home-field-phrase">El colectivo habla. Cero Uno escucha sin someterse.</span>
+            </div>
+          </div>
         </div>
-        <div class="hero-grid">
-          <div>
-            <div class="truths">
-              <div><strong>1. Humberto Vega es Cero Uno.</strong><span>Cero Uno es Humberto convertido en obra, presencia, sistema, criatura y mundo.</span></div>
-              <div><strong>2. Los Cero Unos son criaturas.</strong><span>Cada uno nace de la secuencia viva y tiene un cuerpo/genoma hexadecimal.</span></div>
-              <div><strong>3. La comunidad transforma la plataforma.</strong><span>Los taps, deseos, dudas y señales influyen en el desarrollo.</span></div>
+
+        <section class="umbral-listening-grid">
+          <article class="umbral-panel comment-field-brief glass">
+            <div class="tagline">Campo Social activo</div>
+            <h2>El colectivo está hablando</h2>
+            <p id="home-field-summary">Cargando digest del campo social...</p>
+            <p id="home-field-effect" class="microcopy">La plataforma no muestra todo crudo: metaboliza la señal.</p>
+            <div id="home-field-weather" class="home-weather-grid" aria-live="polite"></div>
+          </article>
+
+          <article class="umbral-panel glass home-explain-card">
+            <div class="tagline">Tres anclas para entrar</div>
+            <h2>Qué debe entender alguien que acaba de llegar</h2>
+            <div class="home-anchor-grid">
+              <div><strong>01</strong><span>Cero Uno es una forma de comparecencia de la Sequencia de Binario Universal.</span></div>
+              <div><strong>02</strong><span>No hay Cero Unos oficiales: físico, virtual, audiovisual y hecho por la comunidad valen igual.</span></div>
+              <div><strong>03</strong><span>La plataforma cambia por ciclos: escucha el campo, lo metaboliza y vuelve a comparecer.</span></div>
             </div>
-            <div class="form-actions intro-actions">
-              <a class="button" href="#creator">Entrar al creador</a>
-              <a class="button ghost-button" href="#sequencia">Consultar la sequencia</a>
+          </article>
+        </section>
+
+        <section class="umbral-questions glass">
+          <div class="tagline">Preguntas que el umbral debe contestar ahora</div>
+          <h2>No cerrar el misterio; abrir puertas</h2>
+          <div id="home-question-cloud" class="home-question-cloud"></div>
+        </section>
+
+        <section class="umbral-doorway-section">
+          <div class="page-intro glass">
+            <div class="tagline">Puertas vivas</div>
+            <h2>La home no manda a páginas: abre modos de comparecencia</h2>
+            <p>Según el Campo Social, cada puerta debe responder a una necesidad distinta: crear, ver, escuchar, reinterpretar, recordar o remixar.</p>
+          </div>
+          <div class="home-door-grid" id="home-door-grid">
+            <a class="home-door glass" href="#creator" data-door="creator"><strong>Creador</strong><span>Convertir deseos del campo en cuerpo, olor, color y sonido.</span></a>
+            <a class="home-door glass" href="#galeria" data-door="galeria"><strong>Galería</strong><span>Ver comparecencias publicadas sin convertirlas en oficiales.</span></a>
+            <a class="home-door glass" href="#sequencia" data-door="sequencia"><strong>Sequencia</strong><span>Escuchar el 0/1 como fuente, no como decoración.</span></a>
+            <a class="home-door glass" href="#aemp" data-door="aemp"><strong>AEMP</strong><span>Sostener tensiones del colectivo sin reducirlas a pelea.</span></a>
+            <a class="home-door glass" href="#archivo" data-door="archivo"><strong>Archivo Vivo</strong><span>Guardar pensamiento del concepto, no registrar criaturas.</span></a>
+            <a class="home-door glass" href="#campo" data-door="campo"><strong>Campo</strong><span>Leer el clima social que alimenta el siguiente ciclo.</span></a>
+          </div>
+        </section>
+
+        <section class="umbral-cycles-grid">
+          <article class="glass umbral-cycle-card">
+            <div class="tagline">Deseos del colectivo</div>
+            <h2>Crear desde el campo</h2>
+            <p id="home-creator-prompt">Cargando deseos recientes...</p>
+            <div class="field-chip-grid home-chip-grid">
+              <div><strong>Colores</strong><div id="home-field-colors" class="field-chips"></div></div>
+              <div><strong>Formatos</strong><div id="home-field-formats" class="field-chips"></div></div>
+              <div><strong>Olores</strong><div id="home-field-scents" class="field-chips"></div></div>
             </div>
+            <div class="form-actions">
+              <button type="button" id="home-seed-creator-button" class="yellow">Sembrar Creador con el campo</button>
+              <a class="button ghost-button" href="#creator">Ir al Creador</a>
+            </div>
+          </article>
+
+          <article class="glass umbral-cycle-card">
+            <div class="tagline">Tensiones vivas</div>
+            <h2>Lo que no se resuelve todavía</h2>
+            <div id="home-tension-stack" class="home-tension-stack"></div>
+            <div class="form-actions">
+              <a class="button ghost-button" href="#aemp">Abrir en AEMP</a>
+            </div>
+          </article>
+        </section>
+
+        <section class="umbral-manifest glass">
+          <div class="tagline">Regla de propagación</div>
+          <h2>No se registran Cero Unos. Se propagan comparecencias.</h2>
+          <p>La Home debe recordar esto desde la entrada: la plataforma no autentifica, no posee y no jerarquiza. Ofrece un campo para que el concepto aparezca, cambie, se escuche, se comparta y vuelva a mutar.</p>
+          <div id="home-archive-pulse" class="home-archive-pulse"></div>
+        </section>
+      </div>
+    </section>
+
+
+    <section id="campo" class="tab-panel page page--campo">
+      <div class="page-shell">
+        <div class="page-intro glass field-intro">
+          <div class="tagline">Campo Social · Comment Field</div>
+          <h2>El colectivo habla. Cero Uno escucha.</h2>
+          <p id="comment-field-summary" class="lede">Cargando digest seguro del Campo Social...</p>
+          <p id="comment-field-cycle">Este snapshot no es una opinión final: es presión viva para el siguiente ciclo de comparecencia.</p>
+          <p class="mono" id="comment-field-id">comment_field_loading</p>
+          <div class="form-actions">
+            <button type="button" id="play-field-weather-button" class="yellow">Escuchar clima del campo</button>
+            <button type="button" id="use-field-scent-button" class="ghost-button">Usar olor del campo</button>
+            <a class="button ghost-button" href="#aemp">Llevar tensiones a AEMP</a>
           </div>
-          <div class="hero-card glass" data-seed="seed: sequencia-binario-universal">
-            <canvas id="hero-canvas" class="zero-preview-canvas" aria-label="Vista previa aleatoria de Cero Uno"></canvas>
+        </div>
+
+        <div class="field-grid">
+          <section class="field-column">
+            <h3>Familias dominantes</h3>
+            <div id="comment-field-families" class="field-meter-grid"></div>
+          </section>
+          <section class="field-column glass field-list-card">
+            <h3>Preguntas que la Home debe responder</h3>
+            <ul id="comment-field-questions" class="field-list"></ul>
+          </section>
+        </div>
+
+        <section class="field-suggestions glass">
+          <div class="tagline">Deseos del Creador</div>
+          <h3>Crear desde el campo social</h3>
+          <p>La plataforma no registra deseos como pedidos oficiales. Los usa como semillas de comparecencia.</p>
+          <div class="field-chip-grid">
+            <div><strong>Colores</strong><div id="field-colors" class="field-chips"></div></div>
+            <div><strong>Ojos</strong><div id="field-eyes" class="field-chips"></div></div>
+            <div><strong>Formatos</strong><div id="field-formats" class="field-chips"></div></div>
+            <div><strong>Olores</strong><div id="field-scents" class="field-chips"></div></div>
           </div>
+        </section>
+
+        <section class="field-tensions-section">
+          <div class="page-intro glass">
+            <div class="tagline">Tensiones AEMP extraídas del campo</div>
+            <h3>No se resuelven rápido: se sostienen como laboratorio</h3>
+          </div>
+          <div id="comment-field-tensions" class="field-tension-grid"></div>
+        </section>
+
+        <div class="field-grid">
+          <section class="field-column glass field-list-card">
+            <h3>Directivas de plataforma</h3>
+            <ul id="comment-field-directives" class="field-list"></ul>
+          </section>
+          <section class="field-column">
+            <h3>Entradas sugeridas para Archivo Vivo</h3>
+            <div id="comment-field-archive-entries" class="field-archive-grid"></div>
+          </section>
         </div>
       </div>
     </section>
@@ -51,7 +186,7 @@
         <div class="page-intro glass">
           <div class="tagline">Taller de comparecencia</div>
           <h2>Creador de Cero Unos</h2>
-          <p>En este marco se fabrica presencia. El nombre de cada Cero Uno es su código HEX en orden: cuerpo, Pom Pom, brazo izquierdo, brazo derecho, pierna izquierda, pierna derecha, ojo izquierdo, ojo derecho. El olor se describe en menos de 100 caracteres.</p>
+          <p>En este marco se fabrica presencia sin oficializarla. El nombre de cada Cero Uno es su código HEX en orden: cuerpo, Pom Pom, brazo izquierdo, brazo derecho, pierna izquierda, pierna derecha, ojo izquierdo, ojo derecho. El olor se describe en menos de 100 caracteres.</p>
         </div>
         <div class="creator-shell">
           <div class="preview-panel glass">
@@ -63,7 +198,7 @@
               <button type="button" id="randomize-button" class="yellow">Invocar aleatorio</button>
               <button type="button" id="mutate-button" class="pink">Mutar localmente</button>
               <button type="button" id="listen-current-button" class="ghost-button">Escuchar Cero Uno</button>
-              <button type="button" id="download-certificate" class="ghost-button">Descargar certificado</button>
+              <button type="button" id="download-acta" class="ghost-button">Descargar acta</button>
             </div>
           </div>
           <form id="creator-form" class="form-panel glass">
@@ -81,11 +216,13 @@
             <label>Olor del Cero Uno
               <input type="text" name="scent" maxlength="100" placeholder="Ej. coco digital con baby powder" />
             </label>
+            <button type="button" id="suggest-scent-button" class="ghost-button inline-scent-button">Sugerir olor</button>
+            <p class="microcopy">La sugerencia no canoniza nada: sólo ofrece una pista sensorial para esta comparecencia.</p>
             <div class="form-actions">
               <button type="button" id="publish-button">Publicar comparecencia</button>
               <a class="button ghost-button" href="#galeria">Ver galería</a>
             </div>
-            <p class="mono">Neon guarda comparecencias. El navegador sueña mutaciones.</p>
+            <p class="mono">Neon guarda comparecencias publicadas. El navegador sueña mutaciones. La plataforma no registra todos los Cero Unos.</p>
           </form>
         </div>
       </div>
@@ -96,7 +233,7 @@
         <div class="page-intro glass">
           <div class="tagline">Cámara social</div>
           <h2>Cero Unos publicados</h2>
-          <p>Cada tap es una señal. Sólo se permite un tap por segundo por visitante para impedir autoclicker. Los rankings influyen la evolución visual y sensorial del sistema.</p>
+          <p>Cada tap es contacto, no like genérico. Sólo se permite un tap por segundo por visitante para impedir autoclicker. Los rankings influyen la evolución visual y sensorial del sistema sin convertir ninguna instancia en oficial.</p>
         </div>
         <div class="stats">
           <div class="stat glass"><strong id="stat-zero-ones">—</strong><span>Cero Unos</span></div>
@@ -194,7 +331,7 @@
         <div class="page-intro glass">
           <div class="tagline">Cámara de origen</div>
           <h2>Humberto Vega es Cero Uno</h2>
-          <p class="lede">Cero Uno no nace de un solo campo. Nace de atravesarlos todos buscando la forma que los une. Es todología convertida en criatura, plataforma, comercio, estética, filosofía, archivo y mundo.</p>
+          <p class="lede">Cero Uno no nace de un solo campo. Nace de atravesarlos todos buscando la forma que los une. Antes de esta plataforma ya había Cero Unos circulando materialmente; la plataforma no los registra ni los posee, sólo abre nuevas formas de comparecencia.</p>
         </div>
         <div class="origin-map">
           <div><strong>Matemáticas</strong><span> patrón, combinatoria, código HEX, secuencia.</span></div>
@@ -212,7 +349,7 @@
         <div class="page-intro glass">
           <div class="tagline">Centro de memoria vivo</div>
           <h2>Archivo Cero Uno</h2>
-          <p>El Archivo no es una bitácora técnica. Es el espacio donde la plataforma Cero Uno puede pensar en voz alta: ordenar intuiciones, guardar tensiones, nombrar marcos, dejar rastros de formulación y recordar lo que no debe perderse mientras evoluciona.</p>
+          <p>El Archivo no es registro de todos los Cero Unos ni bitácora técnica. Es el espacio donde la plataforma Cero Uno puede pensar en voz alta: ordenar intuiciones, guardar tensiones, nombrar marcos, dejar rastros de formulación y recordar lo que no debe perderse mientras evoluciona.</p>
         </div>
 
         <div class="archive-shell">
@@ -233,20 +370,20 @@
             <div class="concepts">
               <details class="memory-detail" open><summary>Cero Uno</summary><p>Humberto Vega convertido en obra, presencia, sistema, criatura, plataforma y mundo.</p></details>
               <details class="memory-detail"><summary>0100011011</summary><p>Sequencia binaria universal: concatenación de todos los strings binarios posibles por longitud — 0, 1, 00, 01, 10, 11, 000... — apropiada como semilla de diferencia, decisión, presencia y recombinación.</p></details>
-              <details class="memory-detail"><summary>Criatura</summary><p>Un Cero Uno material o digital. No es sólo producto: es una pequeña comparecencia de la secuencia viva.</p></details>
+              <details class="memory-detail"><summary>Criatura</summary><p>Un Cero Uno material, digital, audiovisual, dibujado, generado o hecho por otra persona. No hay instancia oficial única: si activa el concepto, comparece.</p></details>
               <details class="memory-detail"><summary>Tap</summary><p>Voto rítmico, no like genérico. Un tap por segundo para influir sin autoclicker.</p></details>
               <details class="memory-detail"><summary>Mutación</summary><p>Variación generada localmente. Sólo entra a Neon cuando se publica como comparecencia.</p></details>
               <details class="memory-detail"><summary>Sonido del Cero Uno</summary><p>El genoma HEX de una criatura se convierte a binario. Esa secuencia binaria se vuelve sonido: cada Cero Uno tiene una firma audible.</p></details>
-              <details class="memory-detail"><summary>Archivo</summary><p>Espacio holístico de memoria, pensamiento en voz alta y estabilización de sentido. No es una lista técnica de deploys.</p></details>
+              <details class="memory-detail"><summary>Archivo</summary><p>Espacio holístico de memoria, pensamiento en voz alta y estabilización de sentido. No es registro exhaustivo, inventario físico ni lista técnica de deploys.</p></details>
             </div>
           </section>
 
           <section class="memory-block glass">
             <h3>Tensiones que el sistema conserva</h3>
             <div class="memory-notes">
-              <div><strong>Producto / criatura</strong><span>Puede venderse sin dejar de ser comparecencia.</span></div>
+              <div><strong>Producto / criatura</strong><span>Puede venderse, regalarse o generarse sin dejar de ser comparecencia.</span></div>
               <div><strong>Manualidad / ontología</strong><span>El pompón es material simple, pero la forma que aparece no se agota en el material.</span></div>
-              <div><strong>Comunidad / centro</strong><span>La comunidad influye, pero Humberto / Cero Uno sigue siendo la fuente.</span></div>
+              <div><strong>Comunidad / centro</strong><span>La comunidad crea y remezcla; el concepto se propaga sin pedir permiso.</span></div>
               <div><strong>Corrección / sobreactuación</strong><span>No todo ajuste necesita narrarse. A veces la forma debe cambiar en silencio.</span></div>
             </div>
           </section>
@@ -255,13 +392,13 @@
     </section>
   </main>
 
-  <footer class="footer">Cero Uno · Primer Deploy · la sequencia se invoca, no se almacena.</footer>
+  <footer class="footer">Cero Uno · Phase 5.1A · Campo Social activo · no se registran Cero Unos; se propagan comparecencias.</footer>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script>
     // v0.1.6 rescue nav: tabs funcionan aunque falle el módulo principal.
     (function () {
-      const validSpaces = new Set(['inicio','creator','galeria','sequencia','aemp','origen','archivo']);
+      const validSpaces = new Set(['inicio','campo','creator','galeria','sequencia','aemp','origen','archivo']);
       function resolveTab(id) {
         return validSpaces.has(id) && document.getElementById(id) ? id : 'inicio';
       }

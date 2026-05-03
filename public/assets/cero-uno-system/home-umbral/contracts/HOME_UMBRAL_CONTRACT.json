@@ -1,0 +1,30 @@
+{
+  "schema_version": "home_umbral_contract.v1",
+  "consumes": [
+    "/data/comment-field/latest_snapshot.json",
+    "dominant_families",
+    "home_questions",
+    "creator_suggestions",
+    "aemp_tensions",
+    "archive_entries",
+    "audio_weather"
+  ],
+  "renders": [
+    "field summary",
+    "weather cards",
+    "question cloud",
+    "module doorways",
+    "creator desire chips",
+    "tension stack",
+    "archive pulse",
+    "umbral audio action"
+  ],
+  "does_not_render": [
+    "raw comment dump",
+    "usernames",
+    "personal attacks",
+    "canonical registry",
+    "authenticity certificate"
+  ],
+  "principle": "Home escucha, metaboliza y abre puertas; no registra ni certifica."
+}

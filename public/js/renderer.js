@@ -129,20 +129,46 @@ export function renderZeroOne(canvas, z, opts = {}) {
   ctx.restore();
 }
 
-export function drawCertificate(canvas, z) {
+function writeWrapped(ctx, text, x, y, maxWidth, lineHeight) {
+  const words = String(text || '').split(/\s+/);
+  let line = '';
+  for (const word of words) {
+    const test = line ? `${line} ${word}` : word;
+    if (ctx.measureText(test).width > maxWidth && line) {
+      ctx.fillText(line, x, y);
+      line = word;
+      y += lineHeight;
+    } else {
+      line = test;
+    }
+  }
+  if (line) ctx.fillText(line, x, y);
+  return y;
+}
+
+export function drawActa(canvas, z) {
   renderZeroOne(canvas, z, { width: 900, height: 1200, scale: 1.05 });
   const ctx = canvas.getContext('2d');
   ctx.save();
-  ctx.fillStyle = 'rgba(0,0,0,0.66)';
-  ctx.fillRect(0, 0, 900, 180);
+  ctx.fillStyle = 'rgba(0,0,0,0.72)';
+  ctx.fillRect(0, 0, 900, 230);
   ctx.fillStyle = '#ffffff';
   ctx.font = 'bold 42px Inter, system-ui, sans-serif';
-  ctx.fillText('CERTIFICADO DE COMPARECENCIA', 48, 70);
-  ctx.font = '22px ui-monospace, monospace';
+  ctx.fillText('ACTA DE COMPARECENCIA', 48, 70);
+  ctx.font = '18px Inter, system-ui, sans-serif';
+  ctx.fillStyle = 'rgba(255,255,255,0.84)';
+  writeWrapped(ctx, 'No certifica autenticidad. No declara oficialidad. Documenta una aparición temporal de Cero Uno.', 48, 108, 780, 26);
+  ctx.font = '20px ui-monospace, monospace';
   ctx.fillStyle = '#67fff0';
-  ctx.fillText(genomeCode(z), 48, 115);
-  ctx.font = '24px Inter, system-ui, sans-serif';
+  writeWrapped(ctx, genomeCode(z), 48, 162, 805, 28);
+  ctx.font = '22px Inter, system-ui, sans-serif';
   ctx.fillStyle = '#ffffff';
-  ctx.fillText(`Olor: ${z.scent || 'sin olor declarado'}`, 48, 152);
+  writeWrapped(ctx, `Olor: ${z.scent || 'sin olor declarado'}`, 48, 206, 790, 28);
   ctx.restore();
 }
+
+export function drawCertificate(canvas, z) {
+  // Alias temporal para compatibilidad con versiones anteriores del deploy.
+  drawActa(canvas, z);
+}
+

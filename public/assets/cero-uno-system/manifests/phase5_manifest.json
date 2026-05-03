@@ -1,0 +1,15 @@
+{
+  "version": "0.1.9-phase5",
+  "applied_to_repo": true,
+  "fixes": [
+    "pompom lowercase asset path",
+    "certificate renamed to acta",
+    "open canon copy integrated",
+    "sequence audio assets copied"
+  ],
+  "non_goals": [
+    "no physical registry",
+    "no official Cero Uno certification",
+    "no ownership tracking"
+  ]
+}

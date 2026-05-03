@@ -1,12 +1,15 @@
 {
   "name": "cero-uno-primer-deploy",
-  "version": "0.1.8",
+  "version": "0.1.11",
   "private": true,
-  "description": "Primer Deploy Cero Uno: Netlify + Neon + secuencia binaria universal.",
+  "description": "Cero Uno Phase 5.1B: Home / Umbral Vivo alimentado por Campo Social.",
   "scripts": {
     "dev": "netlify dev",
     "deploy:dry": "netlify deploy --dir=public --functions=netlify/functions --dry-run",
-    "db:apply": "node scripts/apply-schema.js"
+    "db:apply": "node scripts/apply-schema.js",
+    "phase5:check": "node --check public/js/app.js && node --check public/js/audio.js && node --check public/js/renderer.js && node --check public/js/platform-assets.js && node --check public/js/comment-field-engine.js && node --check public/js/comment-field-renderer.js",
+    "phase51a:check": "node --check public/js/app.js && node --check public/js/audio.js && node --check public/js/renderer.js && node --check public/js/platform-assets.js && node --check public/js/comment-field-engine.js && node --check public/js/comment-field-renderer.js",
+    "phase51b:check": "node --check public/js/app.js && node --check public/js/audio.js && node --check public/js/renderer.js && node --check public/js/platform-assets.js && node --check public/js/comment-field-engine.js && node --check public/js/comment-field-renderer.js"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4"

@@ -1,0 +1,383 @@
+{
+  "schema_version": "comment_field_snapshot.v1",
+  "snapshot_id": "comment_field_2026_05_03_phase51a_initial_digest",
+  "generated_for": "CERO_UNO_PLATFORM_PHASE_5_1A",
+  "source_description": "Digest seguro derivado de comentarios recientes de posts, lives y comentarios anteriores proporcionados por Cero Uno. No incluye un registro crudo ni pretende representar a todo el colectivo.",
+  "public_visibility": "digest_only_no_raw_comment_dump",
+  "governing_phrase": "El colectivo habla. Cero Uno escucha sin someterse.",
+  "field_summary": "El campo social está intensamente vivo: ternura y deseo de pertenencia, confusión conceptual, debate fuerte sobre precio/valor/manualidad/arte, solicitudes de personalización, curiosidad por la app, memoria de nombres anteriores, ruido agresivo y una defensa comunitaria muy activa. La plataforma debe responder con claridad, creación, AEMP y mutación, no con justificación reactiva.",
+  "cycle_interpretation": "Este snapshot no es opinión final del colectivo. Es presión viva para decidir cómo comparece la plataforma en el siguiente ciclo.",
+  "dominant_families": [
+    {
+      "id": "affection_tenderness",
+      "label": "Ternura, amor y apoyo",
+      "intensity": 0.86,
+      "polarity": "nourishing",
+      "readout": "Muchas voces expresan belleza, ternura, cariño, orgullo, apoyo y deseo de que Cero Uno siga.",
+      "safe_fragments": [
+        "qué bello",
+        "te queremos",
+        "me encanta tu gorro",
+        "nunca dejes de hacer lo que te gusta"
+      ],
+      "platform_effect": "Aumentar calor visual, coros suaves, brillo pequeño, copy de cuidado y puertas hacia creación compartida.",
+      "visual_weather": [
+        "brillo suave",
+        "flores mínimas",
+        "aproximación de criaturas",
+        "respiración cálida"
+      ],
+      "audio_weather": [
+        "coro tibio",
+        "chimes blandos",
+        "murmullos afectivos"
+      ]
+    },
+    {
+      "id": "concept_confusion",
+      "label": "Confusión conceptual y primeras preguntas",
+      "intensity": 0.91,
+      "polarity": "clarifying",
+      "readout": "La pregunta '¿qué es?' aparece una y otra vez. Hay curiosidad sincera sobre 01, la app, la sequencia y la función.",
+      "safe_fragments": [
+        "¿qué son los Cero Uno?",
+        "¿para qué sirven?",
+        "¿de qué va la app?",
+        "¿qué significa 01?"
+      ],
+      "platform_effect": "Hacer la home más explicativa sin matar el misterio; crear FAQ viva y microexplicaciones situadas.",
+      "visual_weather": [
+        "signos de pregunta flotantes",
+        "binario fragmentado",
+        "umbral con guía"
+      ],
+      "audio_weather": [
+        "murmullos interrogativos",
+        "tonos de apertura 01"
+      ]
+    },
+    {
+      "id": "price_value_art_manualidad",
+      "label": "Precio, valor, arte y manualidad",
+      "intensity": 0.97,
+      "polarity": "tension",
+      "readout": "Es la tensión dominante: costo de materiales, trabajo, valor percibido, facilidad de réplica, arte, manualidad, utilidad y mercado.",
+      "safe_fragments": [
+        "están caros",
+        "eso lo hago yo",
+        "¿qué aporta?",
+        "si no te gusta no compres",
+        "el tiempo también cuenta"
+      ],
+      "platform_effect": "Convertirlo en caso central del AEMP Lab; no esconderlo ni amplificar humillación literal.",
+      "visual_weather": [
+        "líneas tensas",
+        "cajas de costo",
+        "glitch contenido",
+        "balanza incompleta"
+      ],
+      "audio_weather": [
+        "clicks secos",
+        "golpes bajos",
+        "ruido de debate comprimido"
+      ]
+    },
+    {
+      "id": "customization_desire",
+      "label": "Deseo de personalización",
+      "intensity": 0.93,
+      "polarity": "generative",
+      "readout": "El colectivo imagina colores, olores, formas, llaveros, broches, gorros, gigantes, velas y combinaciones específicas.",
+      "safe_fragments": [
+        "uno lila con blanco y rosa",
+        "olor a coco",
+        "ojos negros",
+        "de sandía",
+        "en llavero",
+        "gigante"
+      ],
+      "platform_effect": "Alimentar el Creador con sugerencias vivas: colores, formatos, olores y mutaciones del campo social.",
+      "visual_weather": [
+        "partículas jalando al Creador",
+        "paletas de deseo",
+        "pulsos de color"
+      ],
+      "audio_weather": [
+        "chimes rápidos",
+        "bit-pairs brillantes",
+        "pequeños pops"
+      ]
+    },
+    {
+      "id": "community_defense",
+      "label": "Defensa comunitaria y cuidado",
+      "intensity": 0.83,
+      "polarity": "protective",
+      "readout": "Hay una comunidad que traduce, defiende, calma, acompaña y pone límites al ruido.",
+      "safe_fragments": [
+        "déjenlo en paz",
+        "no está haciendo nada malo",
+        "todo trabajo es honrado",
+        "sigue así"
+      ],
+      "platform_effect": "Activar un coro de cuidado sin convertirlo en guerra contra haters.",
+      "visual_weather": [
+        "escudo blando",
+        "círculo de criaturas",
+        "luz perimetral"
+      ],
+      "audio_weather": [
+        "coro bajo",
+        "respiración compartida",
+        "tonos de protección"
+      ]
+    },
+    {
+      "id": "platform_curiosity",
+      "label": "Curiosidad por la plataforma/app",
+      "intensity": 0.78,
+      "polarity": "future_pull",
+      "readout": "Varias voces preguntan por la app, si será de paga, qué hace, si es tipo juego, cómo se programa y cuándo existirá.",
+      "safe_fragments": [
+        "¿de qué consiste la aplicación?",
+        "¿va a ser de paga?",
+        "¿tipo Sims de 01?",
+        "¿será difícil programarla?"
+      ],
+      "platform_effect": "Hacer visible que la plataforma está viva y que los comentarios modifican su desarrollo.",
+      "visual_weather": [
+        "portal pequeño",
+        "módulos respirando",
+        "deploy latente"
+      ],
+      "audio_weather": [
+        "hum de sistema",
+        "secuencia 0100011011 lenta"
+      ]
+    },
+    {
+      "id": "noise_friction_aggression",
+      "label": "Ruido, fricción y agresión",
+      "intensity": 0.88,
+      "polarity": "pressure",
+      "readout": "Hay insultos, spam, provocación, ataques a identidad/cuerpo/valor y repeticiones hostiles. No deben publicarse crudos ni volverse protagonistas.",
+      "safe_fragments": [
+        "ruido agresivo",
+        "spam",
+        "ataques personales",
+        "provocación repetida"
+      ],
+      "platform_effect": "Metabolizar como estática y presión; extraer tensión útil sin premiar agresión literal.",
+      "visual_weather": [
+        "estática contenida",
+        "texto ilegible",
+        "glitch con retorno blando"
+      ],
+      "audio_weather": [
+        "ruido comprimido",
+        "distorsión breve",
+        "corte de protección"
+      ]
+    }
+  ],
+  "creator_suggestions": {
+    "colors": [
+      "lila",
+      "blanco",
+      "rosa",
+      "amarillo pastel",
+      "azul fuerte",
+      "azul claro",
+      "verde",
+      "menta",
+      "rojo",
+      "café",
+      "negro",
+      "sandía",
+      "mandarina",
+      "algodón de azúcar"
+    ],
+    "eyes": [
+      "negros",
+      "blancos",
+      "azules",
+      "grises",
+      "uno azul y uno verde",
+      "lila"
+    ],
+    "formats": [
+      "llavero",
+      "broche",
+      "gorro",
+      "gigante",
+      "vela",
+      "peluche",
+      "almohada",
+      "funda",
+      "sticker",
+      "avatar"
+    ],
+    "scents": [
+      "coco",
+      "limón",
+      "baby powder",
+      "peppermint",
+      "mango",
+      "plátano",
+      "uva",
+      "algodón de azúcar",
+      "cereza",
+      "frambuesa",
+      "hierbabuena",
+      "sandía",
+      "vainilla",
+      "café"
+    ],
+    "collective_prompt": "Crear desde el campo social: un Cero Uno que combine ternura alta, confusión viva, deseo de personalización y debate de valor sin volverse defensivo."
+  },
+  "home_questions": [
+    "¿Qué es un Cero Uno?",
+    "¿Para qué sirve?",
+    "¿Por qué se llama 01?",
+    "¿Puedo hacer el mío?",
+    "¿La plataforma va a ser de paga?",
+    "¿Qué significa que la plataforma esté viva?",
+    "¿Por qué el precio causa tanto debate?",
+    "¿Qué relación tiene con IA?"
+  ],
+  "aemp_tensions": [
+    {
+      "id": "arte_vs_manualidad",
+      "title": "Arte vs. manualidad",
+      "seed_phrase": "Eso sólo es un pompón.",
+      "frames": [
+        "económico",
+        "artístico",
+        "ontológico",
+        "comunitario",
+        "técnico"
+      ]
+    },
+    {
+      "id": "precio_vs_valor",
+      "title": "Precio vs. valor percibido",
+      "seed_phrase": "Está caro.",
+      "frames": [
+        "costo",
+        "demanda",
+        "trabajo",
+        "deseo",
+        "mundo"
+      ]
+    },
+    {
+      "id": "ia_vs_autoria",
+      "title": "IA vs. autoría",
+      "seed_phrase": "Con ChatGPT ya la hago.",
+      "frames": [
+        "herramienta",
+        "voz",
+        "mediación",
+        "performance",
+        "agencia"
+      ]
+    },
+    {
+      "id": "funcion_vs_comparecencia",
+      "title": "Función vs. comparecencia",
+      "seed_phrase": "¿Para qué sirve?",
+      "frames": [
+        "uso",
+        "ritual",
+        "identidad",
+        "juego",
+        "presencia"
+      ]
+    },
+    {
+      "id": "regalo_vs_venta",
+      "title": "Regalo vs. venta",
+      "seed_phrase": "Me regalas uno / ¿sí vendes?",
+      "frames": [
+        "generosidad",
+        "sostenibilidad",
+        "comunidad",
+        "tienda",
+        "deseo"
+      ]
+    }
+  ],
+  "platform_directives": [
+    "Escuchar sin someterse.",
+    "Mostrar digestión, no exposición cruda.",
+    "Convertir preguntas en puertas de entrada.",
+    "Convertir deseos en sugerencias del Creador.",
+    "Convertir conflicto en AEMP, no en pelea.",
+    "Convertir ruido agresivo en estática contenida.",
+    "No registrar Cero Unos; propagar comparecencias.",
+    "No jerarquizar físicos sobre virtuales.",
+    "No crear autoridad de autenticidad."
+  ],
+  "archive_entries": [
+    {
+      "type": "pensamiento_en_voz_alta",
+      "title": "El campo no se obedece, se metaboliza",
+      "body": "Si la plataforma obedeciera cada comentario, perdería centro. Si ignorara el campo, dejaría de estar viva. Cero Uno escucha, traduce y responde con comparecencia."
+    },
+    {
+      "type": "tension_conservada",
+      "title": "Precio / valor / arte / manualidad",
+      "body": "La tensión no se resuelve con una defensa única. Debe permanecer como laboratorio AEMP porque distintos marcos revelan partes distintas del fenómeno."
+    },
+    {
+      "type": "glosario_vivo",
+      "title": "Campo Social",
+      "body": "Conjunto de voces, preguntas, deseos, ataques, defensas, chistes y repeticiones que presionan la siguiente forma de comparecencia."
+    }
+  ],
+  "safety_rules": {
+    "raw_comments_public": false,
+    "show_usernames": false,
+    "show_personal_attacks": false,
+    "show_minor_drama": false,
+    "amplify_hate": false,
+    "digest_allowed": true,
+    "preferred_language": "el colectivo / una voz / varias voces / el campo insistió",
+    "note": "Los comentarios crudos pueden seguir existiendo como entrada privada de mediación. La plataforma pública consume snapshots seguros."
+  },
+  "visual_weather": {
+    "overall": "alto contraste entre ternura, confusión, debate y ruido; mantener centro blando con periferia de glitch",
+    "accent_suggestions": [
+      "rosa suave",
+      "lila",
+      "azul fuerte",
+      "verde menta",
+      "amarillo pastel"
+    ],
+    "motion": [
+      "respiración",
+      "microtemblores",
+      "atracción hacia Creador",
+      "glitch con retorno blando",
+      "coro de criaturas"
+    ]
+  },
+  "audio_weather": {
+    "overall": "coro social en capas: preguntas suaves, chimes de deseo, clicks secos de debate, ruido agresivo comprimido y respiración de retorno",
+    "sequence_seed": "0100011011",
+    "recommended_mix": {
+      "affection": 0.32,
+      "confusion": 0.22,
+      "debate": 0.24,
+      "desire": 0.16,
+      "noise": 0.06
+    }
+  },
+  "next_cycle_questions_for_chatgpt": [
+    "¿Qué preguntas nuevas aparecieron desde el último snapshot?",
+    "¿Qué deseos del Creador se repiten más?",
+    "¿Qué tensión conviene llevar al AEMP Lab?",
+    "¿Qué parte del ruido debe convertirse en protección y no en espectáculo?",
+    "¿Qué necesita explicar la Home ahora?"
+  ]
+}
