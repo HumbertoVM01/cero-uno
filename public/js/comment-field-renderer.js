@@ -90,6 +90,12 @@ function colorFromFieldName(name, fallbackSeed) {
 }
 
 function seedCreatorFromField(snapshot) {
+  if (window.__ceroUnoApplyCreatorFieldSeed) {
+    window.__ceroUnoApplyCreatorFieldSeed('field');
+    location.hash = '#creator';
+    window.__ceroUnoShowTab?.('creator', true);
+    return;
+  }
   const form = $('#creator-form');
   if (!form) return;
   const suggestions = snapshot.creator_suggestions || {};
@@ -107,6 +113,7 @@ function seedCreatorFromField(snapshot) {
   form.elements.right_eye_hex.value = colorFromFieldName(chooseFromField(eyes, `${snapshot.snapshot_id}|right_eye|${Date.now()}`), 'right_eye');
   form.elements.scent.value = scent.slice(0, 100);
   form.dispatchEvent(new Event('input', { bubbles: true }));
+  document.dispatchEvent(new CustomEvent('ceroUno:creatorSeedChanged', { detail: { origin: 'home / campo social', bits: '0100011011' } }));
   location.hash = '#creator';
   window.__ceroUnoShowTab?.('creator', true);
 }

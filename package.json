@@ -1,15 +1,13 @@
 {
   "name": "cero-uno-primer-deploy",
-  "version": "0.1.11",
+  "version": "0.1.18",
   "private": true,
-  "description": "Cero Uno Phase 5.1B: Home / Umbral Vivo alimentado por Campo Social.",
+  "description": "Cero Uno platform: live comparecencia system with Comment Field, Creator, Gallery, Sequencia, AEMP, Origin, and Archive.",
   "scripts": {
     "dev": "netlify dev",
+    "check": "node --check public/js/app.js && node --check public/js/audio.js && node --check public/js/renderer.js && node --check public/js/platform-assets.js && node --check public/js/comment-field-engine.js && node --check public/js/comment-field-renderer.js && node --check public/js/creator-field-system.js && node --check public/js/gallery-social-system.js && node --check public/js/sequence-observatory-system.js && node --check public/js/aemp-field-system.js && node --check public/js/origin-living-system.js && node --check public/js/archive-living-system.js",
     "deploy:dry": "netlify deploy --dir=public --functions=netlify/functions --dry-run",
-    "db:apply": "node scripts/apply-schema.js",
-    "phase5:check": "node --check public/js/app.js && node --check public/js/audio.js && node --check public/js/renderer.js && node --check public/js/platform-assets.js && node --check public/js/comment-field-engine.js && node --check public/js/comment-field-renderer.js",
-    "phase51a:check": "node --check public/js/app.js && node --check public/js/audio.js && node --check public/js/renderer.js && node --check public/js/platform-assets.js && node --check public/js/comment-field-engine.js && node --check public/js/comment-field-renderer.js",
-    "phase51b:check": "node --check public/js/app.js && node --check public/js/audio.js && node --check public/js/renderer.js && node --check public/js/platform-assets.js && node --check public/js/comment-field-engine.js && node --check public/js/comment-field-renderer.js"
+    "db:apply": "node scripts/apply-schema.js"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4"

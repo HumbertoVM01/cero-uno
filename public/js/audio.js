@@ -63,6 +63,85 @@ function playPair(pair, startOffset = 0, opts = {}) {
   if (clean === '00') tone(p.freq / 2, p.duration * 1.15, gain * 0.38, 'sine', startOffset + 0.012);
 }
 
+
+const SEQUENCE_ASSET_FILES = Object.freeze({
+  bit_0: {
+    ogg: '/assets/cero-uno-system/audio/sequence/ogg/cero_uno_sequence_bit_0_soft_body_v01.ogg',
+    mp3: '/assets/cero-uno-system/audio/sequence/mp3/cero_uno_sequence_bit_0_soft_body_v01.mp3',
+    fallbackBits: '0'
+  },
+  bit_1: {
+    ogg: '/assets/cero-uno-system/audio/sequence/ogg/cero_uno_sequence_bit_1_gem_ping_v01.ogg',
+    mp3: '/assets/cero-uno-system/audio/sequence/mp3/cero_uno_sequence_bit_1_gem_ping_v01.mp3',
+    fallbackBits: '1'
+  },
+  pair_00: {
+    ogg: '/assets/cero-uno-system/audio/sequence/ogg/cero_uno_sequence_bitpair_00_v01.ogg',
+    mp3: '/assets/cero-uno-system/audio/sequence/mp3/cero_uno_sequence_bitpair_00_v01.mp3',
+    fallbackBits: '00'
+  },
+  pair_01: {
+    ogg: '/assets/cero-uno-system/audio/sequence/ogg/cero_uno_sequence_bitpair_01_v01.ogg',
+    mp3: '/assets/cero-uno-system/audio/sequence/mp3/cero_uno_sequence_bitpair_01_v01.mp3',
+    fallbackBits: '01'
+  },
+  pair_10: {
+    ogg: '/assets/cero-uno-system/audio/sequence/ogg/cero_uno_sequence_bitpair_10_v01.ogg',
+    mp3: '/assets/cero-uno-system/audio/sequence/mp3/cero_uno_sequence_bitpair_10_v01.mp3',
+    fallbackBits: '10'
+  },
+  pair_11: {
+    ogg: '/assets/cero-uno-system/audio/sequence/ogg/cero_uno_sequence_bitpair_11_v01.ogg',
+    mp3: '/assets/cero-uno-system/audio/sequence/mp3/cero_uno_sequence_bitpair_11_v01.mp3',
+    fallbackBits: '11'
+  },
+  example_0100011011: {
+    ogg: '/assets/cero-uno-system/audio/sequence/ogg/cero_uno_sequence_example_0100011011_v01.ogg',
+    mp3: '/assets/cero-uno-system/audio/sequence/mp3/cero_uno_sequence_example_0100011011_v01.mp3',
+    fallbackBits: '0100011011'
+  },
+  example_soft_to_gem: {
+    ogg: '/assets/cero-uno-system/audio/sequence/ogg/cero_uno_sequence_example_soft_to_gem_v01.ogg',
+    mp3: '/assets/cero-uno-system/audio/sequence/mp3/cero_uno_sequence_example_soft_to_gem_v01.mp3',
+    fallbackBits: '000001011111'
+  },
+  example_alternating: {
+    ogg: '/assets/cero-uno-system/audio/sequence/ogg/cero_uno_sequence_example_alternating_collapse_return_v01.ogg',
+    mp3: '/assets/cero-uno-system/audio/sequence/mp3/cero_uno_sequence_example_alternating_collapse_return_v01.mp3',
+    fallbackBits: '010110100101'
+  }
+});
+
+function canUseAudioElement() {
+  return typeof Audio !== 'undefined';
+}
+
+async function playAudioFile(file, volume = 0.72) {
+  if (!canUseAudioElement() || !file) return false;
+  const player = new Audio(file);
+  player.volume = volume;
+  try {
+    await player.play();
+    return true;
+  } catch (_) {
+    return false;
+  }
+}
+
+export async function playSequenceAsset(assetId = 'example_0100011011', opts = {}) {
+  const asset = SEQUENCE_ASSET_FILES[assetId] || SEQUENCE_ASSET_FILES.example_0100011011;
+  const preferred = opts.format === 'mp3' ? asset.mp3 : asset.ogg;
+  const fallback = opts.format === 'mp3' ? asset.ogg : asset.mp3;
+  const ok = await playAudioFile(preferred, opts.volume ?? 0.72) || await playAudioFile(fallback, opts.volume ?? 0.72);
+  if (!ok) playBits(asset.fallbackBits, { step: opts.step ?? 0.066, gain: opts.gain ?? 1 });
+  return asset.fallbackBits;
+}
+
+export function sequenceAssetIdForPair(pair) {
+  const clean = String(pair || '').replace(/[^01]/g, '').padEnd(2, '0').slice(0, 2);
+  return `pair_${clean}`;
+}
+
 export function playTapSound(seed = 'tap') {
   const bits = bitSeed(seed, 4);
   click(0.028, 0.022, 0);

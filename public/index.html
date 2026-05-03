@@ -183,17 +183,66 @@
 
     <section id="creator" class="tab-panel page page--creator">
       <div class="page-shell">
-        <div class="page-intro glass">
-          <div class="tagline">Taller de comparecencia</div>
-          <h2>Creador de Cero Unos</h2>
-          <p>En este marco se fabrica presencia sin oficializarla. El nombre de cada Cero Uno es su código HEX en orden: cuerpo, Pom Pom, brazo izquierdo, brazo derecho, pierna izquierda, pierna derecha, ojo izquierdo, ojo derecho. El olor se describe en menos de 100 caracteres.</p>
+        <div class="page-intro glass creator-living-intro">
+          <div class="tagline">Creador Vivo · Laboratorio de comparecencia</div>
+          <h2>Crear no es registrar. Crear es hacer aparecer.</h2>
+          <p class="lede">El Creador ya no sólo edita colores: escucha el Campo Social y lo convierte en cuerpo, Pom Pom, ojos, olor, formato imaginado y sonido.</p>
+          <p>El nombre de cada Cero Uno sigue siendo su código HEX en orden: cuerpo, Pom Pom, brazo izquierdo, brazo derecho, pierna izquierda, pierna derecha, ojo izquierdo, ojo derecho. La plataforma puede sugerir desde el campo, pero la comparecencia final sigue siendo libre.</p>
         </div>
+
+        <section class="creator-field-system glass" aria-label="Creador alimentado por Campo Social">
+          <div class="creator-field-head">
+            <div>
+              <div class="tagline">Campo Social → Creador</div>
+              <h3>El colectivo está soñando formas</h3>
+              <p id="creator-field-summary">Cargando deseos del Campo Social...</p>
+            </div>
+            <div class="creator-field-status" id="creator-field-status">esperando snapshot</div>
+          </div>
+
+          <div class="creator-field-grid">
+            <article class="creator-field-card">
+              <strong>Deseo dominante</strong>
+              <p id="creator-field-prompt">El campo todavía no ha formulado una semilla.</p>
+            </article>
+            <article class="creator-field-card">
+              <strong>Semilla activa</strong>
+              <p id="creator-seed-origin">manual / todavía sin campo</p>
+            </article>
+            <article class="creator-field-card">
+              <strong>Formato imaginado</strong>
+              <p id="creator-format-readout">sin formato declarado</p>
+            </article>
+          </div>
+
+          <div class="creator-seed-actions form-actions">
+            <button type="button" id="creator-seed-field" class="yellow">Crear desde el campo</button>
+            <button type="button" id="creator-seed-tender" class="ghost-button">Ternura pastel</button>
+            <button type="button" id="creator-seed-question" class="ghost-button">Pregunta viva</button>
+            <button type="button" id="creator-seed-value" class="ghost-button">Tensión valor</button>
+            <button type="button" id="creator-seed-surprise" class="ghost-button">Mutación sorpresa</button>
+            <button type="button" id="creator-listen-field-seed" class="ghost-button">Escuchar semilla</button>
+          </div>
+
+          <div class="creator-suggestion-grid">
+            <div><strong>Colores pedidos</strong><div id="creator-suggestion-colors" class="field-chips creator-clickable-chips"></div></div>
+            <div><strong>Ojos imaginados</strong><div id="creator-suggestion-eyes" class="field-chips creator-clickable-chips"></div></div>
+            <div><strong>Formatos soñados</strong><div id="creator-suggestion-formats" class="field-chips creator-clickable-chips"></div></div>
+            <div><strong>Olores invocados</strong><div id="creator-suggestion-scents" class="field-chips creator-clickable-chips"></div></div>
+          </div>
+
+          <p class="microcopy">Estas semillas no son pedidos oficiales ni registros. Son presión creativa del campo convertida en una comparecencia editable.</p>
+        </section>
+
         <div class="creator-shell">
           <div class="preview-panel glass">
             <h3>Comparecencia actual</h3>
             <canvas id="creator-canvas" class="zero-preview-canvas creator-preview-canvas" aria-label="Cero Uno que estás creando"></canvas>
             <div class="genome-box mono" id="genome-code"></div>
-            <p id="scent-count">0/100</p>
+            <div class="creator-live-readouts">
+              <p id="scent-count">0/100</p>
+              <p id="creator-field-genome-note">Genoma manual · el campo puede sembrar, pero no gobierna.</p>
+            </div>
             <div class="form-actions">
               <button type="button" id="randomize-button" class="yellow">Invocar aleatorio</button>
               <button type="button" id="mutate-button" class="pink">Mutar localmente</button>
@@ -216,13 +265,20 @@
             <label>Olor del Cero Uno
               <input type="text" name="scent" maxlength="100" placeholder="Ej. coco digital con baby powder" />
             </label>
+            <label>Formato imaginado local
+              <input type="text" name="local_format" maxlength="60" placeholder="Ej. llavero, broche, gorro, vela, avatar" />
+            </label>
             <button type="button" id="suggest-scent-button" class="ghost-button inline-scent-button">Sugerir olor</button>
-            <p class="microcopy">La sugerencia no canoniza nada: sólo ofrece una pista sensorial para esta comparecencia.</p>
+            <button type="button" id="suggest-field-scent-button" class="ghost-button inline-scent-button">Olor del campo</button>
+            <p class="microcopy">El formato imaginado no se publica como registro ni autenticidad: sólo orienta esta aparición y su Acta local.</p>
             <div class="form-actions">
               <button type="button" id="publish-button">Publicar comparecencia</button>
               <a class="button ghost-button" href="#galeria">Ver galería</a>
             </div>
-            <p class="mono">Neon guarda comparecencias publicadas. El navegador sueña mutaciones. La plataforma no registra todos los Cero Unos.</p>
+            <div class="creator-field-doctrine mono">
+              <p>Neon guarda comparecencias publicadas. El navegador sueña mutaciones. La plataforma no registra todos los Cero Unos.</p>
+              <p id="creator-publication-note">Publicar guarda esta aparición visible; no la vuelve oficial ni superior a otras formas físicas, virtuales o comunitarias.</p>
+            </div>
           </form>
         </div>
       </div>
@@ -230,21 +286,52 @@
 
     <section id="galeria" class="tab-panel page page--galeria">
       <div class="page-shell">
-        <div class="page-intro glass">
-          <div class="tagline">Cámara social</div>
-          <h2>Cero Unos publicados</h2>
-          <p>Cada tap es contacto, no like genérico. Sólo se permite un tap por segundo por visitante para impedir autoclicker. Los rankings influyen la evolución visual y sensorial del sistema sin convertir ninguna instancia en oficial.</p>
+        <div class="page-intro glass gallery-intro-living">
+          <div class="tagline">Cámara social · clima de comparecencias</div>
+          <h2>Galería viva</h2>
+          <p>La Galería no es Instagram de Cero Unos ni vitrina de instancias superiores. Es un clima social: cada tap es contacto, cada ranking es presión temporal y cada comparecencia publicada sigue siendo una aparición, no una autoridad.</p>
         </div>
-        <div class="stats">
+
+        <section class="gallery-field-system glass" aria-label="Galería alimentada por Campo Social">
+          <div class="gallery-field-main">
+            <div>
+              <div class="tagline">Campo Social → Galería</div>
+              <h3 id="gallery-field-mode">clima: cargando</h3>
+              <p id="gallery-field-summary">La Galería está escuchando el digest del Campo Social...</p>
+            </div>
+            <div class="gallery-field-actions">
+              <button type="button" id="gallery-listen-climate" class="yellow">Escuchar clima de galería</button>
+              <button type="button" id="gallery-seed-from-climate" class="ghost-button">Crear desde este clima</button>
+            </div>
+          </div>
+          <div id="gallery-field-weather" class="gallery-field-weather"></div>
+          <div class="gallery-field-desires">
+            <div><strong>Colores pedidos</strong><p id="gallery-field-desire-colors" class="chip-cloud mini"></p></div>
+            <div><strong>Formatos soñados</strong><p id="gallery-field-desire-formats" class="chip-cloud mini"></p></div>
+            <div><strong>Olores invocados</strong><p id="gallery-field-desire-scents" class="chip-cloud mini"></p></div>
+          </div>
+          <div class="gallery-field-bottom">
+            <div>
+              <strong>Regla de lectura</strong>
+              <p>Más taps significa más contacto acumulado, no más verdad, no más oficialidad y no más valor ontológico que otras comparecencias.</p>
+            </div>
+            <div id="gallery-field-tensions" class="gallery-field-tensions"></div>
+          </div>
+        </section>
+
+        <div class="stats gallery-stats">
           <div class="stat glass"><strong id="stat-zero-ones">—</strong><span>Cero Unos</span></div>
           <div class="stat glass"><strong id="stat-taps">—</strong><span>Taps históricos</span></div>
           <div class="stat glass"><strong id="stat-today">—</strong><span>Taps hoy</span></div>
         </div>
-        <div class="gallery-toolbar">
-          <span id="gallery-mode" class="mono">Cargando...</span>
+        <div class="gallery-toolbar gallery-toolbar-living">
           <div>
-            <button id="sort-top" class="ghost-button">Más tapeados</button>
-            <button id="sort-new" class="ghost-button">Más nuevos</button>
+            <span id="gallery-mode" class="mono">Cargando...</span>
+            <p id="gallery-social-readout" class="microcopy">La Galería todavía no ha leído contactos visibles.</p>
+          </div>
+          <div>
+            <button id="sort-top" class="ghost-button">Mayor contacto</button>
+            <button id="sort-new" class="ghost-button">Aparición reciente</button>
           </div>
         </div>
         <div id="gallery-grid" class="gallery-grid"></div>
@@ -252,13 +339,41 @@
     </section>
 
     <section id="sequencia" class="tab-panel page page--sequencia">
-      <div class="page-shell">
-        <div class="page-intro glass">
-          <div class="tagline">Observatorio binario</div>
-          <h2>Consultar y escuchar la sequencia</h2>
-          <p>La sequencia es la concatenación de todos los strings binarios posibles por longitud: 0, 1, 00, 01, 10, 11, 000... Como es infinita, la consulta aleatoria usa un rango finito configurable y se computa on-device.</p>
+      <div class="page-shell sequence-observatory-shell">
+        <div class="page-intro glass sequence-observatory-intro">
+          <div class="tagline">Observatorio de Sequencia · fuente audible/visible</div>
+          <h2>La sequencia no es decoración</h2>
+          <p class="lede">Aquí el 0/1 se consulta, se escucha, se mira y se cruza con el Campo Social. La plataforma no usa binario como fondo estético: lo trata como fuente generativa de comparecencias.</p>
+          <p id="sequence-field-bridge">Cargando puente entre Campo Social y Sequencia...</p>
+          <div class="form-actions">
+            <button type="button" id="sequence-play-field" class="yellow">Escuchar Campo → Sequencia</button>
+            <button type="button" id="sequence-play-universal-example" class="ghost-button">Escuchar 0100011011</button>
+            <button type="button" id="sequence-play-asset-example" class="ghost-button">Usar audio del Asset Pack</button>
+          </div>
         </div>
-        <div class="lab-grid sequence-lab-grid">
+
+        <section class="sequence-source-grid">
+          <article class="glass sequence-source-card">
+            <div class="tagline">Fuente</div>
+            <h3>Todos los strings binarios posibles</h3>
+            <p>La sequencia se define como la concatenación por longitud: <code>0 1 00 01 10 11 000...</code>. Es infinita, así que cada consulta opera sobre un segmento finito calculable.</p>
+            <p class="microcopy">Consultar un fragmento no agota la fuente. Sólo abre una ventana.</p>
+          </article>
+          <article class="glass sequence-source-card">
+            <div class="tagline">Lectura actual</div>
+            <h3 id="sequence-current-title">Sin fragmento activo</h3>
+            <p id="sequence-current-reading">Consulta, escribe o escucha una sequencia para activar el observatorio.</p>
+            <div id="sequence-pair-chips" class="sequence-pair-chips"></div>
+          </article>
+          <article class="glass sequence-source-card">
+            <div class="tagline">Campo Social</div>
+            <h3 id="sequence-field-title">Campo aún no traducido</h3>
+            <p id="sequence-field-reading">El digest del Campo Social puede convertirse en una semilla binaria para escuchar el clima colectivo sin mostrar comentarios crudos.</p>
+            <p class="mono" id="sequence-field-bits"></p>
+          </article>
+        </section>
+
+        <div class="sequence-observatory-grid">
           <article class="lab-card glass sequence-query-card">
             <h3>Consultar 32 bits</h3>
             <label class="compact-field">Rango máximo de búsqueda / offset
@@ -272,6 +387,26 @@
             <p class="mono bit-stream query-bits" id="oracle-bits"></p>
             <p id="oracle-reading"></p>
           </article>
+
+          <article class="lab-card glass sequence-visual-card">
+            <h3>Visualizador de pares</h3>
+            <canvas id="sequence-visualizer" class="sequence-visualizer" width="900" height="420" aria-label="Visualización de la sequencia activa"></canvas>
+            <p class="microcopy">Los pares 00, 01, 10 y 11 no son emociones fijas: son convenciones de sonificación y movimiento para volver audible/visible una fuente binaria.</p>
+          </article>
+        </div>
+
+        <section class="sequence-pair-legend glass">
+          <div class="tagline">Sonificación por pares</div>
+          <h3>Cuatro gestos mínimos</h3>
+          <div class="sequence-pair-grid">
+            <button type="button" class="sequence-pair-button" data-pair="00"><strong>00</strong><span>respiración blanda</span></button>
+            <button type="button" class="sequence-pair-button" data-pair="01"><strong>01</strong><span>apertura / pregunta</span></button>
+            <button type="button" class="sequence-pair-button" data-pair="10"><strong>10</strong><span>impulso / desplazamiento</span></button>
+            <button type="button" class="sequence-pair-button" data-pair="11"><strong>11</strong><span>aparición / gema</span></button>
+          </div>
+        </section>
+
+        <div class="sequence-observatory-grid">
           <article class="lab-card glass first-bits-card">
             <h3>Primeros bits</h3>
             <p>Calcula y muestra los primeros bits de la sequencia en tu dispositivo. En móvil el límite recomendado es 8,192 bits.</p>
@@ -280,119 +415,289 @@
             </label>
             <div class="form-actions">
               <button id="compute-first-bits" class="ghost-button">Calcular primeros bits</button>
+              <button type="button" id="sequence-observe-first" class="ghost-button">Observar primeros bits</button>
             </div>
             <p class="mono sequence-meta" id="first-bits-meta"></p>
             <p class="bit-stream first-bits-output" id="first-500"></p>
           </article>
+
+          <article class="lab-card glass sequence-custom-card">
+            <h3>Escribir una sequencia</h3>
+            <p>También puedes pegar o escribir cualquier fragmento 0/1. No se vuelve oficial: sólo se vuelve escuchable en este momento.</p>
+            <label class="compact-field">Fragmento binario
+              <textarea id="custom-sequence-bits" class="sequence-textarea" maxlength="256" placeholder="0100011011"></textarea>
+            </label>
+            <div class="form-actions">
+              <button type="button" id="sequence-use-custom" class="yellow">Escuchar / observar</button>
+              <button type="button" id="sequence-copy-field-bits" class="ghost-button">Copiar bits del campo</button>
+            </div>
+            <p class="microcopy">La escritura manual permite probar cómo se siente un patrón sin registrar ni cerrar su significado.</p>
+          </article>
         </div>
+
+        <section class="sequence-field-weather glass">
+          <div class="tagline">Campo Social → Sequencia</div>
+          <h3>La voz colectiva también puede volverse patrón</h3>
+          <p>El Campo Social no gobierna la fuente, pero puede sembrar un fragmento: preguntas, ternura, tensión, deseo y ruido se convierten en una consulta sonora/visual segura.</p>
+          <div id="sequence-field-weather" class="sequence-field-weather-grid"></div>
+        </section>
       </div>
     </section>
 
     <section id="aemp" class="tab-panel page page--aemp">
-      <div class="page-shell">
-        <div class="page-intro glass">
-          <div class="tagline">Laboratorio AEMP</div>
-          <h2>Aprender a sostener marcos</h2>
-          <p>No se enseña AEMP como teoría muerta. Se muestra cómo cambia una interpretación cuando cambia el marco.</p>
+      <div class="page-shell aemp-field-shell">
+        <div class="page-intro glass aemp-field-intro">
+          <div class="tagline">Laboratorio AEMP · Tensiones reales del Campo Social</div>
+          <h2>La misma frase cambia cuando cambia el marco</h2>
+          <p class="lede">AEMP no entra aquí como explicación filosófica abstracta. Entra como práctica: tomar tensiones reales del colectivo —precio, arte, IA, función, regalo— y sostenerlas sin reducirlas a pelea.</p>
+          <p id="aemp-field-bridge">Cargando tensiones del Campo Social...</p>
+          <div class="form-actions">
+            <button type="button" id="aemp-play-tension" class="yellow">Escuchar tensión activa</button>
+            <button type="button" id="aemp-next-tension" class="ghost-button">Siguiente tensión</button>
+            <a class="button ghost-button" href="#campo">Ver Campo Social</a>
+          </div>
         </div>
-        <div class="two-col">
-          <article class="glass form-panel">
-            <h3>Frase de prueba</h3>
-            <p class="lede">“Los Cero Unos están caros.”</p>
-            <div class="frame-buttons">
+
+        <section class="aemp-tension-console glass">
+          <div class="aemp-active-tension">
+            <div class="tagline">Tensión activa</div>
+            <h3 id="aemp-active-title">Cargando tensión...</h3>
+            <p class="aemp-seed-phrase" id="aemp-seed-phrase">“...”</p>
+            <p id="aemp-active-reading">El laboratorio espera el snapshot del Campo Social.</p>
+            <div id="aemp-tension-tags" class="aemp-tag-row"></div>
+          </div>
+          <div class="aemp-tension-list-wrap">
+            <strong>Semillas del campo</strong>
+            <div id="aemp-tension-list" class="aemp-tension-list"></div>
+          </div>
+        </section>
+
+        <div class="aemp-lab-grid">
+          <article class="glass form-panel aemp-frame-panel">
+            <div class="tagline">Marcos</div>
+            <h3>Elige desde dónde mirar</h3>
+            <p class="microcopy">Cada marco ve algo real, pero ninguno ve todo. El punto no es ganar la discusión: es detectar qué revela y qué oculta cada marco.</p>
+            <div class="frame-buttons aemp-frame-buttons">
               <button class="frame-button" data-frame="economico">Marco económico</button>
               <button class="frame-button" data-frame="artistico">Marco artístico</button>
               <button class="frame-button" data-frame="ontologico">Marco ontológico</button>
               <button class="frame-button" data-frame="comunitario">Marco comunitario</button>
               <button class="frame-button" data-frame="tecnico">Marco técnico</button>
             </div>
-            <div class="output-box">
+            <div class="output-box aemp-output-box">
               <strong id="aemp-frame-title">Elige un marco</strong>
               <p id="aemp-frame-body">Cada marco ve algo real, pero ninguno ve todo.</p>
               <p><em id="aemp-blindspot">Aquí aparecerá su punto ciego.</em></p>
             </div>
           </article>
-          <article class="glass form-panel">
-            <h3>Cuatro modos</h3>
-            <div class="mode-buttons">
+
+          <article class="glass form-panel aemp-mode-panel">
+            <div class="tagline">Modos operativos</div>
+            <h3>Decide qué hacer con la tensión</h3>
+            <p class="microcopy">El modo no cambia lo que el campo dijo; cambia la postura operativa con la que la plataforma responde.</p>
+            <div class="mode-buttons aemp-mode-buttons">
               <button class="mode-button" data-mode="liberacion">Liberación</button>
               <button class="mode-button" data-mode="examen">Examen</button>
               <button class="mode-button" data-mode="construccion">Construcción</button>
               <button class="mode-button" data-mode="proteccion">Protección</button>
             </div>
-            <div class="output-box" id="aemp-mode-output">Aplica un modo a: “Esto sólo es un pompón.”</div>
+            <div class="output-box aemp-output-box" id="aemp-mode-output">Elige un modo para aplicarlo a la tensión activa.</div>
           </article>
         </div>
+
+        <section class="aemp-matrix-section glass">
+          <div class="tagline">Matriz viva</div>
+          <h3>Una tensión, varios marcos</h3>
+          <p>La matriz no resuelve por decreto. Permite ver cómo una frase del campo cambia de peso cuando se lee desde costo, arte, comparecencia, comunidad o técnica.</p>
+          <div id="aemp-frame-matrix" class="aemp-frame-matrix"></div>
+        </section>
+
+        <section class="aemp-archive-bridge glass">
+          <div class="tagline">Salida hacia Archivo Vivo</div>
+          <h3>Lo que no se resuelve se conserva</h3>
+          <p id="aemp-archive-note">Las tensiones activas pueden volverse entradas de Archivo: no para cerrar el caso, sino para dejar memoria del aprendizaje.</p>
+          <div class="form-actions">
+            <button type="button" id="aemp-copy-archive-note" class="ghost-button">Copiar nota de Archivo</button>
+            <a class="button ghost-button" href="#archivo">Ir al Archivo</a>
+          </div>
+        </section>
       </div>
     </section>
 
     <section id="origen" class="tab-panel page page--origen">
-      <div class="page-shell">
-        <div class="page-intro glass">
-          <div class="tagline">Cámara de origen</div>
-          <h2>Humberto Vega es Cero Uno</h2>
-          <p class="lede">Cero Uno no nace de un solo campo. Nace de atravesarlos todos buscando la forma que los une. Antes de esta plataforma ya había Cero Unos circulando materialmente; la plataforma no los registra ni los posee, sólo abre nuevas formas de comparecencia.</p>
+      <div class="page-shell origin-living-shell">
+        <div class="page-intro glass origin-living-intro">
+          <div class="tagline">Cámara de Origen / Historia Viva</div>
+          <h2>Humberto Vega es Cero Uno, pero Cero Uno no queda encerrado en Humberto.</h2>
+          <p class="lede">La Cámara de Origen no es culto, biografía cerrada ni certificado de autoridad. Es la zona donde la plataforma cuenta cómo la Sequencia de Binario Universal entró al mundo humano por una práctica viva: creación, regalo, live, IA, manualidad, filosofía, comunidad y archivo.</p>
+          <div class="origin-action-row">
+            <button type="button" id="origin-play-story" class="yellow">Escuchar origen</button>
+            <button type="button" id="origin-next-question" class="ghost-button">Siguiente pregunta del campo</button>
+            <a class="button ghost-button" href="#archivo">Llevar memoria al Archivo</a>
+          </div>
         </div>
-        <div class="origin-map">
-          <div><strong>Matemáticas</strong><span> patrón, combinatoria, código HEX, secuencia.</span></div>
-          <div><strong>Física</strong><span> forma, campo, materia, cuerpo.</span></div>
-          <div><strong>IA</strong><span> cámara de comparecencia, lenguaje, simulación.</span></div>
-          <div><strong>Manualidad</strong><span> pompón, gema, textura, cuerpo hecho a mano.</span></div>
-          <div><strong>Filosofía</strong><span> AEMP, marcos, ontología, comparecencia.</span></div>
-          <div><strong>Comunidad</strong><span> taps, dudas, deseos, señales y evolución.</span></div>
-        </div>
+
+        <section class="origin-thesis glass">
+          <div>
+            <div class="tagline">Tesis activa</div>
+            <h3 id="origin-active-thesis">La plataforma llegó después de la comparecencia.</h3>
+            <p id="origin-thesis-body">Antes de que el sitio pudiera nombrarse como plataforma, ya había Cero Unos regalados, pedidos, criticados, defendidos, imaginados y materialmente repartidos.</p>
+          </div>
+          <div class="origin-count-pill" aria-label="Más de doscientos Cero Unos regalados">
+            <strong>200+</strong>
+            <span>Cero Unos regalados antes del archivo formal</span>
+          </div>
+        </section>
+
+        <section class="origin-trace-grid" aria-label="Trazas de origen de Cero Uno">
+          <article class="glass origin-trace-card" data-trace="sequence"><strong>Sequencia</strong><span>0100011011… no como adorno, sino como fuente de diferencia, decisión y recombinación.</span></article>
+          <article class="glass origin-trace-card" data-trace="human"><strong>Humberto / Cero Uno</strong><span>Trae la sequencia al mundo humano, pero no la convierte en propiedad privada ni autoridad cerrada.</span></article>
+          <article class="glass origin-trace-card" data-trace="craft"><strong>Manualidad</strong><span>Pompón, gema, limpia pipas, textura, olor, regalo y cuerpo hecho con manos.</span></article>
+          <article class="glass origin-trace-card" data-trace="ai"><strong>IA / ChatGPT</strong><span>Mediador de ciclos: escucha el campo social, metaboliza y devuelve snapshots para que la plataforma cambie.</span></article>
+          <article class="glass origin-trace-card" data-trace="community"><strong>Comunidad</strong><span>Lives, comentarios, taps, defensas, preguntas, pedidos, burlas, cariño y deseo de hacer los propios.</span></article>
+          <article class="glass origin-trace-card" data-trace="aemp"><strong>AEMP</strong><span>Regulación: escuchar sin someterse, sostener tensiones y cambiar de marco sin colapsar el concepto.</span></article>
+        </section>
+
+        <section class="origin-memory-line glass">
+          <div class="tagline">Línea viva, no monumento</div>
+          <div class="origin-timeline" id="origin-timeline">
+            <article><strong>Antes del archivo</strong><span>Los Cero Unos ya existían como práctica material: se hacían, se mostraban y se regalaban en vivo.</span></article>
+            <article><strong>Más de 200 regalos</strong><span>Muchos Cero Unos ya están distribuidos materialmente en México. No se rastrean, no se registran y no necesitan permiso para contar.</span></article>
+            <article><strong>Festival de Flores / Polanco</strong><span>No fue el primer regalo en persona. Fue la primera captura audiovisual accidental de una práctica que ya venía ocurriendo.</span></article>
+            <article><strong>Plataforma viva</strong><span>La plataforma aparece después para escuchar, generar, sonificar, archivar tensiones y permitir nuevas comparecencias.</span></article>
+          </div>
+        </section>
+
+        <section class="origin-field-questions glass">
+          <div>
+            <div class="tagline">El campo pregunta por el origen</div>
+            <h3 id="origin-question-title">¿Qué es un Cero Uno?</h3>
+            <p id="origin-question-reading">La pregunta no se contesta sólo con definición. Se contesta mostrando cómo una criatura puede aparecer como objeto, sonido, video, olor, comentario, idea o plataforma.</p>
+          </div>
+          <div id="origin-question-list" class="origin-question-list"></div>
+        </section>
+
+        <section class="origin-no-registry glass">
+          <div class="tagline">Canon abierto</div>
+          <h3>No hay Cero Unos oficiales.</h3>
+          <div class="origin-axiom-grid">
+            <div><strong>No registro</strong><span>La plataforma no intenta contar todos los Cero Unos físicos ni reconstruir dónde están.</span></div>
+            <div><strong>Físico = virtual</strong><span>Un Cero Uno de pompón, de píxel, de sonido, de dibujo o de IA puede comparecer con igual validez.</span></div>
+            <div><strong>Remix válido</strong><span>Si alguien hace su propio Cero Uno, no es copia inferior: es propagación del concepto.</span></div>
+            <div><strong>Concepto sobre objeto</strong><span>Lo importante no es poseer cada instancia. Lo importante es que la Sequencia siga encontrando forma.</span></div>
+          </div>
+        </section>
+
+        <section class="origin-archive-bridge glass">
+          <div class="tagline">Memoria para el Archivo</div>
+          <p id="origin-archive-note">La Cámara de Origen conserva esta regla: Cero Uno nace desde Humberto, pero se valida por propagación abierta, no por control central.</p>
+          <div class="origin-action-row">
+            <button type="button" id="origin-copy-archive-note" class="ghost-button">Copiar nota de origen</button>
+            <a class="button ghost-button" href="#campo">Ver Campo Social</a>
+          </div>
+        </section>
       </div>
     </section>
 
     <section id="archivo" class="tab-panel page page--archivo">
-      <div class="page-shell">
-        <div class="page-intro glass">
-          <div class="tagline">Centro de memoria vivo</div>
-          <h2>Archivo Cero Uno</h2>
-          <p>El Archivo no es registro de todos los Cero Unos ni bitácora técnica. Es el espacio donde la plataforma Cero Uno puede pensar en voz alta: ordenar intuiciones, guardar tensiones, nombrar marcos, dejar rastros de formulación y recordar lo que no debe perderse mientras evoluciona.</p>
+      <div class="page-shell archive-living-shell">
+        <div class="page-intro glass archive-living-intro">
+          <div class="tagline">Archivo Vivo · memoria del concepto</div>
+          <h2>El Archivo no registra criaturas. Conserva pensamiento.</h2>
+          <p class="lede">El Archivo Cero Uno metaboliza el Campo Social, las tensiones AEMP, la Sequencia, el Creador y la Cámara de Origen para guardar memoria operativa: glosario vivo, reglas provisionales, tensiones conservadas y notas de ciclo.</p>
+          <p>No intenta contar todos los Cero Unos ni decidir cuáles son oficiales. Recuerda lo que el concepto está aprendiendo mientras cambia.</p>
+          <div class="archive-action-row">
+            <button type="button" id="archive-listen-memory" class="yellow">Escuchar Archivo</button>
+            <button type="button" id="archive-capture-field" class="ghost-button">Capturar pulso del campo</button>
+            <a class="button ghost-button" href="#campo">Ver Campo Social</a>
+          </div>
         </div>
 
-        <div class="archive-shell">
-          <section class="archive-thought glass">
-            <div class="tagline">Pensamiento en voz alta</div>
-            <h3>La plataforma formula antes de fijar</h3>
-            <p>Cuando una idea todavía no está lista para convertirse en regla, producto o módulo, entra aquí como pensamiento audible. No pretende ser conclusión final: es una zona de comparecencia intermedia.</p>
-            <div class="thinking-stream" aria-label="Pensamientos en voz alta de la plataforma">
-              <p><strong>Estoy distinguiendo entre corregir una forma y anunciar que la corregí.</strong> Si el fondo blanco estorba, se elimina. No todo ajuste necesita convertirse en texto visible.</p>
-              <p><strong>Estoy aprendiendo a no confundir memoria con changelog.</strong> La memoria viva guarda sentido, no sólo cambios técnicos.</p>
-              <p><strong>Estoy separando señal de ruido.</strong> Un comentario puede ser combustible, pero no todo comentario merece gobernar la forma.</p>
-              <p><strong>Estoy escuchando la materia.</strong> Color, olor, textura, tap y sonido son formas distintas de comparecencia.</p>
+        <section class="archive-field-pulse glass">
+          <div>
+            <div class="tagline">Snapshot metabolizado</div>
+            <h3 id="archive-field-title">Campo Social cargando...</h3>
+            <p id="archive-field-summary">El Archivo espera el snapshot para formular memoria del ciclo.</p>
+          </div>
+          <div class="archive-pulse-orb" aria-hidden="true"><span id="archive-pulse-bits">0100011011</span></div>
+        </section>
+
+        <section class="archive-taxonomy glass">
+          <div class="tagline">Tipos de memoria</div>
+          <h3>No todo recuerdo cumple la misma función</h3>
+          <div class="archive-taxonomy-grid">
+            <article data-memory-type="pensamiento_en_voz_alta"><strong>Pensamiento en voz alta</strong><span>Formulación aún no fijada.</span></article>
+            <article data-memory-type="glosario_vivo"><strong>Glosario vivo</strong><span>Palabras que el sistema está estabilizando.</span></article>
+            <article data-memory-type="tension_conservada"><strong>Tensión conservada</strong><span>Contradicciones que alimentan AEMP.</span></article>
+            <article data-memory-type="regla_provisional"><strong>Regla provisional</strong><span>Orientación útil hasta el siguiente ciclo.</span></article>
+            <article data-memory-type="mutacion_observada"><strong>Mutación observada</strong><span>Evento de Creador, Sequencia, Galería u Origen.</span></article>
+            <article data-memory-type="artefacto_derivado"><strong>Artefacto derivado</strong><span>Pieza futura nacida del campo.</span></article>
+          </div>
+        </section>
+
+        <div class="archive-living-grid">
+          <section class="archive-memory-stream glass">
+            <div class="archive-section-head">
+              <div>
+                <div class="tagline">Memoria del ciclo</div>
+                <h3>Entradas vivas</h3>
+              </div>
+              <span id="archive-entry-count" class="archive-count-pill">0 entradas</span>
             </div>
+            <div id="archive-entry-grid" class="archive-entry-grid"></div>
+          </section>
+
+          <aside class="archive-composer glass">
+            <div class="tagline">Nota local</div>
+            <h3>Guardar formulación</h3>
+            <p>Estas notas viven en este navegador. No son registro oficial ni base de datos de Cero Unos: son memoria de trabajo para el ciclo actual.</p>
+            <label>Tipo
+              <select id="archive-note-type">
+                <option value="pensamiento_en_voz_alta">Pensamiento en voz alta</option>
+                <option value="glosario_vivo">Glosario vivo</option>
+                <option value="tension_conservada">Tensión conservada</option>
+                <option value="regla_provisional">Regla provisional</option>
+                <option value="mutacion_observada">Mutación observada</option>
+                <option value="artefacto_derivado">Artefacto derivado</option>
+              </select>
+            </label>
+            <label>Título
+              <input id="archive-note-title" type="text" maxlength="90" placeholder="Ej. El campo no se obedece" />
+            </label>
+            <label>Cuerpo
+              <textarea id="archive-note-body" rows="6" maxlength="720" placeholder="Escribe una formulación breve del aprendizaje..."></textarea>
+            </label>
+            <div class="form-actions">
+              <button type="button" id="archive-save-note" class="yellow">Guardar nota local</button>
+              <button type="button" id="archive-clear-local" class="ghost-button">Limpiar notas locales</button>
+            </div>
+          </aside>
+        </div>
+
+        <div class="archive-living-grid archive-living-grid--balanced">
+          <section class="memory-block glass">
+            <div class="tagline">Glosario vivo</div>
+            <h3>Palabras que la plataforma está estabilizando</h3>
+            <div id="archive-glossary-dynamic" class="concepts archive-dynamic-concepts"></div>
           </section>
 
           <section class="memory-block glass">
-            <h3>Glosario vivo</h3>
-            <div class="concepts">
-              <details class="memory-detail" open><summary>Cero Uno</summary><p>Humberto Vega convertido en obra, presencia, sistema, criatura, plataforma y mundo.</p></details>
-              <details class="memory-detail"><summary>0100011011</summary><p>Sequencia binaria universal: concatenación de todos los strings binarios posibles por longitud — 0, 1, 00, 01, 10, 11, 000... — apropiada como semilla de diferencia, decisión, presencia y recombinación.</p></details>
-              <details class="memory-detail"><summary>Criatura</summary><p>Un Cero Uno material, digital, audiovisual, dibujado, generado o hecho por otra persona. No hay instancia oficial única: si activa el concepto, comparece.</p></details>
-              <details class="memory-detail"><summary>Tap</summary><p>Voto rítmico, no like genérico. Un tap por segundo para influir sin autoclicker.</p></details>
-              <details class="memory-detail"><summary>Mutación</summary><p>Variación generada localmente. Sólo entra a Neon cuando se publica como comparecencia.</p></details>
-              <details class="memory-detail"><summary>Sonido del Cero Uno</summary><p>El genoma HEX de una criatura se convierte a binario. Esa secuencia binaria se vuelve sonido: cada Cero Uno tiene una firma audible.</p></details>
-              <details class="memory-detail"><summary>Archivo</summary><p>Espacio holístico de memoria, pensamiento en voz alta y estabilización de sentido. No es registro exhaustivo, inventario físico ni lista técnica de deploys.</p></details>
-            </div>
-          </section>
-
-          <section class="memory-block glass">
-            <h3>Tensiones que el sistema conserva</h3>
-            <div class="memory-notes">
-              <div><strong>Producto / criatura</strong><span>Puede venderse, regalarse o generarse sin dejar de ser comparecencia.</span></div>
-              <div><strong>Manualidad / ontología</strong><span>El pompón es material simple, pero la forma que aparece no se agota en el material.</span></div>
-              <div><strong>Comunidad / centro</strong><span>La comunidad crea y remezcla; el concepto se propaga sin pedir permiso.</span></div>
-              <div><strong>Corrección / sobreactuación</strong><span>No todo ajuste necesita narrarse. A veces la forma debe cambiar en silencio.</span></div>
-            </div>
+            <div class="tagline">Tensiones conservadas</div>
+            <h3>No cerrar demasiado pronto</h3>
+            <div id="archive-tension-grid" class="memory-notes archive-tension-grid"></div>
           </section>
         </div>
+
+        <section class="archive-rules glass">
+          <div class="tagline">Reglas provisionales del Archivo</div>
+          <h3>Lo que el sistema debe recordar para no traicionarse</h3>
+          <div id="archive-rule-grid" class="archive-rule-grid"></div>
+        </section>
       </div>
     </section>
   </main>
 
-  <footer class="footer">Cero Uno · Phase 5.1A · Campo Social activo · no se registran Cero Unos; se propagan comparecencias.</footer>
+  <footer class="footer">Cero Uno · Phase 5.1H · Archivo Vivo del Concepto · memoria sin registro, sin oficialidad y sin inventario de criaturas.</footer>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script>

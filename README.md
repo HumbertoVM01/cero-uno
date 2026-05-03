@@ -1,127 +1,47 @@
-# Cero Uno · Primer Deploy · Phase 5 Platform Ready
+# Cero Uno Platform
 
-Página viva para Netlify + Neon con el Master Asset Pack aplicado directamente al repo.
+Plataforma viva de comparecencias Cero Uno.
 
-## Qué integra esta fase
+## Principio central
 
-- Creador de Cero Unos con assets transparentes de pompón y gema.
-- Corrección de asset path para Netlify: `pompom.PNG` ahora también existe como `/assets/pompom.png`.
-- Genoma HEX como nombre de cada comparecencia.
-- Olor limitado a 100 caracteres + sugeridor de olor desde `SCENT_LEXICON`.
-- Galería pública con taps entendidos como contacto, no like genérico.
-- Protección básica anti-autoclicker: un tap por segundo por visitante y Cero Uno.
-- Mutaciones locales que no escriben a Neon hasta que se publican.
-- Secuencia binaria universal como seed generativo.
-- Sonificación de bits y pares binarios con Web Audio API.
-- Audio web-ready de Fase 4 copiado en `public/assets/cero-uno-system/audio/sequence/`.
-- Laboratorio AEMP.
-- Cámara de Origen corregida: Cero Uno ya tenía comparecencia material antes de la plataforma; la plataforma no registra ni posee esas instancias.
-- Archivo Vivo corregido: memoria del concepto, no inventario de todos los Cero Unos.
-- Acta de Comparecencia en lugar de certificado de autenticidad.
+No se registran Cero Unos. Se propagan comparecencias.
 
-## Principio técnico/doctrinal
+La plataforma escucha el Campo Social, lo metaboliza y modifica su forma sin someterse a él. Los Cero Unos físicos, virtuales, audiovisuales, hechos por la comunidad o generados dentro de la plataforma tienen la misma dignidad conceptual.
 
-> Neon guarda comparecencias publicadas. El navegador sueña mutaciones. La plataforma no registra todos los Cero Unos.
+## Módulos principales
 
-> No se registran Cero Unos. Se propagan comparecencias.
+- **Campo**: digest público seguro del Campo Social.
+- **Inicio / Umbral**: entrada viva alimentada por el Campo Social.
+- **Creador**: laboratorio para sembrar comparecencias desde colores, olores, formatos y deseos del campo.
+- **Galería**: clima social de comparecencias; los taps son contacto, no likes.
+- **Sequencia**: observatorio audible/visible del binario.
+- **AEMP**: laboratorio de cambio de marco usando tensiones reales del Campo Social.
+- **Origen**: historia viva de Cero Uno sin convertir el origen en autoridad cerrada.
+- **Archivo**: memoria del concepto; no inventario de criaturas.
 
-La app no certifica autenticidad, no declara instancias oficiales y no jerarquiza físico sobre virtual. Los Cero Unos hechos por otras personas son igualmente válidos si participan del concepto.
-
-## Estructura principal
-
-```txt
-public/
-  index.html
-  assets/
-    pompom.png
-    pompom.PNG
-    gem.png
-    cero-uno-system/
-      contracts/
-      manifests/
-      audio/sequence/
-  css/styles.css
-  js/
-    app.js
-    api.js
-    audio.js
-    platform-assets.js
-    renderer.js
-    sequence.js
-netlify/functions/
-  create-zero-one.js
-  list-zero-ones.js
-  tap-zero-one.js
-  stats.js
-  _shared/
-neon/schema.sql
-netlify.toml
-package.json
-```
-
-## Setup en Neon
-
-1. Crea una base en Neon.
-2. Abre el SQL Editor.
-3. Copia y ejecuta `neon/schema.sql`.
-
-## Setup en Netlify
-
-1. Sube este folder a GitHub.
-2. Crea un sitio nuevo en Netlify desde ese repo.
-3. Configura:
-
-```txt
-Publish directory: public
-Functions directory: netlify/functions
-```
-
-4. Agrega la variable de entorno:
-
-```txt
-DATABASE_URL=postgresql://USER:PASSWORD@HOST.neon.tech/DB?sslmode=require
-```
-
-5. Deploy.
-
-## Desarrollo local
+## Desarrollo
 
 ```bash
 npm install
-cp .env.example .env
-# rellena DATABASE_URL
+npm run check
 npm run dev
 ```
 
-## Revisión rápida
+## Deploy
 
 ```bash
-npm run phase5:check
+npm run deploy:dry
 ```
 
-## Seguridad y límites del MVP
+La app está preparada para Netlify con funciones en `netlify/functions` y frontend estático en `public`.
 
-Este primer deploy usa `device_id` en localStorage + IP + user-agent para generar un hash de visitante. Esto ayuda a limitar taps, pero no sustituye autenticación fuerte. Para un deploy posterior se puede agregar Auth0, turnstile/captcha suave o reglas más estrictas por IP.
+## Runtime importante
 
-## Modelo de datos esencial
+- Snapshot del Campo Social: `public/data/comment-field/latest_snapshot.json`
+- Código frontend: `public/js/`
+- Assets visuales base: `public/assets/pompom.png`, `public/assets/gem.png`
+- Audio de Sequencia: `public/assets/cero-uno-system/audio/sequence/`
 
-- `zero_ones`: comparecencias publicadas, no registro total de Cero Unos existentes.
-- `tap_guard`: anti-autoclicker temporal, un tap por segundo.
-- `zero_one_tap_daily`: agregados diarios.
-- `signals`: señales futuras.
+## Actualizar el Campo Social
 
-## Secuencia binaria universal
-
-El generador vive en `public/js/sequence.js`. No escribe a la base de datos. Se usa para:
-
-- bit del día,
-- oráculo de deploy,
-- auras visuales,
-- sonidos Web Audio,
-- mutaciones locales,
-- efectos diarios.
-
-
-## Phase 5.1A · Comment Field System
-
-Se agregó el Campo Social como digest vivo de comentarios. La plataforma consume `/public/data/comment-field/latest_snapshot.json` y muestra `#campo`, una zona donde las voces colectivas se metabolizan como familias de sentido, deseos del Creador, tensiones AEMP y entradas de Archivo Vivo.
+Reemplaza `public/data/comment-field/latest_snapshot.json` con un nuevo digest generado por ChatGPT a partir de comentarios recientes. No publiques dumps crudos de comentarios si contienen ataques, datos personales, drama de live o usuarios identificables innecesariamente.

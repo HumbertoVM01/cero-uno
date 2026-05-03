@@ -15,6 +15,12 @@ import {
 } from './sequence.js';
 import { playTapSound, playBits, playSequence, playDeployChime, playZeroOneSound } from './audio.js';
 import { initCommentField } from './comment-field-renderer.js';
+import { initCreatorFieldSystem } from './creator-field-system.js';
+import { initGallerySocialSystem, updateGallerySocialReadout, decorateGalleryCard, registerGalleryTapPulse } from './gallery-social-system.js';
+import { initSequenceObservatorySystem, updateSequenceObservatory } from './sequence-observatory-system.js';
+import { initAempFieldSystem } from './aemp-field-system.js';
+import { initOriginLivingSystem } from './origin-living-system.js';
+import { initArchiveLivingSystem } from './archive-living-system.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -25,7 +31,8 @@ const state = {
   currentTab: 'inicio',
   assetsLoaded: false,
   consultedBits: '',
-  consultedOffset: ''
+  consultedOffset: '',
+  commentSnapshot: null
 };
 
 const HEX_SYMBOLS = '0123456789ABCDEF';
@@ -120,8 +127,10 @@ function randomizeCreator({ keepScent = false, announce = false } = {}) {
     form.elements[key].value = seededRandomHex(`${entropy}|${key}|${idx}`);
   });
   if (!keepScent) form.elements.scent.value = '';
+  if (form.elements.local_format) form.elements.local_format.value = '';
   state.parentId = null;
   syncCreator();
+  document.dispatchEvent(new CustomEvent('ceroUno:creatorSeedChanged', { detail: { origin: 'aleatorio local', format: '' } }));
   if (announce) {
     showToast('La sequencia invocó una comparecencia aleatoria. No se guarda hasta publicar.');
     playSequence(`${genomeCode(state.current)}|randomize`, 10);
@@ -188,6 +197,7 @@ function mutateCurrent() {
     form.elements.scent.value = scentFromSeed(`${seed}|scent|${bits.slice(11, 14)}`);
   }
   syncCreator();
+  document.dispatchEvent(new CustomEvent('ceroUno:creatorSeedChanged', { detail: { origin: 'mutación local', bits } }));
   showToast(`Mutación local: ${changed.length ? changed.join(', ') : 'sólo aura binaria'}. No se guardó en Neon.`);
   playSequence(seed, 12);
 }
@@ -216,7 +226,7 @@ async function publishCurrent() {
   }
 }
 
-function renderGallery(items, mode = 'connected') {
+function renderGallery(items, mode = 'connected', sort = 'top') {
   const grid = $('#gallery-grid');
   if (!grid) return;
   grid.innerHTML = '';
@@ -225,16 +235,19 @@ function renderGallery(items, mode = 'connected') {
     safeText('#gallery-mode', mode === 'error'
       ? 'Sin conexión a Neon'
       : 'Neon conectado · esperando comparecencias publicadas');
+    updateGallerySocialReadout([], sort);
     grid.innerHTML = `
       <article class="empty-gallery glass">
-        <h3>La galería todavía está en silencio.</h3>
+        <h3>La galería todavía está en silencio visible.</h3>
         <p>${PLATFORM_COPY.galleryEmpty}</p>
+        <p class="microcopy">Silencio no significa ausencia: sólo indica que Neon todavía no muestra comparecencias publicadas en esta cámara.</p>
         <a class="button" href="#creator">Crear una comparecencia</a>
       </article>`;
     return;
   }
-  safeText('#gallery-mode', 'Conectado a Neon');
-  list.forEach((z) => {
+  safeText('#gallery-mode', sort === 'new' ? 'Neon conectado · aparición reciente' : 'Neon conectado · intensidad de contacto');
+  updateGallerySocialReadout(list, sort);
+  list.forEach((z, index) => {
     const card = document.createElement('article');
     card.className = 'zero-card glass';
     card.innerHTML = `
@@ -256,6 +269,7 @@ function renderGallery(items, mode = 'connected') {
     $('.tap-button', card).addEventListener('click', () => handleTap(z, card));
     $('.listen-zero', card).addEventListener('click', () => listenToZeroOne(z));
     $('.mutate-from', card).addEventListener('click', () => loadIntoCreator(z));
+    decorateGalleryCard(card, z, { rank: index + 1, total: list.length, sort });
     grid.appendChild(card);
   });
 }
@@ -266,9 +280,9 @@ async function loadGallery(sort = 'top') {
     const { data } = await listZeroOnes(sort);
     if (!data.ok) throw new Error(data.error || 'No se pudo leer la galería.');
     state.published = data.zero_ones || [];
-    renderGallery(state.published, 'connected');
+    renderGallery(state.published, 'connected', sort);
   } catch (err) {
-    renderGallery([], 'error');
+    renderGallery([], 'error', sort);
     showToast('No pude leer Neon. Revisa DATABASE_URL, schema.sql y Functions.');
   }
 }
@@ -287,7 +301,7 @@ async function handleTap(z, card) {
       await initStats();
     }
     if (!data.accepted) showToast('Un tap por segundo. La sequencia no acepta autoclicker.');
-    else { card.classList.add('tap-pulse'); setTimeout(() => card.classList.remove('tap-pulse'), 520); }
+    else { card.classList.add('tap-pulse'); setTimeout(() => card.classList.remove('tap-pulse'), 520); registerGalleryTapPulse(card, z); }
   } catch (err) {
     showToast(`Tap no registrado: ${err.message}`);
   }
@@ -298,8 +312,10 @@ function loadIntoCreator(z) {
   if (!form) return;
   PART_KEYS.forEach((key) => { form.elements[key].value = z[key] || '#FFFFFF'; });
   form.elements.scent.value = z.scent || '';
+  if (form.elements.local_format) form.elements.local_format.value = 'remix de galería';
   state.parentId = z.id || null;
   syncCreator();
+  document.dispatchEvent(new CustomEvent('ceroUno:creatorSeedChanged', { detail: { origin: 'remix de galería', format: 'remix' } }));
   showTab('creator');
   showToast('Mutación cargada en preview. Sólo se guarda si la publicas.');
 }
@@ -324,6 +340,8 @@ function consultSequenceSegment({ play = false } = {}) {
   safeText('#sequence-offset', `Offset aleatorio: ${Number(segment.offset).toLocaleString('es-MX')} · rango: 0–${Number(maxOffset).toLocaleString('es-MX')}`);
   safeText('#oracle-bits', segment.bits);
   safeText('#oracle-reading', interpretBits(segment.bits));
+  updateSequenceObservatory(segment.bits, { source: 'Segmento aleatorio consultado', offset: segment.offset, title: 'Segmento aleatorio' });
+  document.dispatchEvent(new CustomEvent('ceroUno:sequenceObserved', { detail: { bits: segment.bits, offset: segment.offset, source: 'segmento aleatorio' } }));
   if (play) playBits(segment.bits);
   return segment.bits;
 }
@@ -410,6 +428,7 @@ function suggestScent({ announce = true } = {}) {
   const seed = `${genomeCode(state.current)}|${Date.now()}|${cryptoUnit()}`;
   form.elements.scent.value = scentFromSeed(seed).slice(0, 100);
   syncCreator();
+  document.dispatchEvent(new CustomEvent('ceroUno:creatorSeedChanged', { detail: { origin: 'olor sugerido por léxico Cero Uno' } }));
   if (announce) showToast('Olor sugerido desde el léxico material/sonoro de Cero Uno. Puedes cambiarlo libremente.');
 }
 
@@ -429,6 +448,8 @@ function initActa() {
     a.click();
   });
 }
+
+window.addEventListener('ceroUno:toast', (event) => showToast(event.detail || 'Cero Uno actualizó su comparecencia.'));
 
 function showToast(text) {
   const toast = $('#toast');
@@ -470,7 +491,14 @@ async function main() {
   initSequenceLab();
   initAemp();
   initActa();
-  await initCommentField();
+  const commentSnapshot = await initCommentField();
+  state.commentSnapshot = commentSnapshot;
+  initCreatorFieldSystem(commentSnapshot);
+  initGallerySocialSystem(commentSnapshot);
+  initSequenceObservatorySystem(commentSnapshot);
+  initAempFieldSystem(commentSnapshot);
+  initOriginLivingSystem(commentSnapshot);
+  initArchiveLivingSystem(commentSnapshot);
   randomizeCreator();
   startPreviewLoop();
   await Promise.allSettled([loadGallery('top'), initStats()]);

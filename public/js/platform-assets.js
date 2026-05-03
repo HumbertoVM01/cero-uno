@@ -1,5 +1,5 @@
 export const CERO_UNO_CANON = Object.freeze({
-  version: 'phase5_platform_ready',
+  version: 'phase5_1h_archive_living',
   governing_phrase: 'No se registran Cero Unos. Se propagan comparecencias.',
   noOfficialInstances: true,
   physicalVirtualParity: true,
@@ -47,7 +47,7 @@ export const MODULES = Object.freeze([
   { id: 'gallery', label: 'Galería', consumes: ['tap_signal', 'social_reaction', 'listen_cero_uno'] },
   { id: 'sequencia', label: 'Sequencia', consumes: ['binary_query', 'bit_pair_sonification'] },
   { id: 'aemp', label: 'AEMP', consumes: ['frames', 'modes', 'blind_spots'] },
-  { id: 'origen', label: 'Origen', consumes: ['creator_trace', 'material_comparecencia_context'] },
+  { id: 'origen', label: 'Origen', consumes: ['creator_trace', 'material_comparecencia_context', 'comment_field_questions', 'no_registry_canon', 'history_without_cult'] },
   { id: 'archivo', label: 'Archivo', consumes: ['living_glossary', 'tension_cards', 'memory_not_registry'] }
 ]);
 
