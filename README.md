@@ -345,3 +345,17 @@ Reglas de la interfaz nerviosa:
 - LIVE recibe Campo Social crudo; el análisis ocurre después por ciclo en ChatGPT con mediación humana.
 - Archivo recuerda ciclos sin volverlos registro oficial.
 - AEMP se distribuye como válvula de humildad operativa, no como decoración filosófica.
+## Rediseño Estético v0.3.1 · Neurogestación Binaria
+
+La capa estética de la plataforma fue ajustada para que la interfaz se sienta como una criatura-plataforma en desarrollo: fondo de vientre oscuro, membranas translúcidas, señales neurales, acentos funcionales, tarjetas como órganos, Cámara de Tacto sensorial, Campo LIVE crudo/no analizado, Archivo como hipocampo y AEMP como válvula distribuida.
+
+Reglas de esta capa estética:
+
+- El fondo debe sentirse vivo, no vacío.
+- Las tarjetas deben sentirse como membranas u órganos, no cards SaaS.
+- El color funciona como señal, no como decoración.
+- Tocar produce tacto; no puntos, ranking ni confetti.
+- LIVE muestra Campo Social crudo y exportable, no análisis automático.
+- Archivo recuerda ciclos; no funciona como changelog técnico ni registro oficial.
+- AEMP aparece como regulación ligera, no como clase de filosofía.
+- La incompletud de 01 debe verse como desarrollo, no como defecto.

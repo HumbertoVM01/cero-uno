@@ -2064,3 +2064,433 @@ h2 { font-size: clamp(30px, 5vw, 64px); }
   .page--campo .page-intro,
   .page--aemp .page-intro { min-height: 220px; padding: 20px; }
 }
+
+
+/* v0.3.1 · Neurogestación Binaria / Detalle estético completo */
+:root {
+  --c01-black: #050506;
+  --c01-coal: #0d0d12;
+  --c01-membrane: #15151d;
+  --c01-bone: #f4f1e8;
+  --c01-muted: #b9b4a8;
+  --c01-dim: #77716b;
+  --c01-life: #8cffcb;
+  --c01-aemp: #9b8cff;
+  --c01-live: #6fe7ff;
+  --c01-memory: #ffc66d;
+  --c01-touch: #ff8fd4;
+  --c01-omega: #ff6f6f;
+  --c01-mutation: #c8ff5d;
+  --radius: 26px;
+  --text: var(--c01-bone);
+  --muted: rgba(244,241,232,.72);
+  --faint: rgba(185,180,168,.48);
+  --line: rgba(244,241,232,.12);
+}
+
+html { background: var(--c01-black); }
+body {
+  color: var(--c01-bone);
+  background:
+    radial-gradient(circle at 18% 12%, rgba(155,140,255,.13), transparent 34rem),
+    radial-gradient(circle at 84% 20%, rgba(111,231,255,.10), transparent 31rem),
+    radial-gradient(circle at 46% 92%, rgba(255,198,109,.07), transparent 33rem),
+    linear-gradient(180deg, #050506, #08080b 42%, #020203 100%) !important;
+}
+body::before {
+  content: '0100011011 0 1 0 1 001 0100011011 01 01 01';
+  opacity: .035;
+  color: var(--accent);
+  text-shadow: 0 0 26px rgba(var(--accent-rgb),.18);
+  letter-spacing: 22px;
+  line-height: 42px;
+}
+body::after {
+  opacity: .21;
+  background-image:
+    radial-gradient(circle, rgba(244,241,232,.11) 1px, transparent 1.8px),
+    linear-gradient(rgba(244,241,232,.042) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(244,241,232,.034) 1px, transparent 1px);
+  background-size: 54px 54px, 88px 88px, 88px 88px;
+  background-position: 0 0, 24px 24px, 24px 24px;
+  mask-image: radial-gradient(circle at 50% 18%, black, transparent 78%);
+}
+
+body[data-space="inicio"] { --accent: var(--c01-live); --accent-rgb: 111,231,255; --accent-soft: rgba(111,231,255,.17); }
+body[data-space="estado"] { --accent: var(--c01-life); --accent-rgb: 140,255,203; --accent-soft: rgba(140,255,203,.16); }
+body[data-space="mision"] { --accent: var(--c01-memory); --accent-rgb: 255,198,109; --accent-soft: rgba(255,198,109,.17); }
+body[data-space="atlas"] { --accent: var(--c01-aemp); --accent-rgb: 155,140,255; --accent-soft: rgba(155,140,255,.17); }
+body[data-space="galeria"] { --accent: var(--c01-touch); --accent-rgb: 255,143,212; --accent-soft: rgba(255,143,212,.16); }
+body[data-space="live"] { --accent: var(--c01-live); --accent-rgb: 111,231,255; --accent-soft: rgba(111,231,255,.18); }
+body[data-space="archivo"] { --accent: var(--c01-memory); --accent-rgb: 255,198,109; --accent-soft: rgba(255,198,109,.16); }
+body[data-space="aemp"] { --accent: var(--c01-aemp); --accent-rgb: 155,140,255; --accent-soft: rgba(155,140,255,.17); }
+body[data-space="creator"],
+body[data-space="sequencia"],
+body[data-space="origen"] { --accent: var(--c01-mutation); --accent-rgb: 200,255,93; --accent-soft: rgba(200,255,93,.14); }
+body[data-space="campo"] { --accent: var(--c01-life); --accent-rgb: 140,255,203; --accent-soft: rgba(140,255,203,.14); }
+
+.nav--nervous {
+  background:
+    linear-gradient(180deg, rgba(5,5,6,.88), rgba(5,5,6,.58)),
+    radial-gradient(circle at 50% 0%, rgba(var(--accent-rgb),.14), transparent 34rem);
+  border-bottom-color: rgba(var(--accent-rgb),.22);
+}
+.nav--nervous .nav-mark::before {
+  content: '◍';
+  margin-right: .55rem;
+  color: var(--accent);
+  text-shadow: 0 0 18px rgba(var(--accent-rgb),.52);
+}
+.nav--nervous a {
+  border-radius: 999px;
+  background: rgba(244,241,232,.045);
+  border-color: rgba(244,241,232,.11);
+  box-shadow: inset 0 1px 0 rgba(244,241,232,.055);
+}
+.nav--nervous a:hover {
+  border-color: rgba(var(--accent-rgb),.42);
+  background: rgba(var(--accent-rgb),.09);
+  color: var(--c01-bone) !important;
+}
+.nav--nervous a.active,
+.nav a[aria-current="page"] {
+  color: #030303 !important;
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+}
+
+.glass,
+.page-intro,
+.hero-card,
+.stat,
+.zero-card,
+.field-list-card,
+.field-suggestions,
+.home-door,
+.umbral-panel,
+.lab-card,
+.memory-block,
+.live-session-card,
+.live-doctrine-card,
+.live-comments-shell,
+.live-export-panel,
+.cycle-card,
+.atlas-node-card,
+.mission-card,
+.ontological-age-card,
+.living-variable-card {
+  background:
+    radial-gradient(circle at 18% 0%, rgba(var(--accent-rgb),.075), transparent 18rem),
+    linear-gradient(180deg, rgba(244,241,232,.082), rgba(244,241,232,.032));
+  border: 1px solid rgba(244,241,232,.115);
+  box-shadow:
+    0 28px 90px rgba(0,0,0,.44),
+    inset 0 1px 0 rgba(244,241,232,.07);
+  backdrop-filter: blur(22px);
+}
+.glass::selection, .page-intro::selection { background: rgba(var(--accent-rgb),.32); }
+
+.page-intro,
+.umbral-hero,
+.cortex-action-strip,
+.home-development-grid.ui-organ-grid > article,
+.zero-card,
+.live-comment-card,
+.cycle-card,
+.atlas-node-card {
+  position: relative;
+  overflow: hidden;
+}
+.page-intro::after,
+.umbral-hero::before,
+.home-development-grid.ui-organ-grid > article::after,
+.zero-card::after,
+.cycle-card::after,
+.atlas-node-card::after {
+  content: '';
+  position: absolute;
+  inset: auto 14px 10px 14px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(var(--accent-rgb),.44), transparent);
+  opacity: .42;
+  pointer-events: none;
+}
+
+h1, h2, h3 {
+  color: var(--c01-bone);
+  text-wrap: balance;
+}
+h1 {
+  text-transform: uppercase;
+  text-shadow: 0 0 38px rgba(var(--accent-rgb),.12);
+}
+.tagline,
+.eyebrow,
+.microcopy,
+.genome-small,
+.live-status-pill,
+.cycle-chip,
+.atlas-node-status,
+.ontological-age-status {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-transform: uppercase;
+  letter-spacing: .17em;
+}
+p { color: rgba(244,241,232,.72); }
+.lede { color: rgba(244,241,232,.88); }
+strong { color: rgba(244,241,232,.95); }
+
+button,
+.button {
+  min-height: 42px;
+  background: var(--accent);
+  color: #020203;
+  box-shadow: 0 0 0 1px rgba(var(--accent-rgb),.22), 0 16px 40px rgba(var(--accent-rgb),.12);
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+button:hover,
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 1px rgba(var(--accent-rgb),.44), 0 20px 54px rgba(var(--accent-rgb),.19);
+}
+.ghost-button {
+  color: var(--c01-bone);
+  background: rgba(244,241,232,.052);
+  border: 1px solid rgba(244,241,232,.12);
+  box-shadow: inset 0 1px 0 rgba(244,241,232,.06);
+}
+.ghost-button:hover { background: rgba(var(--accent-rgb),.11); }
+
+.umbral-hero {
+  background:
+    radial-gradient(circle at 74% 36%, rgba(var(--accent-rgb),.15), transparent 21rem),
+    linear-gradient(135deg, rgba(244,241,232,.082), rgba(244,241,232,.024));
+}
+.umbral-orb {
+  border-radius: 34px;
+  box-shadow: inset 0 0 90px rgba(var(--accent-rgb),.08), 0 30px 90px rgba(0,0,0,.42);
+}
+.umbral-orb::before {
+  content: '01';
+  position: absolute;
+  inset: 18px auto auto 18px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  letter-spacing: .24em;
+  color: rgba(var(--accent-rgb),.72);
+}
+
+.cortex-action-strip a::before,
+.home-door::before {
+  content: '◇';
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  color: rgba(var(--accent-rgb),.58);
+  font-size: 14px;
+}
+.cortex-action-strip a:nth-child(1)::before { content: '◍'; }
+.cortex-action-strip a:nth-child(2)::before { content: '◇'; }
+.cortex-action-strip a:nth-child(3)::before { content: '○'; }
+.cortex-action-strip a:nth-child(4)::before { content: '◌'; }
+.cortex-action-strip a:nth-child(5)::before { content: '⌁'; }
+.cortex-action-strip a:nth-child(6)::before { content: '◎'; }
+
+.living-variable-card,
+.ontological-age-main-card,
+.mission-main-card,
+.atlas-overview-card,
+.live-session-card,
+.cycle-card {
+  border-radius: 28px !important;
+}
+.living-variable-card::before {
+  content: '';
+  position: absolute;
+  inset: 12px 12px auto auto;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: var(--accent);
+  box-shadow: 0 0 22px rgba(var(--accent-rgb),.45);
+}
+.living-variable-meter,
+.variable-meter,
+.mission-progress,
+.ontological-age-meter {
+  background: rgba(244,241,232,.07) !important;
+  border-radius: 999px !important;
+  overflow: hidden;
+}
+.living-variable-fill,
+.variable-meter-fill,
+.mission-progress-fill,
+.ontological-age-fill {
+  background: linear-gradient(90deg, rgba(var(--accent-rgb),.48), var(--accent)) !important;
+  box-shadow: 0 0 20px rgba(var(--accent-rgb),.30);
+}
+
+.mission-main-card,
+#mission-home-card {
+  border-color: rgba(255,198,109,.28);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255,198,109,.13), transparent 18rem),
+    linear-gradient(180deg, rgba(244,241,232,.082), rgba(244,241,232,.03));
+}
+.mission-prompt,
+.mission-omega-card,
+.mission-next-card {
+  border-radius: 20px;
+  border: 1px solid rgba(255,198,109,.18);
+  background: rgba(255,198,109,.055);
+}
+
+.zero-card {
+  border-color: rgba(255,143,212,.18);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255,143,212,.10), transparent 18rem),
+    linear-gradient(180deg, rgba(244,241,232,.073), rgba(244,241,232,.025));
+}
+.zero-card canvas {
+  border-radius: 24px 24px 0 0;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(255,143,212,.18), transparent 34%),
+    radial-gradient(circle at 50% 52%, rgba(111,231,255,.08), transparent 52%),
+    rgba(0,0,0,.20) !important;
+}
+.tap-button,
+button[data-tactile-action],
+.zero-card button {
+  background: linear-gradient(90deg, var(--c01-touch), var(--c01-live));
+  color: #020203;
+}
+.tap-button:active,
+.zero-card button:active {
+  transform: scale(.98);
+  box-shadow: 0 0 0 10px rgba(255,143,212,.08), 0 0 36px rgba(255,143,212,.20);
+}
+.tap-count,
+.tactile-reading,
+.tactile-label { color: var(--c01-touch) !important; }
+
+.live-comment-card {
+  border-color: rgba(111,231,255,.14);
+  background:
+    linear-gradient(90deg, rgba(111,231,255,.07), rgba(244,241,232,.025));
+}
+.live-comment-card::before {
+  content: 'crudo · no analizado';
+  display: inline-block;
+  margin-bottom: .45rem;
+  color: rgba(111,231,255,.72);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .64rem;
+  text-transform: uppercase;
+  letter-spacing: .18em;
+}
+.live-export-panel textarea {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  background: rgba(0,0,0,.36);
+}
+
+.aemp-inline-note {
+  border-radius: 18px;
+  border: 1px solid rgba(155,140,255,.20);
+  border-left: 3px solid var(--c01-aemp);
+  background:
+    linear-gradient(90deg, rgba(155,140,255,.12), rgba(244,241,232,.03));
+}
+.aemp-inline-note::before {
+  content: 'LECTURA AEMP';
+  display: block;
+  margin-bottom: .35rem;
+  color: var(--c01-aemp);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .66rem;
+  letter-spacing: .18em;
+}
+
+.atlas-node-card[data-status="activo"],
+.atlas-node-card[data-node-status="activo"] { border-color: rgba(140,255,203,.24); }
+.atlas-node-card[data-status="en_formacion"],
+.atlas-node-card[data-node-status="en_formacion"] { border-style: dashed; border-color: rgba(111,231,255,.26); }
+.atlas-node-card[data-status="protegido"],
+.atlas-node-card[data-node-status="protegido"] { border-color: rgba(255,111,111,.28); }
+.atlas-node-card[data-status="horizonte"],
+.atlas-node-card[data-node-status="horizonte"] { opacity: .72; }
+
+.cycle-card {
+  border-color: rgba(255,198,109,.18);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(255,198,109,.10), transparent 16rem),
+    linear-gradient(180deg, rgba(244,241,232,.072), rgba(244,241,232,.025));
+}
+.cycle-memory-line {
+  border-color: rgba(255,198,109,.28) !important;
+  background: rgba(255,198,109,.075) !important;
+  color: rgba(244,241,232,.88) !important;
+}
+
+.creator-preview-canvas,
+.zero-preview-canvas,
+#preview-canvas {
+  border-color: rgba(var(--accent-rgb),.20);
+  box-shadow: inset 0 0 70px rgba(var(--accent-rgb),.06);
+}
+.genome-box {
+  border-color: rgba(200,255,93,.30);
+  color: var(--c01-mutation);
+  background: rgba(200,255,93,.052);
+}
+
+.sequence-meta,
+.bit-stream,
+.big-bit { color: var(--c01-mutation); }
+.big-bit { text-shadow: 0 0 30px rgba(200,255,93,.20); }
+
+.empty-gallery,
+.live-empty,
+.field-empty,
+.archive-empty {
+  border: 1px dashed rgba(244,241,232,.15);
+  border-radius: 22px;
+  background: rgba(244,241,232,.035);
+  color: rgba(244,241,232,.66);
+}
+.toast {
+  border-color: rgba(var(--accent-rgb),.28);
+  background: rgba(5,5,6,.92);
+  box-shadow: 0 18px 60px rgba(0,0,0,.42), 0 0 24px rgba(var(--accent-rgb),.12);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .umbral-orb,
+  .home-development-grid.ui-organ-grid > article,
+  .zero-card,
+  .live-comment-card,
+  .cycle-card {
+    transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease, background .22s ease;
+  }
+  .umbral-orb { animation: c01-breath 7s ease-in-out infinite; }
+  .live-comment-card:first-child { animation: c01-live-pulse 1.9s ease-out 1; }
+  .zero-card:hover { transform: translateY(-3px); }
+}
+@keyframes c01-breath {
+  0%, 100% { box-shadow: inset 0 0 90px rgba(var(--accent-rgb),.08), 0 30px 90px rgba(0,0,0,.42); }
+  50% { box-shadow: inset 0 0 120px rgba(var(--accent-rgb),.13), 0 34px 110px rgba(0,0,0,.48); }
+}
+@keyframes c01-live-pulse {
+  from { border-color: rgba(111,231,255,.55); box-shadow: 0 0 34px rgba(111,231,255,.18); }
+  to { border-color: rgba(111,231,255,.14); box-shadow: none; }
+}
+
+@media (max-width: 680px) {
+  h1 { font-size: clamp(40px, 16vw, 76px); }
+  h2 { line-height: 1.02; }
+  .glass,
+  .page-intro,
+  .zero-card,
+  .cycle-card { border-radius: 22px; }
+  .home-development-grid.ui-organ-grid > article { min-height: 210px; }
+  .live-comment-card::before { font-size: .58rem; }
+}
