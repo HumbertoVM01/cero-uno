@@ -2,7 +2,9 @@ const API = {
   create: '/api/create-zero-one',
   list: '/api/list-zero-ones',
   tap: '/api/tap-zero-one',
-  stats: '/api/stats'
+  stats: '/api/stats',
+  listLiveComments: '/api/list-live-comments',
+  exportLiveCycle: '/api/export-live-cycle'
 };
 
 function deviceId() {
@@ -43,4 +45,21 @@ export async function tapZeroOne(id) {
 
 export async function getStats() {
   return request(API.stats);
+}
+
+
+export async function listLiveComments({ liveSessionId = '', limit = 120 } = {}) {
+  const params = new URLSearchParams();
+  if (liveSessionId) params.set('live_session_id', liveSessionId);
+  if (limit) params.set('limit', String(limit));
+  const qs = params.toString();
+  return request(`${API.listLiveComments}${qs ? `?${qs}` : ''}`);
+}
+
+export async function exportLiveCycle({ liveSessionId = '', limit = 2000 } = {}) {
+  const params = new URLSearchParams();
+  if (liveSessionId) params.set('live_session_id', liveSessionId);
+  if (limit) params.set('limit', String(limit));
+  const qs = params.toString();
+  return request(`${API.exportLiveCycle}${qs ? `?${qs}` : ''}`);
 }

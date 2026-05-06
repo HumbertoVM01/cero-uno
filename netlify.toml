@@ -36,3 +36,28 @@
   from = "/api/stats"
   to = "/.netlify/functions/stats"
   status = 200
+
+[[redirects]]
+  from = "/api/live-session-start"
+  to = "/.netlify/functions/live-session-start"
+  status = 200
+
+[[redirects]]
+  from = "/api/live-session-end"
+  to = "/.netlify/functions/live-session-end"
+  status = 200
+
+[[redirects]]
+  from = "/api/receive-live-comment"
+  to = "/.netlify/functions/receive-live-comment"
+  status = 200
+
+[[redirects]]
+  from = "/api/list-live-comments"
+  to = "/.netlify/functions/list-live-comments"
+  status = 200
+
+[[redirects]]
+  from = "/api/export-live-cycle"
+  to = "/.netlify/functions/export-live-cycle"
+  status = 200

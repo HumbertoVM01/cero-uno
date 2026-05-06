@@ -8,11 +8,11 @@ const FRAME_LABELS = {
   economico: 'Marco económico',
   artistico: 'Marco artístico',
   ontologico: 'Marco ontológico',
-  comunitario: 'Marco comunitario',
+  campo: 'Marco de Campo Vivo',
   tecnico: 'Marco técnico'
 };
 
-const FRAME_ORDER = ['economico', 'artistico', 'ontologico', 'comunitario', 'tecnico'];
+const FRAME_ORDER = ['economico', 'artistico', 'ontologico', 'campo', 'tecnico'];
 const MODE_ORDER = ['liberacion', 'examen', 'construccion', 'proteccion'];
 
 const FALLBACK_TENSIONS = [
@@ -20,13 +20,13 @@ const FALLBACK_TENSIONS = [
     id: 'precio_vs_valor',
     title: 'Precio vs. valor percibido',
     seed_phrase: 'Está caro.',
-    frames: ['económico', 'artístico', 'ontológico', 'comunitario', 'técnico']
+    frames: ['económico', 'artístico', 'ontológico', 'Campo Vivo', 'técnico']
   },
   {
     id: 'arte_vs_manualidad',
     title: 'Arte vs. manualidad',
     seed_phrase: 'Eso sólo es un pompón.',
-    frames: ['económico', 'artístico', 'ontológico', 'comunitario', 'técnico']
+    frames: ['económico', 'artístico', 'ontológico', 'Campo Vivo', 'técnico']
   }
 ];
 
@@ -51,14 +51,14 @@ function normalizeTension(tension, index) {
       id: `tension_${index}`,
       title: tension,
       seed_phrase: tension,
-      frames: ['económico', 'artístico', 'ontológico', 'comunitario', 'técnico']
+      frames: ['económico', 'artístico', 'ontológico', 'Campo Vivo', 'técnico']
     };
   }
   return {
     id: tension?.id || `tension_${index}`,
     title: tension?.title || tension?.id || `Tensión ${index + 1}`,
     seed_phrase: tension?.seed_phrase || tension?.title || 'Frase del campo',
-    frames: list(tension?.frames).length ? tension.frames : ['económico', 'artístico', 'ontológico', 'comunitario', 'técnico']
+    frames: list(tension?.frames).length ? tension.frames : ['económico', 'artístico', 'ontológico', 'Campo Vivo', 'técnico']
   };
 }
 
@@ -79,11 +79,11 @@ function frameText(tension, frameKey) {
       blind: 'Punto ciego: puede olvidar operación, consistencia, calidad, materiales, envío y límites económicos concretos.'
     },
     ontologico: {
-      body: `Lee “${phrase}” como choque entre objeto y comparecencia. Pregunta qué aparece cuando un pompón, un comentario, una secuencia y una comunidad se vuelven una misma zona viva.`,
+      body: `Lee “${phrase}” como choque entre objeto y comparecencia. Pregunta qué aparece cuando un pompón, un comentario, una secuencia y un Campo Vivo se vuelven una misma zona viva.`,
       blind: 'Punto ciego: puede elevar demasiado el fenómeno y perder contacto con la experiencia inmediata de quien sólo ve una bolita.'
     },
-    comunitario: {
-      body: `Lee “${phrase}” como señal social: pertenencia, defensa, burla, deseo, repetición, chisme, cuidado, FOMO y clima de live. No hay una voz única: hay campo.`,
+    campo: {
+      body: `Lee “${phrase}” como señal del Campo Vivo: pertenencia, defensa, burla, deseo, repetición, chisme, cuidado, FOMO y clima de live. No hay una voz única: hay campo.`,
       blind: 'Punto ciego: puede confundir intensidad social con verdad, valor o dirección estratégica.'
     },
     tecnico: {
@@ -101,7 +101,7 @@ function frameText(tension, frameKey) {
     base.ontologico.body = `Lee “${phrase}” como pregunta central: quizá Cero Uno no sirve como herramienta, sino como presencia que reorganiza relación, juego y significado.`;
   }
   if (id.includes('regalo')) {
-    base.comunitario.body = `Lee “${phrase}” como tensión entre generosidad, sorteo, regalo, venta, apoyo y sostenibilidad del ecosistema.`;
+    base.campo.body = `Lee “${phrase}” como tensión entre generosidad, sorteo, regalo, venta, apoyo y sostenibilidad del ecosistema.`;
     base.economico.body = `Lee “${phrase}” como equilibrio entre regalar para propagar y cobrar para que la práctica siga existiendo.`;
   }
 

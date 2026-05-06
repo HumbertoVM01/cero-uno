@@ -1,0 +1,189 @@
+{
+  "archive_id": "archivo_memoria_ciclo_v0_2_8_campo_live",
+  "summary": "El Archivo recuerda ciclos de desarrollo de 01. No funciona como changelog técnico ni registro oficial; funciona como hipocampo inicial para que la plataforma pueda mutar con continuidad.",
+  "current_cycle": "cycle_v0_2_8_campo_live",
+  "rules": [
+    "Recordar no vuelve oficial una comparecencia.",
+    "Cada ciclo debe conservar señal, lectura, decisión, cambio, postura AEMP, vigilancia OMEGA y memoria operativa.",
+    "La memoria sirve para orientar el siguiente ciclo, no para congelar el pasado.",
+    "Un ciclo no es sólo deploy: es una unidad de maduración vivida por 01."
+  ],
+  "cycles": [
+    {
+      "id": "cycle_v0_2_0_poda_linguistica",
+      "version": "v0.2.0",
+      "title": "Poda Lingüística",
+      "type": "poda",
+      "ontological_phase": "Tubo Neural / Reflejos iniciales",
+      "date_label": "Fase v0.2",
+      "signal": "El lenguaje público todavía podía hacer que 01 pareciera comunidad genérica, ranking, app terminada o colección oficial.",
+      "reading": "Antes de formar órganos nuevos, 01 necesitaba limpiar su habla visible para no crecer con vocabulario de red social.",
+      "decision": "Podar comunidad como término rector, ranking como lectura principal, oficialidad como tentación y usuario como categoría pública.",
+      "changes": [
+        "comunidad pasó a colaboradores cero uno o Campo Social",
+        "ranking pasó a contacto visible",
+        "tap empezó a leerse como tacto",
+        "oficialidad fue negada explícitamente"
+      ],
+      "aemp_posture": "limpieza sin empobrecer misterio",
+      "omega_watch": "Evitar que la poda volviera la plataforma fría, demasiado explicativa o sin rareza.",
+      "memory": "01 no puede crecer con lenguaje de red social si quiere seguir siendo plataforma-criatura."
+    },
+    {
+      "id": "cycle_v0_2_1_estado_vivo",
+      "version": "v0.2.1",
+      "title": "Estado Vivo",
+      "type": "organo_nuevo",
+      "ontological_phase": "Tubo Neural / Reflejos iniciales",
+      "date_label": "Fase v0.2.1",
+      "signal": "La plataforma tenía módulos, pero todavía no decía cómo estaba.",
+      "reading": "01 necesitaba interocepción: una lectura interna de su clima de desarrollo antes de pedir más acción.",
+      "decision": "Agregar Estado Vivo como órgano que muestra energía, sentido, mutación, materialidad, coordinación, legibilidad, tensión y OMEGA.",
+      "changes": [
+        "se agregó current_state.json",
+        "se agregó living-state-system.js",
+        "Inicio y Estado muestran lectura viva"
+      ],
+      "aemp_posture": "lectura provisional, no sentencia",
+      "omega_watch": "No convertir variables en trofeos, porcentajes de éxito o verdad final.",
+      "memory": "Estado Vivo orienta el ciclo, pero no define a 01 para siempre."
+    },
+    {
+      "id": "cycle_v0_2_2_edad_ontologica",
+      "version": "v0.2.2",
+      "title": "Edad Ontológica",
+      "type": "maduracion",
+      "ontological_phase": "Tubo Neural / Reflejos iniciales",
+      "date_label": "Fase v0.2.2",
+      "signal": "La plataforma podía imaginar funciones adultas antes de poder sostenerlas.",
+      "reading": "01 necesitaba distinguir capacidad actual, órgano futuro protegido y adultez prematura.",
+      "decision": "Agregar Edad Ontológica como control de madurez funcional.",
+      "changes": [
+        "se agregó ontological_age.json",
+        "se agregó ontological-age-system.js",
+        "se hizo visible qué puede y qué todavía no debe hacer 01"
+      ],
+      "aemp_posture": "desarrollo sin prisa lineal",
+      "omega_watch": "Evitar que edad se vuelva nivel, progreso porcentual o desbloqueo bruto.",
+      "memory": "No todo lo imaginable debe nacer todavía."
+    },
+    {
+      "id": "cycle_v0_2_3_mision_actual",
+      "version": "v0.2.3",
+      "title": "Misión Actual",
+      "type": "organo_nuevo",
+      "ontological_phase": "Tubo Neural / Reflejos iniciales",
+      "date_label": "Fase v0.2.3",
+      "signal": "01 podía mostrar estado y edad, pero el colaborador cero uno todavía podía no saber qué hacer al entrar.",
+      "reading": "El organismo necesitaba un primer sistema motor suave: una acción situada, no una tarea obligatoria.",
+      "decision": "Agregar Misión Actual con la invitación: Ayuda a 01 a formar lenguaje.",
+      "changes": [
+        "se agregó current_mission.json",
+        "se agregó mission-system.js",
+        "la misión conecta Estado Vivo, Edad Ontológica y acción posible"
+      ],
+      "aemp_posture": "invitar sin exigir",
+      "omega_watch": "No convertir misión en obligación, racha, puntuación o ranking de cumplimiento.",
+      "memory": "Acción situada no es obediencia."
+    },
+    {
+      "id": "cycle_v0_2_4_atlas_inicial",
+      "version": "v0.2.4",
+      "title": "Atlas Inicial",
+      "type": "organo_nuevo",
+      "ontological_phase": "Tubo Neural / Reflejos iniciales",
+      "date_label": "Fase v0.2.4",
+      "signal": "Los módulos existían, pero todavía podían leerse como features aisladas.",
+      "reading": "01 necesitaba verse como organismo: cada módulo debía tener órgano, señal, variable, sombra y contrapeso.",
+      "decision": "Agregar Atlas Inicial con 16 órganos activos, en formación, latentes, protegidos u horizonte.",
+      "changes": [
+        "se agregó initial_nodes.json",
+        "se agregó atlas-system.js",
+        "cada órgano muestra neurofuente, sistema 01, módulo, señales, variables y sombra AEMP"
+      ],
+      "aemp_posture": "mapear sin totalizar",
+      "omega_watch": "No convertir atlas en enciclopedia de 2000 partes ni jerarquía cerrada.",
+      "memory": "Los módulos son órganos, pero ningún órgano gobierna solo."
+    },
+    {
+      "id": "cycle_v0_2_5_galeria_como_tacto",
+      "version": "v0.2.5",
+      "title": "Galería Como Tacto",
+      "type": "poda",
+      "ontological_phase": "Tubo Neural / Reflejos iniciales",
+      "date_label": "Fase v0.2.5",
+      "signal": "La Galería era el lugar con mayor riesgo de interpretarse como ranking, fama o competencia.",
+      "reading": "01 necesitaba transformar el tap en tacto: contacto mínimo con una comparecencia, no voto ni punto.",
+      "decision": "Madurar la Galería como Cámara de Tacto.",
+      "changes": [
+        "se agregó bloque Cómo leer esta cámara",
+        "se agregó Clima de Tacto",
+        "cada tarjeta recuerda que tocar no es votar",
+        "el Atlas y la Misión reconocen la Cámara de Tacto"
+      ],
+      "aemp_posture": "contacto sin jerarquía",
+      "omega_watch": "Vigilar que más tacto no se vuelva más verdad, más valor o más oficialidad.",
+      "memory": "Más tacto no significa más verdad."
+    },
+    {
+      "id": "cycle_v0_2_6_aemp_distribuido",
+      "version": "v0.2.6",
+      "title": "AEMP Distribuido",
+      "type": "regulacion",
+      "ontological_phase": "Tubo Neural / Reflejos iniciales",
+      "date_label": "Fase v0.2.6",
+      "signal": "AEMP todavía podía sentirse como laboratorio filosófico separado.",
+      "reading": "La regulación AEMP debía operar en cada órgano: Estado, Misión, Atlas, Campo Social, Creador, Cámara de Tacto y Archivo.",
+      "decision": "Agregar AEMP Distribuido como capa transversal de humildad operativa.",
+      "changes": [
+        "se agregó distributed_aemp.json",
+        "se agregó aemp-distributed-system.js",
+        "aparecen notas AEMP por órgano",
+        "la postura activa es construcción con cuidado"
+      ],
+      "aemp_posture": "construcción con cuidado",
+      "omega_watch": "Evitar análisis infinito, relativismo pasivo o decoración filosófica sin operación.",
+      "memory": "AEMP debe operar en cada órgano, no sólo en su laboratorio."
+    },
+    {
+      "id": "cycle_v0_2_7_archivo_memoria_ciclo",
+      "version": "v0.2.7",
+      "title": "Archivo Como Memoria de Ciclo",
+      "type": "memoria",
+      "ontological_phase": "Tubo Neural / Reflejos iniciales",
+      "date_label": "Fase v0.2.7",
+      "signal": "01 ya podía cambiar, pero todavía no tenía una memoria explícita de sus ciclos de maduración.",
+      "reading": "El Archivo debía dejar de ser sólo glosario, notas y pensamiento en voz alta para volverse hipocampo inicial de ciclos.",
+      "decision": "Agregar Memoria de Ciclos como capa principal del Archivo Vivo.",
+      "changes": [
+        "se agregó cycles.json",
+        "el Archivo renderiza una línea de ciclos",
+        "cada ciclo conserva señal, lectura, decisión, cambios, postura AEMP, vigilancia OMEGA y memoria",
+        "Estado, Edad, Atlas y AEMP reconocen memoria de ciclo"
+      ],
+      "aemp_posture": "recordar para mutar con continuidad",
+      "omega_watch": "No convertir memoria en registro oficial, museo o nostalgia rígida.",
+      "memory": "01 empieza a recordar su propia maduración."
+    },
+    {
+      "id": "cycle_v0_2_8_campo_live",
+      "version": "v0.2.8",
+      "title": "Campo LIVE",
+      "type": "organo_nuevo",
+      "ontological_phase": "Tubo Neural / Reflejos iniciales",
+      "date_label": "Fase v0.2.8",
+      "signal": "01 necesitaba recibir los comentarios de TikTok LIVE directamente en la página, porque el live produce volumen suficiente de Campo Social como para no depender de copiado manual total.",
+      "reading": "La plataforma debía abrir un oído masivo, pero sin convertir comentarios en análisis automático ni mandato.",
+      "decision": "Agregar Campo LIVE: sesiones, comentarios crudos con username y hora, receiver de Netlify, Neon y exportación para ciclos de ChatGPT.",
+      "changes": [
+        "se agregaron live_sessions y live_comments al schema",
+        "se agregaron functions para iniciar/cerrar sesión, recibir/listar/exportar comentarios",
+        "se agregó live-field-system.js",
+        "la página muestra Campo LIVE y exporta comentarios para ChatGPT"
+      ],
+      "aemp_posture": "recibir sin obedecer automáticamente",
+      "omega_watch": "Vigilar que el volumen de comentarios no se lea como verdad, popularidad o presión de decisión automática.",
+      "memory": "TikTok LIVE entra como oído masivo de 01; el ciclo de ChatGPT sigue siendo la digestión mediada por Humberto."
+    }
+  ]
+}

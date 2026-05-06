@@ -3,7 +3,7 @@ const DEFAULT_SNAPSHOT_URL = '/data/comment-field/latest_snapshot.json';
 export const COMMENT_FIELD_FALLBACK = Object.freeze({
   schema_version: 'comment_field_snapshot.v1',
   snapshot_id: 'fallback_empty_field',
-  governing_phrase: 'El colectivo habla. Cero Uno escucha sin someterse.',
+  governing_phrase: 'El Campo Social emite señales. Cero Uno escucha sin someterse.',
   field_summary: 'El Campo Social todavía no ha cargado. La plataforma conserva su centro y espera el siguiente snapshot.',
   dominant_families: [],
   creator_suggestions: { colors: [], eyes: [], formats: [], scents: [], collective_prompt: '' },

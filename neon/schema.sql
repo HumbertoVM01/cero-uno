@@ -75,3 +75,35 @@ create table if not exists signals (
 
 -- Optional cleanup job to run manually or via scheduled function later:
 -- delete from tap_guard where created_at < now() - interval '24 hours';
+
+-- Campo LIVE · TikTok LIVE comments · v0.2.8
+-- Guarda comentarios crudos/semicrudos del live para exportarlos a ciclos de ChatGPT.
+-- No clasifica, no analiza y no actualiza Estado Vivo automáticamente.
+create table if not exists live_sessions (
+  id uuid primary key default gen_random_uuid(),
+  platform text not null default 'tiktok',
+  external_live_id text,
+  title text,
+  status text not null default 'active',
+  started_at timestamptz not null default now(),
+  ended_at timestamptz,
+  notes text
+);
+
+create table if not exists live_comments (
+  id uuid primary key default gen_random_uuid(),
+  live_session_id uuid references live_sessions(id) on delete cascade,
+  source text not null default 'tiktok_live',
+  event_type text not null default 'comment',
+  username text,
+  posted_at timestamptz,
+  text text not null check (char_length(text) <= 1000),
+  raw_event_id text,
+  raw_event jsonb not null default '{}'::jsonb,
+  dedupe_key text unique,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists live_sessions_status_started_idx on live_sessions (status, started_at desc);
+create index if not exists live_comments_session_created_idx on live_comments (live_session_id, created_at desc);
+create index if not exists live_comments_posted_at_idx on live_comments (posted_at desc);

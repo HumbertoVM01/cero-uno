@@ -3,12 +3,13 @@ import { bitSeed, interpretBits } from './sequence.js';
 import { playBits, playSequence } from './audio.js';
 
 const STORAGE_KEY = 'cero_uno_archive_living_notes_v1';
+const CYCLE_MEMORY_URL = './data/archive/cycles.json';
 const $ = (sel, root = document) => root.querySelector(sel);
 
 const BASE_GLOSSARY = Object.freeze([
   {
     term: 'Cero Uno',
-    body: 'Forma de comparecencia de la Sequencia de Binario Universal: puede aparecer como cuerpo, imagen, sonido, texto, plataforma, objeto, dibujo, live o gesto comunitario.'
+    body: 'Forma de comparecencia de la Sequencia de Binario Universal: puede aparecer como cuerpo, imagen, sonido, texto, plataforma, objeto, dibujo, live o gesto de colaboradores cero uno.'
   },
   {
     term: 'Campo Social',
@@ -16,19 +17,39 @@ const BASE_GLOSSARY = Object.freeze([
   },
   {
     term: 'Comparecencia',
-    body: 'Aparición situada del concepto. No requiere registro, autenticidad oficial ni soporte privilegiado.'
+    body: 'Aparición situada del concepto. No requiere registro oficial, autenticidad central ni soporte privilegiado.'
   },
   {
-    term: 'Tap',
+    term: 'Tacto',
     body: 'Contacto rítmico con una comparecencia. No es like, no es voto ontológico y no vuelve superior al Cero Uno que lo recibe.'
   },
   {
+    term: 'Cámara de Tacto',
+    body: 'Nombre operativo de la Galería cuando se entiende como órgano somatosensorial de 01. Su función no es mostrar ganadores, sino registrar contacto entre colaboradores cero uno y comparecencias.'
+  },
+  {
     term: 'Acta de Comparecencia',
-    body: 'Huella de generación de una aparición específica. No certifica propiedad ni oficialidad.'
+    body: 'Huella de generación de una aparición específica. No certifica propiedad ni vuelve oficial la aparición.'
   },
   {
     term: 'Archivo Vivo',
     body: 'Memoria del concepto: conserva aprendizaje, glosario, tensiones y reglas provisionales. No inventaria criaturas.'
+  },
+  {
+    term: 'Misión Actual',
+    body: 'Primer sistema motor suave de 01: traduce Estado Vivo y Edad Ontológica en una acción posible sin convertirla en tarea obligatoria, ranking ni definición final.'
+  },
+  {
+    term: 'Atlas Inicial',
+    body: 'Primer mapa visible de los órganos funcionales de 01. No contiene el atlas profundo de 2000+ partes; muestra sólo lo que la edad ontológica actual puede sostener.'
+  },
+  {
+    term: 'AEMP Distribuido',
+    body: 'Capa transversal que recuerda a cada órgano de 01 que su lectura es parcial, situada y regulable. No impide actuar; evita absolutizar.'
+  },
+  {
+    term: 'Campo LIVE',
+    body: 'Órgano de escucha que recibe comentarios de TikTok LIVE con username, hora y texto como Campo Social crudo. No analiza automáticamente: exporta materia para ciclos de ChatGPT con mediador humano.'
   }
 ]);
 
@@ -38,11 +59,18 @@ const BASE_RULES = Object.freeze([
   'Los comentarios se digieren como campo; no se publican crudos cuando pueden amplificar daño.',
   'Una tensión útil no necesita resolverse rápido: puede conservarse para AEMP.',
   'La plataforma escucha sin someterse y cambia sin perder centro.',
-  'Físico, virtual, sonoro, audiovisual, dibujado o hecho por otra persona tienen la misma dignidad de comparecencia.'
+  'Físico, virtual, sonoro, audiovisual, dibujado o hecho por otra persona tienen la misma dignidad de comparecencia.',
+  'Misión Actual invita acción situada: no puntos, no rachas, no ranking de cumplimiento.',
+  'Atlas Inicial muestra órganos funcionales, no un mapa total ni una enciclopedia adulta.',
+  '01 podó la Galería para convertirla en Cámara de Tacto: tocar una comparecencia no significa votar por ella, sino dejar una señal mínima de atención.',
+  '01 distribuyó AEMP: dejó de ser sólo un laboratorio de marcos y empezó a operar como regulación suave en Estado, Misión, Atlas, Campo Social y Cámara de Tacto.',
+  '01 abrió Campo LIVE: los comentarios de TikTok pueden entrar a la página como materia cruda para ciclos futuros. Oído masivo no significa cerebro automático.'
 ]);
 
 let snapshotCache = null;
 let localNotes = [];
+let cycleMemoryCache = null;
+let activeCycleFilter = 'all';
 
 function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>'"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[c]));
@@ -60,7 +88,8 @@ function typeLabel(type) {
     tension_conservada: 'Tensión conservada',
     regla_provisional: 'Regla provisional',
     mutacion_observada: 'Mutación observada',
-    artefacto_derivado: 'Artefacto derivado'
+    artefacto_derivado: 'Artefacto derivado',
+    memoria_de_ciclo: 'Memoria de ciclo'
   }[type] || 'Memoria viva';
 }
 
@@ -97,6 +126,108 @@ function hashCode(str) {
   const s = String(str || '');
   for (let i = 0; i < s.length; i += 1) h = Math.imul(31, h) + s.charCodeAt(i) | 0;
   return h;
+}
+
+
+function getCycleMemoryFallback() {
+  return {
+    summary: 'El Archivo recuerda ciclos para que 01 pueda mutar con continuidad.',
+    current_cycle: 'cycle_fallback_archivo',
+    rules: ['Recordar no vuelve oficial una comparecencia.', 'La memoria orienta el siguiente ciclo sin cerrar el pasado.'],
+    cycles: [
+      {
+        id: 'cycle_fallback_archivo',
+        version: 'v0.2.7',
+        title: 'Archivo Como Memoria de Ciclo',
+        type: 'memoria',
+        ontological_phase: 'Tubo Neural / Reflejos iniciales',
+        signal: 'El archivo está usando memoria mínima porque cycles.json no cargó.',
+        reading: '01 conserva una lectura de respaldo para no quedar sin hipocampo operativo.',
+        decision: 'Mostrar memoria de ciclo mínima y continuar la plataforma.',
+        changes: ['fallback de memoria activo'],
+        aemp_posture: 'recordar sin absolutizar',
+        omega_watch: 'No tratar este fallback como registro completo.',
+        memory: '01 empieza a recordar sus propios cambios.'
+      }
+    ]
+  };
+}
+
+async function loadCycleMemory() {
+  try {
+    const response = await fetch(CYCLE_MEMORY_URL, { cache: 'no-cache' });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const parsed = await response.json();
+    if (!parsed || !Array.isArray(parsed.cycles)) throw new Error('cycles.json sin ciclos');
+    return parsed;
+  } catch (error) {
+    console.warn('Archivo Vivo usó memoria de ciclo fallback:', error);
+    return getCycleMemoryFallback();
+  }
+}
+
+function cycleTypeLabel(type) {
+  return {
+    poda: 'Poda',
+    organo_nuevo: 'Órgano nuevo',
+    maduracion: 'Maduración',
+    regulacion: 'Regulación',
+    memoria: 'Memoria',
+    proteccion: 'Protección'
+  }[type] || 'Ciclo';
+}
+
+function cycleListItems(items) {
+  const list = Array.isArray(items) ? items.slice(0, 5) : [];
+  return list.length ? `<ul>${list.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : '';
+}
+
+function renderCycleCard(cycle) {
+  return `
+    <article class="cycle-card" data-cycle-type="${escapeHtml(cycle.type || 'ciclo')}">
+      <div class="cycle-card__meta">
+        <span>${escapeHtml(cycle.version || 'ciclo')}</span>
+        <span>${escapeHtml(cycleTypeLabel(cycle.type))}</span>
+      </div>
+      <h4>${escapeHtml(cycle.title || 'Ciclo sin título')}</h4>
+      <p class="cycle-phase">${escapeHtml(cycle.ontological_phase || 'fase no declarada')}</p>
+      <div class="cycle-section"><strong>Señal</strong><p>${escapeHtml(cycle.signal || 'Sin señal registrada.')}</p></div>
+      <div class="cycle-section"><strong>Lectura</strong><p>${escapeHtml(cycle.reading || 'Sin lectura registrada.')}</p></div>
+      <div class="cycle-section"><strong>Decisión</strong><p>${escapeHtml(cycle.decision || 'Sin decisión registrada.')}</p></div>
+      <div class="cycle-section"><strong>Cambios</strong>${cycleListItems(cycle.changes)}</div>
+      <div class="cycle-card__footer">
+        <div><strong>AEMP</strong><span>${escapeHtml(cycle.aemp_posture || 'postura no declarada')}</span></div>
+        <div><strong>OMEGA</strong><span>${escapeHtml(cycle.omega_watch || 'vigilancia no declarada')}</span></div>
+      </div>
+      <p class="cycle-memory-line"><strong>Memoria:</strong> ${escapeHtml(cycle.memory || '01 conserva este ciclo como continuidad.')}</p>
+    </article>
+  `;
+}
+
+function renderCycleMemory() {
+  const root = $('#cycle-memory-root');
+  if (!root) return;
+  const data = cycleMemoryCache || getCycleMemoryFallback();
+  const cycles = Array.isArray(data.cycles) ? data.cycles : [];
+  const types = [...new Set(cycles.map((cycle) => cycle.type).filter(Boolean))];
+  const visible = activeCycleFilter === 'all' ? cycles : cycles.filter((cycle) => cycle.type === activeCycleFilter);
+  root.innerHTML = `
+    <section class="cycle-memory-overview glass">
+      <div>
+        <div class="tagline">Memoria de Ciclos</div>
+        <h3>El hipocampo inicial de 01</h3>
+        <p>${escapeHtml(data.summary || 'El Archivo recuerda ciclos para que 01 pueda mutar con continuidad.')}</p>
+      </div>
+      <div class="cycle-memory-count"><strong>${String(cycles.length).padStart(2, '0')}</strong><span>ciclos recordados</span></div>
+    </section>
+    <div class="cycle-filter-row" role="group" aria-label="Filtrar memoria de ciclos">
+      <button type="button" data-cycle-filter="all" class="ghost-button ${activeCycleFilter === 'all' ? 'active' : ''}">Todos</button>
+      ${types.map((type) => `<button type="button" data-cycle-filter="${escapeHtml(type)}" class="ghost-button ${activeCycleFilter === type ? 'active' : ''}">${escapeHtml(cycleTypeLabel(type))}</button>`).join('')}
+    </div>
+    <div class="cycle-timeline">
+      ${visible.map(renderCycleCard).join('') || '<article class="cycle-card"><h4>Sin ciclos visibles</h4><p>La memoria no encontró ciclos para este filtro.</p></article>'}
+    </div>
+  `;
 }
 
 function snapshotEntries(snapshot) {
@@ -190,7 +321,7 @@ function renderGlossary() {
   const top = dominantFamily(snapshotCache);
   if (top) dynamic.push({ term: `Familia dominante: ${top.label}`, body: top.readout || 'Familia activa del Campo Social.' });
   (snapshotCache?.creator_suggestions?.formats || []).slice(0, 4).forEach((format) => {
-    dynamic.push({ term: `Formato soñado: ${format}`, body: 'Deseo de soporte o forma detectado en el Campo Social. No es pedido oficial; es semilla de creación.' });
+    dynamic.push({ term: `Formato soñado: ${format}`, body: 'Deseo de soporte o forma detectado en el Campo Social. No es mandato ni pedido oficial; es semilla de creación.' });
   });
   const items = [...BASE_GLOSSARY, ...dynamic].slice(0, 12);
   root.innerHTML = items.map((item, index) => `
@@ -214,13 +345,15 @@ function renderRules() {
   const root = $('#archive-rule-grid');
   if (!root) return;
   const directives = (snapshotCache?.platform_directives || []).slice(0, 6);
-  const rules = [...BASE_RULES, ...directives].slice(0, 12);
+  const cycleRules = Array.isArray(cycleMemoryCache?.rules) ? cycleMemoryCache.rules.slice(0, 4) : [];
+  const rules = [...BASE_RULES, ...cycleRules, ...directives].slice(0, 14);
   root.innerHTML = rules.map((rule, index) => `
     <article><strong>${String(index + 1).padStart(2, '0')}</strong><span>${escapeHtml(rule)}</span></article>
   `).join('');
 }
 
 function renderAll() {
+  renderCycleMemory();
   renderPulse();
   renderEntries();
   renderGlossary();
@@ -277,6 +410,13 @@ function playArchive() {
 }
 
 function wireEvents() {
+  $('#cycle-memory-root')?.addEventListener('click', (event) => {
+    const button = event.target?.closest?.('[data-cycle-filter]');
+    if (!button) return;
+    activeCycleFilter = button.dataset.cycleFilter || 'all';
+    renderCycleMemory();
+  });
+
   $('#archive-listen-memory')?.addEventListener('click', () => playArchive());
   $('#archive-capture-field')?.addEventListener('click', captureFieldPulse);
   $('#archive-save-note')?.addEventListener('click', saveManualNote);
@@ -321,7 +461,12 @@ function wireEvents() {
 export function initArchiveLivingSystem(snapshot) {
   snapshotCache = snapshot || {};
   localNotes = loadLocalNotes();
+  cycleMemoryCache = getCycleMemoryFallback();
   renderAll();
+  loadCycleMemory().then((memory) => {
+    cycleMemoryCache = memory;
+    renderAll();
+  });
   wireEvents();
   document.addEventListener('ceroUno:commentFieldUpdated', (event) => {
     snapshotCache = event.detail?.snapshot || snapshotCache;

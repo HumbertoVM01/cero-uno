@@ -2,7 +2,7 @@ const baseHeaders = {
   'Content-Type': 'application/json; charset=utf-8',
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, X-Cero-Uno-Device'
+  'Access-Control-Allow-Headers': 'Content-Type, X-Cero-Uno-Device, X-Live-Ingest-Secret, x-live-ingest-secret'
 };
 
 function normalize(value) {

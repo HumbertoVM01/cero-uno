@@ -16,11 +16,17 @@ import {
 import { playTapSound, playBits, playSequence, playDeployChime, playZeroOneSound } from './audio.js';
 import { initCommentField } from './comment-field-renderer.js';
 import { initCreatorFieldSystem } from './creator-field-system.js';
-import { initGallerySocialSystem, updateGallerySocialReadout, decorateGalleryCard, registerGalleryTapPulse } from './gallery-social-system.js';
+import { initGallerySocialSystem, updateGallerySocialReadout, updateGalleryTactileClimate, decorateGalleryCard, registerGalleryTapPulse, getTactileReading } from './gallery-social-system.js';
 import { initSequenceObservatorySystem, updateSequenceObservatory } from './sequence-observatory-system.js';
 import { initAempFieldSystem } from './aemp-field-system.js';
 import { initOriginLivingSystem } from './origin-living-system.js';
 import { initArchiveLivingSystem } from './archive-living-system.js';
+import { initLivingState } from './living-state-system.js';
+import { initOntologicalAge } from './ontological-age-system.js';
+import { initMissionSystem } from './mission-system.js';
+import { initAtlasSystem } from './atlas-system.js';
+import { initAempDistributedSystem } from './aemp-distributed-system.js';
+import { initLiveFieldSystem } from './live-field-system.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -32,7 +38,14 @@ const state = {
   assetsLoaded: false,
   consultedBits: '',
   consultedOffset: '',
-  commentSnapshot: null
+  commentSnapshot: null,
+  livingState: null,
+  ontologicalAge: null,
+  currentMission: null,
+  initialAtlas: null,
+  distributedAemp: null,
+  liveField: null,
+  gallerySort: 'top'
 };
 
 const HEX_SYMBOLS = '0123456789ABCDEF';
@@ -212,7 +225,7 @@ async function publishCurrent() {
     const payload = { ...state.current, parent_id: state.parentId };
     const { data } = await createZeroOne(payload);
     if (!data.ok) throw new Error(data.error || 'No se pudo publicar.');
-    showToast('Comparecencia publicada. Entró al archivo visible sin volverse oficial.');
+    showToast('Comparecencia publicada. Entró al archivo visible sin volverse registro oficial.');
     playDeployChime();
     state.parentId = null;
     await loadGallery('top');
@@ -236,17 +249,19 @@ function renderGallery(items, mode = 'connected', sort = 'top') {
       ? 'Sin conexión a Neon'
       : 'Neon conectado · esperando comparecencias publicadas');
     updateGallerySocialReadout([], sort);
+    updateGalleryTactileClimate([], sort);
     grid.innerHTML = `
       <article class="empty-gallery glass">
-        <h3>La galería todavía está en silencio visible.</h3>
+        <h3>La Cámara de Tacto todavía está en silencio visible.</h3>
         <p>${PLATFORM_COPY.galleryEmpty}</p>
         <p class="microcopy">Silencio no significa ausencia: sólo indica que Neon todavía no muestra comparecencias publicadas en esta cámara.</p>
         <a class="button" href="#creator">Crear una comparecencia</a>
       </article>`;
     return;
   }
-  safeText('#gallery-mode', sort === 'new' ? 'Neon conectado · aparición reciente' : 'Neon conectado · intensidad de contacto');
+  safeText('#gallery-mode', sort === 'new' ? 'Neon conectado · apariciones recientes' : 'Neon conectado · más tacto visible');
   updateGallerySocialReadout(list, sort);
+  updateGalleryTactileClimate(list, sort);
   list.forEach((z, index) => {
     const card = document.createElement('article');
     card.className = 'zero-card glass';
@@ -255,10 +270,12 @@ function renderGallery(items, mode = 'connected', sort = 'top') {
       <div class="card-body">
         <code class="genome-small"></code>
         <p class="scent"></p>
-        <div class="tap-row">
-          <button class="tap-button">TAP</button>
-          <strong class="tap-count">${toInt(z.tap_count).toLocaleString('es-MX')}</strong>
+        <div class="tap-row" aria-label="Tacto visible">
+          <button class="tap-button" title="Tocar no es votar. Es dejar una señal de contacto.">TOCAR</button>
+          <span class="tap-label"><strong class="tap-count">${toInt(z.tap_count).toLocaleString('es-MX')}</strong><em>tacto histórico</em></span>
         </div>
+        <p class="tactile-reading">${getTactileReading(toInt(z.tap_count))}</p>
+        <p class="tap-microcopy">Tocar no es votar; es dejar una señal mínima de contacto.</p>
         <button class="ghost-button listen-zero">Escuchar</button>
         <button class="ghost-button mutate-from">Mutar este Cero Uno</button>
       </div>`;
@@ -275,6 +292,7 @@ function renderGallery(items, mode = 'connected', sort = 'top') {
 }
 
 async function loadGallery(sort = 'top') {
+  state.gallerySort = sort;
   try {
     safeText('#gallery-mode', 'Leyendo Neon...');
     const { data } = await listZeroOnes(sort);
@@ -298,12 +316,16 @@ async function handleTap(z, card) {
     if (data.tap_count != null) {
       z.tap_count = data.tap_count;
       count.textContent = toInt(data.tap_count).toLocaleString('es-MX');
+      const tactileReading = $('.tactile-reading', card);
+      if (tactileReading) tactileReading.textContent = getTactileReading(toInt(data.tap_count));
+      updateGallerySocialReadout(state.published, state.gallerySort);
+      updateGalleryTactileClimate(state.published, state.gallerySort);
       await initStats();
     }
-    if (!data.accepted) showToast('Un tap por segundo. La sequencia no acepta autoclicker.');
+    if (!data.accepted) showToast('Un toque por segundo. La sequencia no acepta autoclicker.');
     else { card.classList.add('tap-pulse'); setTimeout(() => card.classList.remove('tap-pulse'), 520); registerGalleryTapPulse(card, z); }
   } catch (err) {
-    showToast(`Tap no registrado: ${err.message}`);
+    showToast(`Tacto no registrado: ${err.message}`);
   }
 }
 
@@ -371,15 +393,15 @@ function initAemp() {
   const frames = {
     economico: 'Ve costo, tiempo, comisiones, materiales, envío, sostenibilidad y presupuesto real. Es útil, pero no total.',
     artistico: 'Ve autoría, rareza, composición, cuerpo, ternura, textura y lenguaje visual. Es útil, pero no total.',
-    ontologico: 'Ve comparecencia: una secuencia universal entrando al mundo humano mediante criatura, gesto y comunidad.',
-    comunitario: 'Ve deseo, crítica, defensa, repetición, pertenencia, chisme, juego y señal social.',
+    ontologico: 'Ve comparecencia: una secuencia universal entrando al mundo humano mediante criatura, gesto y Campo Vivo.',
+    campo: 'Ve deseo, crítica, defensa, repetición, vínculo, chisme, juego y señal social del Campo Vivo.',
     tecnico: 'Ve Netlify, Neon, assets, functions, Web Audio, seed, estado local y datos mínimos.'
   };
   const blind = {
     economico: 'Punto ciego: puede reducir presencia, ritual, identidad y mundo a puro costo.',
     artistico: 'Punto ciego: puede olvidar logística, calidad, envío, precio y operación.',
     ontologico: 'Punto ciego: puede olvidar que alguien debe pegar, empacar, vender y contestar.',
-    comunitario: 'Punto ciego: puede confundir ruido con centro. La comunidad influye; no gobierna todo.',
+    campo: 'Punto ciego: puede confundir ruido con centro. El Campo Social influye; no gobierna todo.',
     tecnico: 'Punto ciego: puede dejar fuera ternura, mito, rareza y peso humano.'
   };
   $$('.frame-button').forEach((btn) => {
@@ -397,7 +419,7 @@ function initAemp() {
       const output = {
         liberacion: `${phrase} No tengo que aceptar esa reducción como verdad total.`,
         examen: `${phrase} Tiene una parte material cierta: sí hay pompón. Pero no agota el fenómeno.`,
-        construccion: `${phrase} Respondo construyendo: material simple + mundo vivo + autoría + comunidad.`,
+        construccion: `${phrase} Respondo construyendo: material simple + mundo vivo + autoría + colaboradores cero uno.`,
         proteccion: `${phrase} Si viene como humillación, no entra al centro; sólo se conserva la señal útil.`
       };
       safeText('#aemp-mode-output', output[mode] || 'Modo no encontrado.');
@@ -493,12 +515,23 @@ async function main() {
   initActa();
   const commentSnapshot = await initCommentField();
   state.commentSnapshot = commentSnapshot;
+  state.livingState = await initLivingState(commentSnapshot);
+  state.ontologicalAge = await initOntologicalAge(state.livingState);
+  state.currentMission = await initMissionSystem(state.livingState, state.ontologicalAge);
+  state.initialAtlas = await initAtlasSystem(state.livingState, state.ontologicalAge, state.currentMission);
+  state.distributedAemp = await initAempDistributedSystem({
+    livingState: state.livingState,
+    ontologicalAge: state.ontologicalAge,
+    currentMission: state.currentMission,
+    initialAtlas: state.initialAtlas
+  });
   initCreatorFieldSystem(commentSnapshot);
   initGallerySocialSystem(commentSnapshot);
   initSequenceObservatorySystem(commentSnapshot);
   initAempFieldSystem(commentSnapshot);
   initOriginLivingSystem(commentSnapshot);
   initArchiveLivingSystem(commentSnapshot);
+  state.liveField = await initLiveFieldSystem();
   randomizeCreator();
   startPreviewLoop();
   await Promise.allSettled([loadGallery('top'), initStats()]);

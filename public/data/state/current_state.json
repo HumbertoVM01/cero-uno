@@ -1,0 +1,139 @@
+{
+  "cycle_id": "cero_uno_v0_2_campo_live",
+  "updated_at_label": "Fase v0.2.8 · Campo LIVE",
+  "ontological_age": {
+    "phase": "Tubo Neural / Reflejos iniciales",
+    "short_label": "Sistema nervioso naciente",
+    "description": "01 ya puede recibir señales, crear comparecencias, registrar tacto y recordar ciclos iniciales. Todavía no debe gobernar, jerarquizar ni abrir sistemas adultos.",
+    "can_do": [
+      "recibir tacto",
+      "escuchar el Campo Social",
+      "crear comparecencias",
+      "mostrar memoria inicial",
+      "probar marcos AEMP"
+    ],
+    "cannot_do_yet": [
+      "gobernar colectivamente",
+      "jerarquizar colaboradores cero uno",
+      "certificar Cero Unos oficiales",
+      "automatizar interpretación profunda",
+      "abrir economía interna"
+    ]
+  },
+  "variables": {
+    "energia": {
+      "label": "Energía",
+      "value": 62,
+      "reading": "Hay atención viva y deseo de participar, pero todavía debe canalizarse con cuidado."
+    },
+    "sentido": {
+      "label": "Sentido",
+      "value": 48,
+      "reading": "La intuición existe, pero 01 todavía necesita explicar mejor qué está naciendo."
+    },
+    "mutacion": {
+      "label": "Mutación",
+      "value": 71,
+      "reading": "La plataforma ya produce variación, criaturas y lenguaje propio."
+    },
+    "materialidad": {
+      "label": "Materialidad",
+      "value": 39,
+      "reading": "La materia física existe, pero todavía no está integrada como órgano de plataforma."
+    },
+    "coordinacion": {
+      "label": "Coordinación",
+      "value": 32,
+      "reading": "Hay participación, pero todavía falta una misión común clara."
+    },
+    "legibilidad": {
+      "label": "Legibilidad",
+      "value": 44,
+      "reading": "01 tiene misterio, pero necesita una entrada más clara para nuevos colaboradores cero uno."
+    },
+    "tension": {
+      "label": "Tensión",
+      "value": 52,
+      "reading": "La tensión principal es entre misterio y claridad."
+    },
+    "omega": {
+      "label": "OMEGA",
+      "value": 21,
+      "reading": "El riesgo está bajo, pero la Cámara de Tacto debe vigilar cualquier presión por convertir contacto en ranking, oficialidad o exceso de recompensa."
+    }
+  },
+  "dominant_tension": "Misterio vs. legibilidad",
+  "recommended_mode": "construcción con cuidado",
+  "dominant_reading": "01 ya puede recordar ciclos y ahora abre Campo LIVE: los comentarios de TikTok LIVE pueden entrar a la página con username, hora y texto como Campo Social crudo. Todavía no se analizan automáticamente; se exportan para ciclos de ChatGPT mediados por Humberto.",
+  "soft_warning": "Campo LIVE es oído masivo, no cerebro automático. El volumen de comentarios no equivale a verdad, mandato ni Estado Vivo actualizado.",
+  "next_needed_organ": "Ciclo Actual / Mediación Manual",
+  "active_organs": [
+    {
+      "name": "Corteza",
+      "system_01": "Interfaz interpretativa",
+      "reason": "01 necesita volverse más legible sin perder profundidad."
+    },
+    {
+      "name": "Médula",
+      "system_01": "Acciones simples",
+      "reason": "La plataforma debe permitir gestos claros: crear, tocar, comentar."
+    },
+    {
+      "name": "Hipocampo",
+      "system_01": "Memoria de ciclos",
+      "reason": "01 necesita recordar sus fases para no mutar sin continuidad."
+    },
+    {
+      "name": "Tálamo",
+      "system_01": "Relevo de señales",
+      "reason": "El Campo Social emite señales que aún deben ser filtradas y traducidas."
+    },
+    {
+      "name": "Atlas Inicial",
+      "system_01": "Primer mapa del sistema nervioso de 01",
+      "reason": "01 ya puede mostrar sus órganos funcionales activos, en formación y protegidos."
+    },
+    {
+      "name": "Cámara de Tacto",
+      "system_01": "Registro somatosensorial de comparecencias",
+      "reason": "01 puede recibir señales de contacto sin convertirlas en ranking."
+    },
+    {
+      "name": "AEMP Distribuido",
+      "system_01": "Regulación transversal de marcos",
+      "reason": "01 ya puede actuar provisionalmente sin convertir sus lecturas en verdad final."
+    },
+    {
+      "name": "Archivo Como Memoria de Ciclo",
+      "system_01": "Hipocampo inicial / memoria de ciclos",
+      "reason": "01 puede recordar señales, decisiones, podas y órganos formados sin convertir memoria en registro oficial."
+    },
+    {
+      "name": "Campo LIVE",
+      "system_01": "Oído masivo del Campo Social",
+      "reason": "01 puede recibir comentarios TikTok LIVE como señal cruda para exportarlos a ciclos de ChatGPT."
+    }
+  ],
+  "distributed_aemp": {
+    "active": true,
+    "current_posture": "construcción con cuidado",
+    "reading": "01 puede seguir formando órganos, pero cada órgano debe mostrar su sombra y su contrapeso antes de ganar más poder."
+  },
+  "cycle_memory": {
+    "active": true,
+    "current_cycle": "Archivo Como Memoria de Ciclo",
+    "reading": "01 ya no sólo cambia; empieza a recordar qué cambió, por qué cambió y qué debe conservar para el siguiente ciclo.",
+    "next_need": "Ciclo de Mediación: convertir señales nuevas en el siguiente ciclo de manera explícita."
+  },
+  "live_field": {
+    "active": true,
+    "mode": "captura cruda y exportación para ciclo ChatGPT",
+    "reading": "TikTok LIVE puede alimentar el Campo Social de 01, pero la digestión ocurre después por ciclo, en chat, con mediación humana.",
+    "does_not_do": [
+      "clasificación automática",
+      "sentiment analysis",
+      "actualización automática de Estado Vivo",
+      "gobierno por comentarios"
+    ]
+  }
+}

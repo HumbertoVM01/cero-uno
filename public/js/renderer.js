@@ -157,7 +157,7 @@ export function drawActa(canvas, z) {
   ctx.fillText('ACTA DE COMPARECENCIA', 48, 70);
   ctx.font = '18px Inter, system-ui, sans-serif';
   ctx.fillStyle = 'rgba(255,255,255,0.84)';
-  writeWrapped(ctx, 'No certifica autenticidad. No declara oficialidad. Documenta una aparición temporal de Cero Uno.', 48, 108, 780, 26);
+  writeWrapped(ctx, 'No certifica autenticidad. No vuelve oficial la aparición. Documenta una comparecencia temporal de Cero Uno.', 48, 108, 780, 26);
   ctx.font = '20px ui-monospace, monospace';
   ctx.fillStyle = '#67fff0';
   writeWrapped(ctx, genomeCode(z), 48, 162, 805, 28);

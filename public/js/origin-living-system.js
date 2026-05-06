@@ -5,7 +5,7 @@ const ORIGIN_QUESTIONS = Object.freeze([
   {
     id: 'what_is_cero_uno',
     question: '¿Qué es un Cero Uno?',
-    reading: 'No es sólo producto, mascota o manualidad. Es una comparecencia de la Sequencia: puede aparecer como objeto, imagen, sonido, olor, comentario, video, plataforma o gesto comunitario.',
+    reading: 'No es sólo producto, mascota o manualidad. Es una comparecencia de la Sequencia: puede aparecer como objeto, imagen, sonido, olor, comentario, video, plataforma o gesto de colaboradores cero uno.',
     bits: '0100011011'
   },
   {
@@ -106,7 +106,7 @@ function originQuestionsFromSnapshot(snapshot) {
 function readingForFieldQuestion(question) {
   const q = String(question || '').toLowerCase();
   if (q.includes('sirve')) return 'El Campo Social pregunta por función. La Cámara de Origen responde: Cero Uno no sirve sólo como herramienta; sirve como criatura, símbolo, regalo, conversación y forma de organizar atención.';
-  if (q.includes('app') || q.includes('plataforma')) return 'El colectivo pregunta por la aplicación antes de que termine de estabilizarse. Esa pregunta también es origen: la plataforma nace porque el campo ya está pidiendo una casa para la comparecencia.';
+  if (q.includes('app') || q.includes('plataforma')) return 'El Campo Social pregunta por la aplicación antes de que termine de estabilizarse. Esa pregunta también es origen: la plataforma nace porque el campo ya está pidiendo una casa para la comparecencia.';
   if (q.includes('ia') || q.includes('chatgpt')) return 'La IA aparece como mediador, no como sustituto total. La mano, el live, el comentario, el objeto y el lenguaje siguen participando.';
   if (q.includes('por qué') || q.includes('porque') || q.includes('01')) return 'El 01 nombra una diferencia mínima que puede volverse mundo: cero/uno, ausencia/aparición, pregunta/respuesta, código/cuerpo.';
   return 'Esta pregunta del Campo Social no se clausura con una definición. Se conserva como puerta de entrada para que la plataforma explique menos y muestre más.';

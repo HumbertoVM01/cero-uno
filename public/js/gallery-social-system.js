@@ -74,6 +74,52 @@ function renderGalleryTensions(snapshot) {
   `).join('') || '<article><strong>Sin tensión dominante</strong><span>El campo está en latencia.</span></article>';
 }
 
+
+export function getTactileReading(tapCount = 0) {
+  const count = Number(tapCount || 0);
+  if (count <= 0) return 'Sin tacto visible todavía';
+  if (count <= 3) return 'Tacto naciente';
+  if (count <= 10) return 'Tacto suave';
+  if (count <= 25) return 'Zona activa de contacto';
+  if (count <= 50) return 'Tacto intenso';
+  return 'Tacto persistente';
+}
+
+function buildTactileClimate(items = [], sort = 'top') {
+  const list = Array.isArray(items) ? items : [];
+  const count = list.length;
+  const total = list.reduce((sum, item) => sum + Number(item.tap_count || 0), 0);
+  const touched = list.filter((item) => Number(item.tap_count || 0) > 0).length;
+  const max = list.reduce((best, item) => Math.max(best, Number(item.tap_count || 0)), 0);
+  const dominant = count > 0 && max > 0 ? max / Math.max(1, total) : 0;
+  const reading = !count
+    ? 'La cámara todavía espera comparecencias visibles.'
+    : !total
+      ? 'Hay comparecencias visibles, pero el campo aún no dejó tacto.'
+      : dominant > 0.65
+        ? 'El tacto está concentrado en pocas formas; conviene vigilar presión competitiva.'
+        : touched >= Math.max(2, Math.ceil(count * 0.35))
+          ? 'El Campo Social está tocando varias formas; hay contacto distribuido.'
+          : 'El tacto empieza a aparecer, todavía como señal naciente.';
+  const order = sort === 'new' ? 'apariciones recientes' : 'más tacto visible';
+  return { count, total, touched, max, order, reading };
+}
+
+export function updateGalleryTactileClimate(items = [], sort = 'top') {
+  const el = $('#gallery-tactile-climate');
+  if (!el) return;
+  const climate = buildTactileClimate(items, sort);
+  el.innerHTML = `
+    <div class="tagline">Clima de Tacto</div>
+    <div class="gallery-tactile-metrics">
+      <span><strong>${climate.count.toLocaleString('es-MX')}</strong><i>comparecencias visibles</i></span>
+      <span><strong>${climate.total.toLocaleString('es-MX')}</strong><i>tacto histórico visible</i></span>
+      <span><strong>${climate.touched.toLocaleString('es-MX')}</strong><i>formas tocadas</i></span>
+    </div>
+    <p>${escapeHtml(climate.reading)}</p>
+    <small>Orden actual: ${escapeHtml(climate.order)}. Más tacto visible no equivale a más verdad ni más oficialidad.</small>`;
+}
+
 function computeGalleryMode(snapshot) {
   const affection = family(snapshot, 'affection_tenderness')?.intensity || 0;
   const desire = family(snapshot, 'customization_desire')?.intensity || 0;
@@ -84,22 +130,22 @@ function computeGalleryMode(snapshot) {
   if (noise >= 0.86 && defense >= 0.78) return {
     id: 'protected_pressure',
     label: 'clima: presión protegida',
-    body: 'Hay ruido y defensa a la vez. La Galería muestra contacto sin premiar agresión: las comparecencias respiran con borde de protección.'
+    body: 'Hay ruido y defensa a la vez. La Cámara de Tacto muestra contacto sin premiar agresión: las comparecencias respiran con borde de protección.'
   };
   if (tension >= 0.9) return {
     id: 'value_debate',
     label: 'clima: debate de valor',
-    body: 'El Campo Social está preguntando por precio, valor, arte y manualidad. La Galería muestra intensidad de contacto, no superioridad ni autenticidad.'
+    body: 'El Campo Social está preguntando por precio, valor, arte y manualidad. La Cámara de Tacto muestra zonas de contacto, no superioridad ni autenticidad.'
   };
   if (affection >= 0.8 && desire >= 0.8) return {
     id: 'tender_desire',
     label: 'clima: ternura deseante',
-    body: 'El colectivo quiere tocar, personalizar y acercarse. Los taps se leen como microcontacto, no como likes.'
+    body: 'El Campo Social quiere tocar, personalizar y acercarse. Los toques se leen como microcontacto, no como likes.'
   };
   return {
     id: 'listening',
     label: 'clima: escucha abierta',
-    body: 'La Galería está escuchando el Campo Social y ordena las comparecencias como zonas de atención temporal.'
+    body: 'La Cámara de Tacto está escuchando el Campo Social y muestra comparecencias como zonas temporales de contacto.'
   };
 }
 
@@ -137,8 +183,8 @@ export function updateGallerySocialReadout(items = [], sort = 'top') {
   const count = Array.isArray(items) ? items.length : 0;
   const taps = (Array.isArray(items) ? items : []).reduce((sum, item) => sum + Number(item.tap_count || 0), 0);
   const readout = count
-    ? `${count.toLocaleString('es-MX')} comparecencia${count === 1 ? '' : 's'} · ${taps.toLocaleString('es-MX')} contacto${taps === 1 ? '' : 's'} visibles · orden: ${sort === 'new' ? 'aparición reciente' : 'intensidad de contacto'}`
-    : 'La Galería todavía está en silencio visible.';
+    ? `${count.toLocaleString('es-MX')} comparecencia${count === 1 ? '' : 's'} · ${taps.toLocaleString('es-MX')} señal${taps === 1 ? '' : 'es'} de tacto visibles · lectura: ${sort === 'new' ? 'apariciones recientes' : 'más tacto visible'}`
+    : 'La Cámara de Tacto todavía no muestra contacto visible.';
   setText('#gallery-social-readout', readout);
 }
 
@@ -147,21 +193,18 @@ export function decorateGalleryCard(card, zeroOne, context = {}) {
   const tapCount = Number(zeroOne.tap_count || 0);
   const rank = Number(context.rank || 0);
   const total = Number(context.total || 0);
-  const isTop = rank > 0 && rank <= 3 && tapCount > 0;
   const isQuiet = tapCount === 0;
-  const tier = isTop ? 'high-contact' : isQuiet ? 'latent' : 'contacted';
+  const tier = tapCount > 10 ? 'high-contact' : isQuiet ? 'latent' : 'contacted';
   card.dataset.socialTier = tier;
   card.style.setProperty('--contact-meter', `${Math.min(100, Math.max(6, tapCount * 7))}%`);
 
   const body = $('.card-body', card);
   if (!body || $('.gallery-social-layer', body)) return;
 
-  const phrase = isTop
-    ? 'Zona de contacto alto · no superioridad.'
-    : isQuiet
-      ? 'Latencia visible · esperando primer contacto.'
-      : 'Contacto acumulado · comparecencia en circulación.';
-  const rankText = rank && total ? `#${rank} de ${total}` : 'sin rango fijo';
+  const phrase = isQuiet
+    ? 'Latencia visible · esperando primer tacto.'
+    : `${getTactileReading(tapCount)} · no superioridad.`;
+  const rankText = rank && total ? `ubicación temporal ${rank}/${total}` : 'sin rango fijo';
   const field = computeGalleryMode(window.__ceroUnoGalleryField || {});
 
   const layer = document.createElement('div');
@@ -180,7 +223,7 @@ export function registerGalleryTapPulse(card, zeroOne) {
   card.classList.add('gallery-contact-accepted');
   setTimeout(() => card.classList.remove('gallery-contact-accepted'), 820);
   const copy = $('.gallery-social-copy span', card);
-  if (copy) copy.textContent = 'tap aceptado · contacto, no like · retorno blando';
+  if (copy) copy.textContent = 'tacto aceptado · contacto, no voto · retorno blando';
   const bits = zeroOne?.genome_code || zeroOne?.genome_hash || '0100011011';
   playSequence(`${bits}|tap-contact`, 8);
 }

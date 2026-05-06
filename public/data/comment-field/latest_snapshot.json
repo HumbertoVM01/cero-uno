@@ -2,11 +2,11 @@
   "schema_version": "comment_field_snapshot.v1",
   "snapshot_id": "comment_field_2026_05_03_phase51a_initial_digest",
   "generated_for": "CERO_UNO_PLATFORM_PHASE_5_1A",
-  "source_description": "Digest seguro derivado de comentarios recientes de posts, lives y comentarios anteriores proporcionados por Cero Uno. No incluye un registro crudo ni pretende representar a todo el colectivo.",
+  "source_description": "Digest seguro derivado de comentarios recientes de posts, lives y comentarios anteriores proporcionados por Cero Uno. No incluye un registro crudo ni pretende representar a todo el Campo Social.",
   "public_visibility": "digest_only_no_raw_comment_dump",
-  "governing_phrase": "El colectivo habla. Cero Uno escucha sin someterse.",
+  "governing_phrase": "El Campo Social emite señales. Cero Uno escucha sin someterse.",
   "field_summary": "El campo social está intensamente vivo: ternura y deseo de pertenencia, confusión conceptual, debate fuerte sobre precio/valor/manualidad/arte, solicitudes de personalización, curiosidad por la app, memoria de nombres anteriores, ruido agresivo y una defensa comunitaria muy activa. La plataforma debe responder con claridad, creación, AEMP y mutación, no con justificación reactiva.",
-  "cycle_interpretation": "Este snapshot no es opinión final del colectivo. Es presión viva para decidir cómo comparece la plataforma en el siguiente ciclo.",
+  "cycle_interpretation": "Este snapshot no es opinión final del Campo Social. Es presión viva para decidir cómo comparece la plataforma en el siguiente ciclo.",
   "dominant_families": [
     {
       "id": "affection_tenderness",
@@ -87,7 +87,7 @@
       "label": "Deseo de personalización",
       "intensity": 0.93,
       "polarity": "generative",
-      "readout": "El colectivo imagina colores, olores, formas, llaveros, broches, gorros, gigantes, velas y combinaciones específicas.",
+      "readout": "El Campo Social imagina colores, olores, formas, llaveros, broches, gorros, gigantes, velas y combinaciones específicas.",
       "safe_fragments": [
         "uno lila con blanco y rosa",
         "olor a coco",
@@ -113,7 +113,7 @@
       "label": "Defensa comunitaria y cuidado",
       "intensity": 0.83,
       "polarity": "protective",
-      "readout": "Hay una comunidad que traduce, defiende, calma, acompaña y pone límites al ruido.",
+      "readout": "Hay colaboradores cero uno que traducen, defienden, calman, acompañan y ponen límites al ruido.",
       "safe_fragments": [
         "déjenlo en paz",
         "no está haciendo nada malo",
@@ -254,7 +254,7 @@
         "económico",
         "artístico",
         "ontológico",
-        "comunitario",
+        "Campo Vivo",
         "técnico"
       ]
     },
@@ -301,7 +301,7 @@
       "frames": [
         "generosidad",
         "sostenibilidad",
-        "comunidad",
+        "colaboradores cero uno",
         "tienda",
         "deseo"
       ]
@@ -342,7 +342,7 @@
     "show_minor_drama": false,
     "amplify_hate": false,
     "digest_allowed": true,
-    "preferred_language": "el colectivo / una voz / varias voces / el campo insistió",
+    "preferred_language": "el Campo Social / una voz / varias voces / el campo insistió",
     "note": "Los comentarios crudos pueden seguir existiendo como entrada privada de mediación. La plataforma pública consume snapshots seguros."
   },
   "visual_weather": {
