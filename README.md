@@ -359,3 +359,36 @@ Reglas de esta capa estética:
 - Archivo recuerda ciclos; no funciona como changelog técnico ni registro oficial.
 - AEMP aparece como regulación ligera, no como clase de filosofía.
 - La incompletud de 01 debe verse como desarrollo, no como defecto.
+
+## Campo LIVE · Corrección de ingesta v0.3.2-fix
+
+Si Campo LIVE aparece vacío, revisar en este orden:
+
+1. **Variables de entorno Netlify**
+   - `DATABASE_URL` o `NEON_DATABASE_URL`
+   - `LIVE_INGEST_SECRET`
+
+2. **Schema aplicado en Neon**
+   - Deben existir `live_sessions` y `live_comments`.
+   - Ejecutar `npm run db:apply` localmente con `DATABASE_URL`, o aplicar `neon/schema.sql` en Neon.
+
+3. **Probar receiver sin TikTok**
+
+```bash
+curl -X POST "https://TU_DOMINIO.netlify.app/api/receive-live-comment" \
+  -H "content-type: application/json" \
+  -H "x-live-ingest-secret: TU_SECRETO" \
+  -d '{
+    "source":"tiktok_live",
+    "username":"prueba01",
+    "posted_at":"2026-05-05T21:14:32-06:00",
+    "text":"Comentario de prueba Campo LIVE",
+    "external_live_id":"live-prueba"
+  }'
+```
+
+4. **Abrir `/live` y actualizar comentarios**
+
+Desde esta corrección, `receive-live-comment` ya no requiere `live_session_id`: si el conector externo no lo manda, la función crea o reutiliza una sesión activa automáticamente. También acepta payloads flexibles con `text`, `comment`, `message`, `data.comment`, `user.uniqueId`, `uniqueId`, etc.
+
+Campo LIVE sigue sin clasificar ni analizar comentarios. Sólo recibe, guarda, muestra y exporta para ciclo ChatGPT con mediador humano.
