@@ -30,7 +30,6 @@ const INLINE_TARGETS = Object.freeze({
   atlas: '#aemp-note-atlas',
   galeria: '#aemp-note-galeria',
   campo: '#aemp-note-campo',
-  live: '#aemp-note-live',
   creator: '#aemp-note-creator',
   archivo: '#aemp-note-archivo'
 });

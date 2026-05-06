@@ -1,11 +1,11 @@
 {
-  "atlas_id": "atlas_inicial_01_v0_2_8_campo_live",
+  "atlas_id": "atlas_inicial_01_v0_3_2_campo_social_compilado",
   "phase": "Tubo Neural / Reflejos iniciales",
   "summary": "El Atlas Inicial muestra los primeros órganos funcionales que 01 ya puede sostener. No es el atlas profundo de 2000+ partes; es el primer mapa operativo del Repo Código actual.",
-  "warning": "Ningún órgano gobierna solo. Campo LIVE recibe volumen, pero no produce verdad automática: los comentarios entran como materia cruda para mediación humana y lectura AEMP posterior.",
+  "warning": "Ningún órgano gobierna solo. Campo Social Compilado reúne volumen acumulado, pero no produce verdad automática: los comentarios entran como materia cruda para mediación humana y lectura AEMP posterior.",
   "next_needed_organ": {
     "name": "Ciclo Actual / Mediación Manual",
-    "reason": "01 ya puede recibir comentarios LIVE; ahora necesita convertir exportaciones del Campo LIVE en lectura, decisión y memoria de ciclo."
+    "reason": "01 ya puede compilar comentarios Campo Social; ahora necesita convertir exportaciones del Campo Social Compilado en lectura, decisión y memoria de ciclo."
   },
   "nodes": [
     {
@@ -386,18 +386,17 @@
       "counterbalance": "No registro y archivo no inventarial"
     },
     {
-      "id": "campo_live",
-      "name": "Campo LIVE",
+      "id": "campo_social_compilado",
+      "name": "Campo Social Compilado",
       "neuro_source": "Entrada sensorial auditivo-social / raíz dorsal ampliada",
-      "system_01": "Oído masivo del Campo Social",
-      "repo_module": "live-field-system.js + live_sessions/live_comments",
+      "system_01": "Memoria social acumulada del Campo Social",
+      "repo_module": "social-field-system.js + social_posts/social_comments",
       "status": "en formación",
       "reads": [
-        "comentarios TikTok LIVE",
+        "comentarios posts de TikTok",
         "username público",
         "hora de posteo",
-        "texto crudo",
-        "sesión de live"
+        "texto crudo"
       ],
       "touches": [
         "Sentido",
@@ -406,9 +405,15 @@
         "Memoria",
         "Cuidado"
       ],
-      "description": "Recibe comentarios de TikTok LIVE como Campo Social crudo. Los muestra y exporta para ciclos de ChatGPT; no clasifica ni modifica Estado Vivo automáticamente.",
+      "description": "Compila comentarios de posts de TikTok como Campo Social crudo. Los muestra, deduplica y exporta para ciclos de ChatGPT; no clasifica ni modifica Estado Vivo automáticamente.",
       "shadow": "Confundir volumen de comentarios con verdad, mandato o inteligencia automática.",
-      "counterbalance": "mediador humano + AEMP Distribuido + Archivo Como Memoria de Ciclo"
+      "counterbalance": "mediador humano + AEMP Distribuido + Archivo Como Memoria de Ciclo",
+      "signals": [
+        "comentarios de posts de TikTok",
+        "scraper/importación JSON-CSV-texto",
+        "huella social acumulada",
+        "export de ciclo"
+      ]
     }
   ]
 }

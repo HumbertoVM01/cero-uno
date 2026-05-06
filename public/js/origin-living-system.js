@@ -29,13 +29,13 @@ const ORIGIN_QUESTIONS = Object.freeze([
   {
     id: 'gift_history',
     question: '¿Cuándo empezó a salir al mundo?',
-    reading: 'Antes del sitio ya había práctica material: meses de lives y más de 200 Cero Unos regalados. La plataforma no inaugura esa vida; aprende a escucharla.',
+    reading: 'Antes del sitio ya había práctica material: meses de streams y más de 200 Cero Unos regalados. La plataforma no inaugura esa vida; aprende a escucharla.',
     bits: '11100001'
   },
   {
     id: 'festival_capture',
     question: '¿Qué fue lo del Festival de Flores?',
-    reading: 'No fue el primer regalo en persona. Fue la primera captura audiovisual accidental de una transferencia material durante live: evidencia visible de una práctica previa.',
+    reading: 'No fue el primer regalo en persona. Fue la primera captura audiovisual accidental de una transferencia material durante stream: evidencia visible de una práctica previa.',
     bits: '01001110'
   },
   {
@@ -107,7 +107,7 @@ function readingForFieldQuestion(question) {
   const q = String(question || '').toLowerCase();
   if (q.includes('sirve')) return 'El Campo Social pregunta por función. La Cámara de Origen responde: Cero Uno no sirve sólo como herramienta; sirve como criatura, símbolo, regalo, conversación y forma de organizar atención.';
   if (q.includes('app') || q.includes('plataforma')) return 'El Campo Social pregunta por la aplicación antes de que termine de estabilizarse. Esa pregunta también es origen: la plataforma nace porque el campo ya está pidiendo una casa para la comparecencia.';
-  if (q.includes('ia') || q.includes('chatgpt')) return 'La IA aparece como mediador, no como sustituto total. La mano, el live, el comentario, el objeto y el lenguaje siguen participando.';
+  if (q.includes('ia') || q.includes('chatgpt')) return 'La IA aparece como mediador, no como sustituto total. La mano, el stream, el comentario, el objeto y el lenguaje siguen participando.';
   if (q.includes('por qué') || q.includes('porque') || q.includes('01')) return 'El 01 nombra una diferencia mínima que puede volverse mundo: cero/uno, ausencia/aparición, pregunta/respuesta, código/cuerpo.';
   return 'Esta pregunta del Campo Social no se clausura con una definición. Se conserva como puerta de entrada para que la plataforma explique menos y muestre más.';
 }

@@ -9,7 +9,7 @@ const $ = (sel, root = document) => root.querySelector(sel);
 const BASE_GLOSSARY = Object.freeze([
   {
     term: 'Cero Uno',
-    body: 'Forma de comparecencia de la Sequencia de Binario Universal: puede aparecer como cuerpo, imagen, sonido, texto, plataforma, objeto, dibujo, live o gesto de colaboradores cero uno.'
+    body: 'Forma de comparecencia de la Sequencia de Binario Universal: puede aparecer como cuerpo, imagen, sonido, texto, plataforma, objeto, dibujo, stream o gesto de colaboradores cero uno.'
   },
   {
     term: 'Campo Social',
@@ -48,8 +48,8 @@ const BASE_GLOSSARY = Object.freeze([
     body: 'Capa transversal que recuerda a cada órgano de 01 que su lectura es parcial, situada y regulable. No impide actuar; evita absolutizar.'
   },
   {
-    term: 'Campo LIVE',
-    body: 'Órgano de escucha que recibe comentarios de TikTok LIVE con username, hora y texto como Campo Social crudo. No analiza automáticamente: exporta materia para ciclos de ChatGPT con mediador humano.'
+    term: 'Campo Social Compilado',
+    body: 'Órgano de escucha acumulada que reúne comentarios de posts de TikTok como Campo Social crudo. No analiza automáticamente: exporta materia para ciclos de ChatGPT con mediador humano.'
   }
 ]);
 
@@ -64,7 +64,7 @@ const BASE_RULES = Object.freeze([
   'Atlas Inicial muestra órganos funcionales, no un mapa total ni una enciclopedia adulta.',
   '01 podó la Galería para convertirla en Cámara de Tacto: tocar una comparecencia no significa votar por ella, sino dejar una señal mínima de atención.',
   '01 distribuyó AEMP: dejó de ser sólo un laboratorio de marcos y empezó a operar como regulación suave en Estado, Misión, Atlas, Campo Social y Cámara de Tacto.',
-  '01 abrió Campo LIVE: los comentarios de TikTok pueden entrar a la página como materia cruda para ciclos futuros. Oído masivo no significa cerebro automático.'
+  '01 reemplazó la escucha en vivo por Campo Social Compilado: los comentarios de posts pueden entrar a la página como huella acumulada para ciclos futuros. Campo acumulado no significa cerebro automático.'
 ]);
 
 let snapshotCache = null;
@@ -302,8 +302,8 @@ function renderEntries() {
   const entries = allEntries();
   setText('#archive-entry-count', `${entries.length} entradas`);
   root.innerHTML = entries.map((entry) => `
-    <article class="archive-live-entry" data-type="${escapeHtml(entry.type)}">
-      <div class="archive-live-entry-head">
+    <article class="archive-memory-entry" data-type="${escapeHtml(entry.type)}">
+      <div class="archive-memory-entry-head">
         <span>${escapeHtml(typeLabel(entry.type))}</span>
         <code>${escapeHtml(entry.bits || '0100011011')}</code>
       </div>

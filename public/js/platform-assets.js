@@ -1,5 +1,5 @@
 export const CERO_UNO_CANON = Object.freeze({
-  version: 'phase6_9_campo_live',
+  version: 'phase7_campo_social_compilado',
   governing_phrase: 'No se registran Cero Unos. Se propagan comparecencias.',
   noOfficialInstances: true,
   physicalVirtualParity: true,
@@ -11,7 +11,7 @@ export const SCENT_LEXICON = Object.freeze([
   'pompón recién abierto',
   'gema tibia guardada en bolsillo',
   'electricidad suave con baby powder',
-  'festival de flores después del live',
+  'festival de flores después del stream',
   'pegamento escolar y binario limpio',
   'algodón de deploy nocturno',
   'plástico dulce de ojitos nuevos',
@@ -52,18 +52,18 @@ export const MODULES = Object.freeze([
   { id: 'sequencia', label: 'Sequencia', consumes: ['binary_query', 'bit_pair_sonification'] },
   { id: 'aemp', label: 'AEMP', consumes: ['frames', 'modes', 'blind_spots'] },
   { id: 'aemp_distribuido', label: 'AEMP Distribuido', consumes: ['module_readings', 'posture', 'omega_guardrails'] },
-  { id: 'live', label: 'Campo LIVE', consumes: ['tiktok_live_comments', 'live_sessions', 'cycle_export'] },
+  { id: 'campo_social_compilado', label: 'Campo Social Compilado', consumes: ['tiktok_post_comments', 'social_posts', 'social_comments', 'cycle_export'] },
   { id: 'origen', label: 'Origen', consumes: ['creator_trace', 'material_comparecencia_context', 'comment_field_questions', 'no_registry_canon', 'history_without_cult'] },
   { id: 'archivo', label: 'Archivo', consumes: ['living_glossary', 'tension_cards', 'memory_not_registry'] }
 ]);
 
 export const MODULE_DOCTRINE = Object.freeze({
 
-  live: {
-    organ: 'Oído masivo del Campo Social',
-    reads: ['comentarios TikTok LIVE', 'username público', 'hora de posteo', 'texto crudo'],
+  campo_social_compilado: {
+    organ: 'Memoria social acumulada',
+    reads: ['comentarios de posts de TikTok', 'username público', 'hora de comentario', 'texto crudo'],
     touches: ['Sentido', 'Legibilidad', 'Tensión', 'Memoria'],
-    omega: 'Confundir volumen de comentarios con verdad, mandato o análisis automático.'
+    omega: 'Confundir volumen acumulado de comentarios con verdad, mandato o análisis automático.'
   },
   aemp_distribuido: {
     organ: 'Regulación transversal de marcos',

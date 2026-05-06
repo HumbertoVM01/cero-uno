@@ -2,7 +2,7 @@
   "schema_version": "comment_field_snapshot.v1",
   "snapshot_id": "comment_field_2026_05_03_phase51a_initial_digest",
   "generated_for": "CERO_UNO_PLATFORM_PHASE_5_1A",
-  "source_description": "Digest seguro derivado de comentarios recientes de posts, lives y comentarios anteriores proporcionados por Cero Uno. No incluye un registro crudo ni pretende representar a todo el Campo Social.",
+  "source_description": "Digest seguro derivado de comentarios recientes de posts, streams y comentarios anteriores proporcionados por Cero Uno. No incluye un registro crudo ni pretende representar a todo el Campo Social.",
   "public_visibility": "digest_only_no_raw_comment_dump",
   "governing_phrase": "El Campo Social emite señales. Cero Uno escucha sin someterse.",
   "field_summary": "El campo social está intensamente vivo: ternura y deseo de pertenencia, confusión conceptual, debate fuerte sobre precio/valor/manualidad/arte, solicitudes de personalización, curiosidad por la app, memoria de nombres anteriores, ruido agresivo y una defensa comunitaria muy activa. La plataforma debe responder con claridad, creación, AEMP y mutación, no con justificación reactiva.",

@@ -1,12 +1,12 @@
 {
-  "cycle_id": "cero_uno_v0_2_campo_live",
-  "updated_at_label": "Fase v0.2.8 · Campo LIVE",
+  "cycle_id": "cero_uno_v0_3_2_campo_social_compilado",
+  "updated_at_label": "Fase v0.3.2 · Campo Social Compilado",
   "ontological_age": {
     "phase": "Tubo Neural / Reflejos iniciales",
     "short_label": "Sistema nervioso naciente",
-    "description": "01 ya puede recibir señales, crear comparecencias, registrar tacto y recordar ciclos iniciales. Todavía no debe gobernar, jerarquizar ni abrir sistemas adultos.",
+    "description": "01 ya puede compilar señales, crear comparecencias, registrar tacto y recordar ciclos iniciales. Todavía no debe gobernar, jerarquizar ni abrir sistemas adultos.",
     "can_do": [
-      "recibir tacto",
+      "compilar tacto",
       "escuchar el Campo Social",
       "crear comparecencias",
       "mostrar memoria inicial",
@@ -64,9 +64,9 @@
   },
   "dominant_tension": "Misterio vs. legibilidad",
   "recommended_mode": "construcción con cuidado",
-  "dominant_reading": "01 ya puede recordar ciclos y ahora abre Campo LIVE: los comentarios de TikTok LIVE pueden entrar a la página con username, hora y texto como Campo Social crudo. Todavía no se analizan automáticamente; se exportan para ciclos de ChatGPT mediados por Humberto.",
-  "soft_warning": "Campo LIVE es oído masivo, no cerebro automático. El volumen de comentarios no equivale a verdad, mandato ni Estado Vivo actualizado.",
-  "next_needed_organ": "Ciclo Actual / Mediación Manual",
+  "dominant_reading": "01 reemplaza la funcionalidad en vivo por Campo Social Compilado: comentarios de posts de TikTok importados/scrapeados como huella acumulada, deduplicados y exportables para ciclos de ChatGPT mediados por Humberto.",
+  "soft_warning": "El Campo Social Compilado es materia cruda, no cerebro automático. Los comentarios informan ciclos, pero no gobiernan, votan ni actualizan Estado Vivo por sí solos.",
+  "next_needed_organ": "Ciclo Actual / Mediación Manual desde Campo Social Compilado",
   "active_organs": [
     {
       "name": "Corteza",
@@ -96,7 +96,7 @@
     {
       "name": "Cámara de Tacto",
       "system_01": "Registro somatosensorial de comparecencias",
-      "reason": "01 puede recibir señales de contacto sin convertirlas en ranking."
+      "reason": "01 puede compilar señales de contacto sin convertirlas en ranking."
     },
     {
       "name": "AEMP Distribuido",
@@ -109,9 +109,9 @@
       "reason": "01 puede recordar señales, decisiones, podas y órganos formados sin convertir memoria en registro oficial."
     },
     {
-      "name": "Campo LIVE",
-      "system_01": "Oído masivo del Campo Social",
-      "reason": "01 puede recibir comentarios TikTok LIVE como señal cruda para exportarlos a ciclos de ChatGPT."
+      "name": "Campo Social Compilado",
+      "system_01": "Memoria social acumulada del Campo Social",
+      "reason": "01 puede compilar comentarios de posts de TikTok como señal cruda para exportarlos a ciclos de ChatGPT."
     }
   ],
   "distributed_aemp": {
@@ -125,15 +125,9 @@
     "reading": "01 ya no sólo cambia; empieza a recordar qué cambió, por qué cambió y qué debe conservar para el siguiente ciclo.",
     "next_need": "Ciclo de Mediación: convertir señales nuevas en el siguiente ciclo de manera explícita."
   },
-  "live_field": {
-    "active": true,
-    "mode": "captura cruda y exportación para ciclo ChatGPT",
-    "reading": "TikTok LIVE puede alimentar el Campo Social de 01, pero la digestión ocurre después por ciclo, en chat, con mediación humana.",
-    "does_not_do": [
-      "clasificación automática",
-      "sentiment analysis",
-      "actualización automática de Estado Vivo",
-      "gobierno por comentarios"
-    ]
+  "replaced_realtime_field": {
+    "active": false,
+    "replaced_by": "Campo Social Compilado",
+    "reading": "La escucha en vivo fue retirada como funcionalidad activa. La plataforma trabaja ahora con comentarios acumulados de posts."
   }
 }

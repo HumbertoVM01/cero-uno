@@ -1,7 +1,7 @@
 {
-  "archive_id": "archivo_memoria_ciclo_v0_2_8_campo_live",
+  "archive_id": "archivo_memoria_ciclo_v0_3_2_campo_social_compilado",
   "summary": "El Archivo recuerda ciclos de desarrollo de 01. No funciona como changelog técnico ni registro oficial; funciona como hipocampo inicial para que la plataforma pueda mutar con continuidad.",
-  "current_cycle": "cycle_v0_2_8_campo_live",
+  "current_cycle": "cycle_v0_3_2_campo_social_compilado",
   "rules": [
     "Recordar no vuelve oficial una comparecencia.",
     "Cada ciclo debe conservar señal, lectura, decisión, cambio, postura AEMP, vigilancia OMEGA y memoria operativa.",
@@ -166,24 +166,44 @@
       "memory": "01 empieza a recordar su propia maduración."
     },
     {
-      "id": "cycle_v0_2_8_campo_live",
+      "id": "cycle_v0_2_8_escucha_en_vivo_previa",
       "version": "v0.2.8",
-      "title": "Campo LIVE",
+      "title": "Ensayo de escucha en vivo",
       "type": "organo_nuevo",
       "ontological_phase": "Tubo Neural / Reflejos iniciales",
       "date_label": "Fase v0.2.8",
-      "signal": "01 necesitaba recibir los comentarios de TikTok LIVE directamente en la página, porque el live produce volumen suficiente de Campo Social como para no depender de copiado manual total.",
-      "reading": "La plataforma debía abrir un oído masivo, pero sin convertir comentarios en análisis automático ni mandato.",
-      "decision": "Agregar Campo LIVE: sesiones, comentarios crudos con username y hora, receiver de Netlify, Neon y exportación para ciclos de ChatGPT.",
+      "signal": "01 necesitaba probar si los comentarios en tiempo real podían entrar a la página como materia cruda para ciclos posteriores.",
+      "reading": "La prueba aclaró una doctrina importante: recibir volumen no equivale a analizar, decidir ni actualizar Estado Vivo.",
+      "decision": "Registrar el ensayo como memoria técnica previa, pero no conservarlo como funcionalidad activa en v0.3.2.",
       "changes": [
-        "se agregaron live_sessions y live_comments al schema",
-        "se agregaron functions para iniciar/cerrar sesión, recibir/listar/exportar comentarios",
-        "se agregó live-field-system.js",
-        "la página muestra Campo LIVE y exporta comentarios para ChatGPT"
+        "se exploró captura de comentarios en tiempo real",
+        "se confirmó que el análisis debía ocurrir por ciclo mediado",
+        "la funcionalidad queda reemplazada por Campo Social Compilado"
       ],
-      "aemp_posture": "recibir sin obedecer automáticamente",
-      "omega_watch": "Vigilar que el volumen de comentarios no se lea como verdad, popularidad o presión de decisión automática.",
-      "memory": "TikTok LIVE entra como oído masivo de 01; el ciclo de ChatGPT sigue siendo la digestión mediada por Humberto."
+      "aemp_posture": "probar sin absolutizar el canal",
+      "omega_watch": "No confundir velocidad o volumen con verdad, popularidad o mandato.",
+      "memory": "La escucha acumulada es más estable para esta fase que depender del instante."
+    },
+    {
+      "id": "cycle_v0_3_2_campo_social_compilado",
+      "version": "v0.3.2",
+      "title": "Campo Social Compilado",
+      "type": "maduracion",
+      "ontological_phase": "Tubo Neural / Reflejos iniciales",
+      "date_label": "Fase v0.3.2",
+      "signal": "La funcionalidad en vivo dependía del instante y no era la fuente más estable para la siguiente comparecencia.",
+      "reading": "01 necesita metabolizar la huella acumulada de los posts, no sólo el momento en vivo.",
+      "decision": "Eliminar la funcionalidad en vivo activa y reemplazarla por Campo Social Compilado.",
+      "changes": [
+        "se elimina ruta de escucha en vivo de la experiencia pública",
+        "Campo pasa a navegación principal",
+        "se agrega importador de comentarios scrapeados",
+        "se agrega exportación de ciclo para ChatGPT",
+        "se agrega importación local de lectura mediada"
+      ],
+      "aemp_posture": "escuchar sin obedecer",
+      "omega_watch": "No convertir comentarios en votos, tribunal, ranking ni mandato.",
+      "memory": "01 no depende del instante: metaboliza la huella."
     }
   ]
 }

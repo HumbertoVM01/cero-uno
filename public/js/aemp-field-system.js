@@ -83,7 +83,7 @@ function frameText(tension, frameKey) {
       blind: 'Punto ciego: puede elevar demasiado el fenómeno y perder contacto con la experiencia inmediata de quien sólo ve una bolita.'
     },
     campo: {
-      body: `Lee “${phrase}” como señal del Campo Vivo: pertenencia, defensa, burla, deseo, repetición, chisme, cuidado, FOMO y clima de live. No hay una voz única: hay campo.`,
+      body: `Lee “${phrase}” como señal del Campo Vivo: pertenencia, defensa, burla, deseo, repetición, chisme, cuidado, FOMO y clima de stream. No hay una voz única: hay campo.`,
       blind: 'Punto ciego: puede confundir intensidad social con verdad, valor o dirección estratégica.'
     },
     tecnico: {

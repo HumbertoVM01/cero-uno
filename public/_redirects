@@ -2,8 +2,7 @@
 /api/list-zero-ones /.netlify/functions/list-zero-ones 200
 /api/tap-zero-one /.netlify/functions/tap-zero-one 200
 /api/stats /.netlify/functions/stats 200
-/api/live-session-start /.netlify/functions/live-session-start 200
-/api/live-session-end /.netlify/functions/live-session-end 200
-/api/receive-live-comment /.netlify/functions/receive-live-comment 200
-/api/list-live-comments /.netlify/functions/list-live-comments 200
-/api/export-live-cycle /.netlify/functions/export-live-cycle 200
+/api/import-social-comments /.netlify/functions/import-social-comments 200
+/api/list-social-comments /.netlify/functions/list-social-comments 200
+/api/export-social-cycle /.netlify/functions/export-social-cycle 200
+/api/save-field-cycle /.netlify/functions/save-field-cycle 200

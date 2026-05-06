@@ -39,9 +39,9 @@
       "description": "Vuelve a la memoria de 01 si necesitas contexto antes de actuar."
     },
     {
-      "label": "Exportar Campo LIVE",
-      "target_tab": "live",
-      "description": "Cuando termine un live, exporta los comentarios como Campo Social crudo para traerlos al ciclo de ChatGPT."
+      "label": "Exportar Campo Social",
+      "target_tab": "campo",
+      "description": "Importa o scrapea comentarios de posts y expórtalos como Campo Social crudo para traerlos al ciclo de ChatGPT."
     }
   ],
   "not_allowed": [
@@ -60,5 +60,5 @@
   ],
   "next_possible_mission": "Ayuda a 01 a mediar su siguiente ciclo",
   "aemp_note": "Esta misión no busca una definición final de 01. Busca frases operativas que ayuden a explicar sin cerrar misterio; una buena frase abre entrada, no clausura el concepto.",
-  "archive_note": "Tus frases y los comentarios LIVE pueden alimentar ciclos futuros del Archivo. No se registran como verdad final; se exportan para lectura mediada."
+  "archive_note": "Los comentarios compilados de posts pueden alimentar ciclos futuros del Archivo. No se registran como verdad final; se exportan para lectura mediada."
 }

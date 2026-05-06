@@ -1,10 +1,10 @@
 {
-  "aemp_id": "aemp_distribuido_v0_2_8_campo_live",
+  "aemp_id": "aemp_distribuido_v0_3_2_campo_social_compilado",
   "summary": "AEMP Distribuido convierte la modulación pragmática en una capa transversal de la plataforma. No cancela la acción; evita que una lectura se vuelva absoluta.",
   "core_rule": "Cada lectura de 01 debe poder decir qué ilumina, qué deja fuera, qué riesgo activa y qué postura operativa conviene.",
   "active_posture": {
     "mode": "construcción con cuidado",
-    "description": "01 puede recibir comentarios TikTok LIVE como oído masivo, pero debe impedir que volumen, velocidad o username se vuelvan autoridad automática."
+    "description": "01 puede compilar comentarios posts de TikTok como memoria social acumulada, pero debe impedir que volumen, velocidad o username se vuelvan autoridad automática."
   },
   "frames": [
     {
@@ -103,13 +103,13 @@
       "blind_spot": "Puede volverse registro oficial, museo o nostalgia rígida.",
       "operational_posture": "Recordar para orientar el siguiente ciclo, no para cerrar el pasado."
     },
-    "live": {
-      "label": "Campo LIVE",
-      "frame": "escucha cruda",
-      "question": "¿Estamos recibiendo señales o dejando que el volumen gobierne?",
-      "illumination": "Trae comentarios reales de TikTok LIVE con hora y username para ciclos posteriores.",
-      "blind_spot": "Puede confundirse entrada masiva con análisis, verdad o mandato.",
-      "operational_posture": "Recibir, guardar y exportar; analizar después en ciclo ChatGPT con mediador humano."
+    "campo_social_compilado": {
+      "label": "Campo Social Compilado",
+      "frame": "escucha acumulada",
+      "question": "¿Estamos leyendo huella social o dejando que el volumen gobierne?",
+      "illumination": "Trae comentarios reales de posts con hora y username para ciclos posteriores.",
+      "blind_spot": "Puede confundirse campo acumulado con encuesta, mandato o tribunal.",
+      "operational_posture": "Compilar, deduplicar y exportar; analizar después en ciclo ChatGPT con mediador humano."
     }
   }
 }

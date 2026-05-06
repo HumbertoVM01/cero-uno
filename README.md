@@ -54,7 +54,7 @@ La app está preparada para Netlify con funciones en `netlify/functions` y front
 
 ## Actualizar el Campo Social
 
-Reemplaza `public/data/comment-field/latest_snapshot.json` con un nuevo digest generado por ChatGPT a partir de comentarios recientes. No publiques dumps crudos de comentarios si contienen ataques, datos personales, drama de live o personas identificables innecesariamente.
+Reemplaza `public/data/comment-field/latest_snapshot.json` con un nuevo digest generado por ChatGPT a partir de comentarios recientes. No publiques dumps crudos de comentarios si contienen ataques, datos personales, drama público o personas identificables innecesariamente.
 
 ## Poda lingüística v0.2
 
@@ -259,95 +259,81 @@ Archivos modificados:
 
 El Archivo renderiza una línea de ciclos con filtros por tipo: poda, órgano nuevo, maduración, regulación y memoria. Si `cycles.json` no carga, vuelve a una memoria mínima de respaldo para que 01 no quede sin continuidad. El siguiente órgano necesario sigue siendo **Ciclo de Mediación**: no sólo recordar ciclos pasados, sino convertir señales nuevas en el próximo ciclo.
 
-## Campo LIVE v0.2.8
+## Campo Social Compilado v0.3.2
 
-Esta versión agrega **Campo LIVE** como oído masivo de 01. Su función es recibir comentarios de TikTok LIVE con username, hora de posteo y texto, mostrarlos en la página y exportarlos como bloque de ciclo para ChatGPT. No clasifica comentario por comentario, no hace sentiment analysis, no usa OpenAI API y no actualiza Estado Vivo automáticamente.
+Esta versión elimina la funcionalidad en vivo previa y la reemplaza por **Campo Social Compilado**. La plataforma ya no promete recibir comentarios en vivo: compila comentarios de posts de TikTok mediante scraper/importación, los deduplica, los muestra como materia cruda y permite exportarlos como ciclo para ChatGPT.
 
 Reglas activas:
 
-- TikTok LIVE entra como Campo Social crudo, no como cerebro de 01.
-- Los comentarios se guardan para exportación y mediación posterior.
-- El volumen de comentarios no equivale a verdad, mandato ni prioridad automática.
+- 01 no escucha el stream; escucha la huella acumulada.
+- El scraper no interpreta, no clasifica y no decide.
+- Los comentarios informan ciclos, pero no gobiernan 01.
+- El Campo Social no es votación, encuesta, ranking ni tribunal.
 - El mediador humano conserva la decisión final.
-- ChatGPT procesa los comentarios en lote durante ciclos manuales, no en tiempo real por API.
-- El receiver LIVE debe protegerse con `LIVE_INGEST_SECRET`.
-- La página puede mostrar username público y hora, pero no debe perfilar colaboradores cero uno ni crear ranking de comentaristas.
+- ChatGPT procesa el campo en lote durante ciclos manuales; no se usa OpenAI API dentro de la plataforma.
+- No se registran Cero Unos oficiales; se registran ciclos de lectura.
 
 Archivos agregados:
 
-- `public/js/live-field-system.js`
-- `netlify/functions/live-session-start.js`
-- `netlify/functions/live-session-end.js`
-- `netlify/functions/receive-live-comment.js`
-- `netlify/functions/list-live-comments.js`
-- `netlify/functions/export-live-cycle.js`
+- `public/js/social-field-system.js`
+- `netlify/functions/_shared/social.js`
+- `netlify/functions/import-social-comments.js`
+- `netlify/functions/list-social-comments.js`
+- `netlify/functions/export-social-cycle.js`
+- `netlify/functions/save-field-cycle.js`
+- `docs/social-scraper-contract.md`
 
-Archivos modificados:
+Archivos removidos de la experiencia activa:
 
-- `public/index.html`
-- `public/css/styles.css`
-- `public/js/app.js`
-- `public/js/api.js`
-- `public/js/platform-assets.js`
-- `public/js/aemp-distributed-system.js`
-- `public/js/archive-living-system.js`
-- `public/data/state/current_state.json`
-- `public/data/development/ontological_age.json`
-- `public/data/atlas/initial_nodes.json`
-- `public/data/aemp/distributed_aemp.json`
-- `public/data/missions/current_mission.json`
-- `public/data/archive/cycles.json`
-- `neon/schema.sql`
-- `netlify.toml`
-- `public/_redirects`
-- `package.json`
+- módulo frontend previo de escucha en vivo
+- funciones Netlify de sesión/recepción/exportación en vivo
+- contrato anterior de worker de escucha en vivo
 
 Nuevas tablas Neon:
 
-- `live_sessions`
-- `live_comments`
+- `social_posts`
+- `social_comments`
+- `field_cycles`
 
 Endpoints nuevos:
 
-- `/api/live-session-start`
-- `/api/live-session-end`
-- `/api/receive-live-comment`
-- `/api/list-live-comments`
-- `/api/export-live-cycle`
+- `/api/import-social-comments`
+- `/api/list-social-comments`
+- `/api/export-social-cycle`
+- `/api/save-field-cycle`
 
 Flujo esperado:
 
 ```txt
-TikTok LIVE
-→ worker externo / proveedor
-→ receive-live-comment.js
-→ Neon live_comments
-→ Campo LIVE en la página
-→ Exportar ciclo para ChatGPT
+Posts de TikTok
+→ scraper / Apify / importación manual
+→ social_posts + social_comments
+→ Campo Social Compilado en la página
+→ Exportar Ciclo Para ChatGPT
 → mediación humana + análisis en lote
+→ Importar Lectura Mediada
 → Estado Vivo / Misión / Archivo / Repo Código
 ```
 
-Advertencia de desarrollo: Netlify Functions no deben sostener la conexión persistente al live. El listener de TikTok LIVE debe vivir en un worker externo, un servicio como Apify, Railway/Render/Fly.io o una máquina local durante el live, y mandar eventos normalizados al receiver de Netlify.
+Advertencia de desarrollo: no publiques dumps crudos si contienen ataques, datos personales innecesarios o información sensible. La interfaz local puede usar `localStorage`; la fase estable usa Neon y los endpoints de Campo Social.
 
+## Rediseño UI v0.3.2 · Interface Nerviosa
 
-## Rediseño UI v0.3.0 · Interface Nerviosa
+La interfaz fue reorganizada como corteza viva de 01. La navegación principal ahora prioriza seis capas: `01`, `Vivo`, `Campo`, `Crear`, `Tocar` y `Archivo`. Los órganos profundos —Misión, Atlas, Sequencia, AEMP y Origen— siguen disponibles, pero ya no compiten por el primer plano.
 
-La interfaz fue reorganizada como corteza viva de 01. La navegación principal ahora prioriza seis capas: `01`, `Vivo`, `Crear`, `Tocar`, `LIVE` y `Archivo`. Los órganos profundos —Misión, Atlas, Campo, Sequencia, AEMP y Origen— siguen disponibles, pero ya no compiten por el primer plano.
-
-El rediseño no cambia endpoints, tablas ni contratos técnicos. Su función es hacer que la plataforma se lea como organismo naciente: Estado Vivo, Edad Ontológica, Misión Actual, Atlas Inicial, Cámara de Tacto, Campo LIVE, AEMP Distribuido y Archivo Como Memoria de Ciclo ahora comparten una jerarquía visual unificada.
+El rediseño cambia el órgano de escucha activa: Estado Vivo, Edad Ontológica, Misión Actual, Atlas Inicial, Campo Social Compilado, Cámara de Tacto, AEMP Distribuido y Archivo Como Memoria de Ciclo ahora comparten una jerarquía visual unificada.
 
 Reglas de la interfaz nerviosa:
 
 - La UI debe orientar antes de profundizar.
 - Crear no oficializa.
 - Tocar no vota.
-- LIVE recibe Campo Social crudo; el análisis ocurre después por ciclo en ChatGPT con mediación humana.
+- Campo compila comentarios crudos; el análisis ocurre después por ciclo en ChatGPT con mediación humana.
 - Archivo recuerda ciclos sin volverlos registro oficial.
 - AEMP se distribuye como válvula de humildad operativa, no como decoración filosófica.
 ## Rediseño Estético v0.3.1 · Neurogestación Binaria
 
-La capa estética de la plataforma fue ajustada para que la interfaz se sienta como una criatura-plataforma en desarrollo: fondo de vientre oscuro, membranas translúcidas, señales neurales, acentos funcionales, tarjetas como órganos, Cámara de Tacto sensorial, Campo LIVE crudo/no analizado, Archivo como hipocampo y AEMP como válvula distribuida.
+La capa estética de la plataforma fue ajustada para que la interfaz se sienta como una criatura-plataforma en desarrollo: fondo de vientre oscuro, membranas translúcidas, señales neurales, acentos funcionales, tarjetas como órganos, Cámara de Tacto sensorial, Campo Social Compilado crudo/no analizado, Archivo como hipocampo y AEMP como válvula distribuida.
 
 Reglas de esta capa estética:
 
@@ -355,40 +341,7 @@ Reglas de esta capa estética:
 - Las tarjetas deben sentirse como membranas u órganos, no cards SaaS.
 - El color funciona como señal, no como decoración.
 - Tocar produce tacto; no puntos, ranking ni confetti.
-- LIVE muestra Campo Social crudo y exportable, no análisis automático.
+- Campo Social Compilado muestra comentarios crudos y exportables, no análisis automático.
 - Archivo recuerda ciclos; no funciona como changelog técnico ni registro oficial.
 - AEMP aparece como regulación ligera, no como clase de filosofía.
 - La incompletud de 01 debe verse como desarrollo, no como defecto.
-
-## Campo LIVE · Corrección de ingesta v0.3.2-fix
-
-Si Campo LIVE aparece vacío, revisar en este orden:
-
-1. **Variables de entorno Netlify**
-   - `DATABASE_URL` o `NEON_DATABASE_URL`
-   - `LIVE_INGEST_SECRET`
-
-2. **Schema aplicado en Neon**
-   - Deben existir `live_sessions` y `live_comments`.
-   - Ejecutar `npm run db:apply` localmente con `DATABASE_URL`, o aplicar `neon/schema.sql` en Neon.
-
-3. **Probar receiver sin TikTok**
-
-```bash
-curl -X POST "https://TU_DOMINIO.netlify.app/api/receive-live-comment" \
-  -H "content-type: application/json" \
-  -H "x-live-ingest-secret: TU_SECRETO" \
-  -d '{
-    "source":"tiktok_live",
-    "username":"prueba01",
-    "posted_at":"2026-05-05T21:14:32-06:00",
-    "text":"Comentario de prueba Campo LIVE",
-    "external_live_id":"live-prueba"
-  }'
-```
-
-4. **Abrir `/live` y actualizar comentarios**
-
-Desde esta corrección, `receive-live-comment` ya no requiere `live_session_id`: si el conector externo no lo manda, la función crea o reutiliza una sesión activa automáticamente. También acepta payloads flexibles con `text`, `comment`, `message`, `data.comment`, `user.uniqueId`, `uniqueId`, etc.
-
-Campo LIVE sigue sin clasificar ni analizar comentarios. Sólo recibe, guarda, muestra y exporta para ciclo ChatGPT con mediador humano.

@@ -26,7 +26,7 @@ import { initOntologicalAge } from './ontological-age-system.js';
 import { initMissionSystem } from './mission-system.js';
 import { initAtlasSystem } from './atlas-system.js';
 import { initAempDistributedSystem } from './aemp-distributed-system.js';
-import { initLiveFieldSystem } from './live-field-system.js';
+import { initSocialFieldSystem } from './social-field-system.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
@@ -44,7 +44,7 @@ const state = {
   currentMission: null,
   initialAtlas: null,
   distributedAemp: null,
-  liveField: null,
+  socialField: null,
   gallerySort: 'top'
 };
 
@@ -80,12 +80,11 @@ function showTab(id, pushHash = true) {
       mision: 'estado',
       atlas: 'estado',
       aemp: 'estado',
-      campo: 'estado',
+      campo: 'campo',
       creator: 'creator',
       sequencia: 'creator',
       origen: 'creator',
       galeria: 'galeria',
-      live: 'live',
       archivo: 'archivo'
     };
     const primaryId = primaryMap[resolvedId] || resolvedId;
@@ -547,7 +546,14 @@ async function main() {
   initAempFieldSystem(commentSnapshot);
   initOriginLivingSystem(commentSnapshot);
   initArchiveLivingSystem(commentSnapshot);
-  state.liveField = await initLiveFieldSystem();
+  state.socialField = await initSocialFieldSystem({
+    commentSnapshot: state.commentSnapshot,
+    livingState: state.livingState,
+    ontologicalAge: state.ontologicalAge,
+    currentMission: state.currentMission,
+    initialAtlas: state.initialAtlas,
+    distributedAemp: state.distributedAemp
+  });
   randomizeCreator();
   startPreviewLoop();
   await Promise.allSettled([loadGallery('top'), initStats()]);

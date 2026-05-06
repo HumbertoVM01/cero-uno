@@ -3,8 +3,10 @@ const API = {
   list: '/api/list-zero-ones',
   tap: '/api/tap-zero-one',
   stats: '/api/stats',
-  listLiveComments: '/api/list-live-comments',
-  exportLiveCycle: '/api/export-live-cycle'
+  importSocialComments: '/api/import-social-comments',
+  listSocialComments: '/api/list-social-comments',
+  exportSocialCycle: '/api/export-social-cycle',
+  saveFieldCycle: '/api/save-field-cycle'
 };
 
 function deviceId() {
@@ -47,19 +49,32 @@ export async function getStats() {
   return request(API.stats);
 }
 
-
-export async function listLiveComments({ liveSessionId = '', limit = 120 } = {}) {
-  const params = new URLSearchParams();
-  if (liveSessionId) params.set('live_session_id', liveSessionId);
-  if (limit) params.set('limit', String(limit));
-  const qs = params.toString();
-  return request(`${API.listLiveComments}${qs ? `?${qs}` : ''}`);
+export async function importSocialComments(items, options = {}) {
+  return request(API.importSocialComments, {
+    method: 'POST',
+    headers: options.secret ? { 'X-Social-Ingest-Secret': options.secret } : {},
+    body: JSON.stringify({ source: options.source || 'manual', items })
+  });
 }
 
-export async function exportLiveCycle({ liveSessionId = '', limit = 2000 } = {}) {
+export async function listSocialComments({ limit = 250, status = '', postUrl = '' } = {}) {
   const params = new URLSearchParams();
-  if (liveSessionId) params.set('live_session_id', liveSessionId);
   if (limit) params.set('limit', String(limit));
+  if (status) params.set('status', status);
+  if (postUrl) params.set('post_url', postUrl);
   const qs = params.toString();
-  return request(`${API.exportLiveCycle}${qs ? `?${qs}` : ''}`);
+  return request(`${API.listSocialComments}${qs ? `?${qs}` : ''}`);
+}
+
+export async function exportSocialCycle({ mode = 'new', limit = 2000, postUrl = '' } = {}) {
+  const params = new URLSearchParams();
+  if (mode) params.set('mode', mode);
+  if (limit) params.set('limit', String(limit));
+  if (postUrl) params.set('post_url', postUrl);
+  const qs = params.toString();
+  return request(`${API.exportSocialCycle}${qs ? `?${qs}` : ''}`);
+}
+
+export async function saveFieldCycle(payload) {
+  return request(API.saveFieldCycle, { method: 'POST', body: JSON.stringify(payload || {}) });
 }

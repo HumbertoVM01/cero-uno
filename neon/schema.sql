@@ -1,4 +1,4 @@
--- CERO UNO · Primer Deploy · Neon schema · v0.1.8
+-- CERO UNO · Primer Deploy · Neon schema · v0.3.2
 -- Run this in the Neon SQL Editor before publishing the Netlify site.
 
 create extension if not exists pgcrypto;
@@ -72,38 +72,61 @@ create table if not exists signals (
   created_at timestamptz not null default now()
 );
 
-
 -- Optional cleanup job to run manually or via scheduled function later:
 -- delete from tap_guard where created_at < now() - interval '24 hours';
 
--- Campo LIVE · TikTok LIVE comments · v0.2.8
--- Guarda comentarios crudos/semicrudos del live para exportarlos a ciclos de ChatGPT.
--- No clasifica, no analiza y no actualiza Estado Vivo automáticamente.
-create table if not exists live_sessions (
+-- Campo Social Compilado · comentarios de posts TikTok · v0.3.2
+-- El scraper no interpreta, no clasifica y no decide: sólo compila campo crudo para ciclos mediados.
+create table if not exists social_posts (
   id uuid primary key default gen_random_uuid(),
   platform text not null default 'tiktok',
-  external_live_id text,
-  title text,
-  status text not null default 'active',
-  started_at timestamptz not null default now(),
-  ended_at timestamptz,
-  notes text
+  post_id text,
+  post_url text not null,
+  caption text,
+  posted_at timestamptz,
+  scraped_at timestamptz not null default now(),
+  raw_post jsonb not null default '{}'::jsonb,
+  unique (platform, post_url)
 );
 
-create table if not exists live_comments (
+create table if not exists social_comments (
   id uuid primary key default gen_random_uuid(),
-  live_session_id uuid references live_sessions(id) on delete cascade,
-  source text not null default 'tiktok_live',
-  event_type text not null default 'comment',
+  post_id uuid references social_posts(id) on delete cascade,
+  platform text not null default 'tiktok',
+  external_comment_id text,
   username text,
-  posted_at timestamptz,
-  text text not null check (char_length(text) <= 1000),
-  raw_event_id text,
-  raw_event jsonb not null default '{}'::jsonb,
-  dedupe_key text unique,
+  comment_text text not null check (char_length(comment_text) <= 2000),
+  comment_time timestamptz,
+  likes integer not null default 0,
+  reply_to text,
+  scraped_at timestamptz not null default now(),
+  raw_comment jsonb not null default '{}'::jsonb,
+  dedupe_key text not null unique,
+  cycle_id uuid,
+  status text not null default 'new',
   created_at timestamptz not null default now()
 );
 
-create index if not exists live_sessions_status_started_idx on live_sessions (status, started_at desc);
-create index if not exists live_comments_session_created_idx on live_comments (live_session_id, created_at desc);
-create index if not exists live_comments_posted_at_idx on live_comments (posted_at desc);
+create table if not exists field_cycles (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  source text not null default 'tiktok_posts',
+  filter_used jsonb not null default '{}'::jsonb,
+  post_count integer not null default 0,
+  comment_count integer not null default 0,
+  export_text text,
+  signal text,
+  tensions text,
+  desires text,
+  doubts text,
+  omega text,
+  aemp_posture text,
+  mission_update text,
+  living_state_change text,
+  archive_note text
+);
+
+create index if not exists social_posts_scraped_idx on social_posts (scraped_at desc);
+create index if not exists social_comments_status_time_idx on social_comments (status, coalesce(comment_time, scraped_at) desc);
+create index if not exists social_comments_post_idx on social_comments (post_id, coalesce(comment_time, scraped_at) desc);
+create index if not exists field_cycles_created_idx on field_cycles (created_at desc);
