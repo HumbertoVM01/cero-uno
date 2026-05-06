@@ -329,3 +329,19 @@ TikTok LIVE
 ```
 
 Advertencia de desarrollo: Netlify Functions no deben sostener la conexión persistente al live. El listener de TikTok LIVE debe vivir en un worker externo, un servicio como Apify, Railway/Render/Fly.io o una máquina local durante el live, y mandar eventos normalizados al receiver de Netlify.
+
+
+## Rediseño UI v0.3.0 · Interface Nerviosa
+
+La interfaz fue reorganizada como corteza viva de 01. La navegación principal ahora prioriza seis capas: `01`, `Vivo`, `Crear`, `Tocar`, `LIVE` y `Archivo`. Los órganos profundos —Misión, Atlas, Campo, Sequencia, AEMP y Origen— siguen disponibles, pero ya no compiten por el primer plano.
+
+El rediseño no cambia endpoints, tablas ni contratos técnicos. Su función es hacer que la plataforma se lea como organismo naciente: Estado Vivo, Edad Ontológica, Misión Actual, Atlas Inicial, Cámara de Tacto, Campo LIVE, AEMP Distribuido y Archivo Como Memoria de Ciclo ahora comparten una jerarquía visual unificada.
+
+Reglas de la interfaz nerviosa:
+
+- La UI debe orientar antes de profundizar.
+- Crear no oficializa.
+- Tocar no vota.
+- LIVE recibe Campo Social crudo; el análisis ocurre después por ciclo en ChatGPT con mediación humana.
+- Archivo recuerda ciclos sin volverlos registro oficial.
+- AEMP se distribuye como válvula de humildad operativa, no como decoración filosófica.

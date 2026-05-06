@@ -74,10 +74,26 @@ function showTab(id, pushHash = true) {
       section.setAttribute('aria-hidden', active ? 'false' : 'true');
       if (section.classList.contains('tab-panel')) section.style.setProperty('display', active ? 'block' : 'none', 'important');
     });
+    const primaryMap = {
+      inicio: 'inicio',
+      estado: 'estado',
+      mision: 'estado',
+      atlas: 'estado',
+      aemp: 'estado',
+      campo: 'estado',
+      creator: 'creator',
+      sequencia: 'creator',
+      origen: 'creator',
+      galeria: 'galeria',
+      live: 'live',
+      archivo: 'archivo'
+    };
+    const primaryId = primaryMap[resolvedId] || resolvedId;
     $$('.nav a').forEach((a) => {
-      const active = a.getAttribute('href') === `#${resolvedId}`;
+      const href = a.getAttribute('href');
+      const active = href === `#${resolvedId}` || (a.closest('.nav-primary') && href === `#${primaryId}`);
       a.classList.toggle('active', active);
-      if (active) a.setAttribute('aria-current', 'page');
+      if (href === `#${resolvedId}`) a.setAttribute('aria-current', 'page');
       else a.removeAttribute('aria-current');
     });
     document.body.dataset.space = resolvedId;
