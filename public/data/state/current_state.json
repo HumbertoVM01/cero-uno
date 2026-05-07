@@ -1,6 +1,6 @@
 {
-  "cycle_id": "cero_uno_v0_3_2_campo_social_compilado",
-  "updated_at_label": "Fase v0.3.2 · Campo Social Compilado",
+  "cycle_id": "cero_uno_v0_3_3_campo_social_automatico",
+  "updated_at_label": "Fase v0.3.3 · Campo Social Automático",
   "ontological_age": {
     "phase": "Tubo Neural / Reflejos iniciales",
     "short_label": "Sistema nervioso naciente",
@@ -64,9 +64,9 @@
   },
   "dominant_tension": "Misterio vs. legibilidad",
   "recommended_mode": "construcción con cuidado",
-  "dominant_reading": "01 reemplaza la funcionalidad en vivo por Campo Social Compilado: comentarios de posts de TikTok importados/scrapeados como huella acumulada, deduplicados y exportables para ciclos de ChatGPT mediados por Humberto.",
-  "soft_warning": "El Campo Social Compilado es materia cruda, no cerebro automático. Los comentarios informan ciclos, pero no gobiernan, votan ni actualizan Estado Vivo por sí solos.",
-  "next_needed_organ": "Ciclo Actual / Mediación Manual desde Campo Social Compilado",
+  "dominant_reading": "01 reemplaza la funcionalidad en vivo por Campo Social Automático: comentarios de posts de TikTok sincronizados vía Apify por username como huella acumulada, deduplicados y exportables para ciclos de ChatGPT mediados por Humberto.",
+  "soft_warning": "El Campo Social Automático es materia cruda, no cerebro automático. Los comentarios informan ciclos, pero no gobiernan, votan ni actualizan Estado Vivo por sí solos.",
+  "next_needed_organ": "Ciclo Actual / Mediación Manual desde Campo Social Automático",
   "active_organs": [
     {
       "name": "Corteza",
@@ -109,7 +109,7 @@
       "reason": "01 puede recordar señales, decisiones, podas y órganos formados sin convertir memoria en registro oficial."
     },
     {
-      "name": "Campo Social Compilado",
+      "name": "Campo Social Automático",
       "system_01": "Memoria social acumulada del Campo Social",
       "reason": "01 puede compilar comentarios de posts de TikTok como señal cruda para exportarlos a ciclos de ChatGPT."
     }
@@ -127,7 +127,7 @@
   },
   "replaced_realtime_field": {
     "active": false,
-    "replaced_by": "Campo Social Compilado",
+    "replaced_by": "Campo Social Automático",
     "reading": "La escucha en vivo fue retirada como funcionalidad activa. La plataforma trabaja ahora con comentarios acumulados de posts."
   }
 }

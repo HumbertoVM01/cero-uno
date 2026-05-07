@@ -1,11 +1,11 @@
 {
-  "atlas_id": "atlas_inicial_01_v0_3_2_campo_social_compilado",
+  "atlas_id": "atlas_inicial_01_v0_3_3_campo_social_automatico",
   "phase": "Tubo Neural / Reflejos iniciales",
   "summary": "El Atlas Inicial muestra los primeros órganos funcionales que 01 ya puede sostener. No es el atlas profundo de 2000+ partes; es el primer mapa operativo del Repo Código actual.",
-  "warning": "Ningún órgano gobierna solo. Campo Social Compilado reúne volumen acumulado, pero no produce verdad automática: los comentarios entran como materia cruda para mediación humana y lectura AEMP posterior.",
+  "warning": "Ningún órgano gobierna solo. Campo Social Automático reúne volumen acumulado, pero no produce verdad automática: los comentarios entran como materia cruda para mediación humana y lectura AEMP posterior.",
   "next_needed_organ": {
     "name": "Ciclo Actual / Mediación Manual",
-    "reason": "01 ya puede compilar comentarios Campo Social; ahora necesita convertir exportaciones del Campo Social Compilado en lectura, decisión y memoria de ciclo."
+    "reason": "01 ya puede compilar comentarios Campo Social; ahora necesita convertir exportaciones del Campo Social Automático en lectura, decisión y memoria de ciclo."
   },
   "nodes": [
     {
@@ -386,8 +386,8 @@
       "counterbalance": "No registro y archivo no inventarial"
     },
     {
-      "id": "campo_social_compilado",
-      "name": "Campo Social Compilado",
+      "id": "campo_social_automatico",
+      "name": "Campo Social Automático",
       "neuro_source": "Entrada sensorial auditivo-social / raíz dorsal ampliada",
       "system_01": "Memoria social acumulada del Campo Social",
       "repo_module": "social-field-system.js + social_posts/social_comments",
@@ -410,7 +410,7 @@
       "counterbalance": "mediador humano + AEMP Distribuido + Archivo Como Memoria de Ciclo",
       "signals": [
         "comentarios de posts de TikTok",
-        "scraper/importación JSON-CSV-texto",
+        "scraper automático JSON-CSV-texto",
         "huella social acumulada",
         "export de ciclo"
       ]

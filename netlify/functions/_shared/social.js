@@ -34,17 +34,17 @@ function normalizeTimestamp(value) {
 }
 
 function normalizeComment(input = {}, inherited = {}) {
-  const postUrl = safeLine(firstPresent(input, ['post_url', 'postUrl', 'url', 'videoUrl', 'webVideoUrl', 'shareUrl', 'link']) || inherited.post_url || inherited.url);
-  const postId = safeLine(firstPresent(input, ['post_id', 'postId', 'awemeId', 'videoId', 'video_id', 'itemId']) || inherited.post_id || inherited.postId || inherited.awemeId || inherited.videoId);
+  const postUrl = safeLine(firstPresent(input, ['post_url', 'postUrl', 'url', 'videoUrl', 'webVideoUrl', 'shareUrl', 'link', 'video_url', 'web_video_url']) || inherited.post_url || inherited.url);
+  const postId = safeLine(firstPresent(input, ['post_id', 'postId', 'awemeId', 'videoId', 'video_id', 'itemId', 'aweme_id']) || inherited.post_id || inherited.postId || inherited.awemeId || inherited.videoId);
   const postCaption = safeLine(firstPresent(input, ['post_caption', 'postCaption', 'caption', 'description', 'desc']) || inherited.post_caption || inherited.caption || inherited.desc);
-  const commentId = safeLine(firstPresent(input, ['comment_id', 'commentId', 'cid', 'id', 'commentCid']));
-  const usernameRaw = firstPresent(input, ['username', 'uniqueId', 'authorName', 'author', 'user', 'nickname', 'displayName']);
-  const username = safeLine(typeof usernameRaw === 'object' ? firstPresent(usernameRaw, ['uniqueId', 'username', 'nickname', 'name']) : usernameRaw).replace(/^@/, '');
-  const commentText = safeLine(firstPresent(input, ['comment_text', 'commentText', 'text', 'comment', 'content', 'body', 'message']));
-  const commentTime = normalizeTimestamp(firstPresent(input, ['comment_time', 'commentTime', 'createTime', 'createdAt', 'posted_at', 'postedAt', 'timestamp', 'time', 'date']));
+  const commentId = safeLine(firstPresent(input, ['comment_id', 'commentId', 'cid', 'id', 'commentCid', 'comment_id_str']));
+  const usernameRaw = firstPresent(input, ['username', 'uniqueId', 'unique_id', 'authorName', 'author', 'user', 'nickname', 'displayName', 'authorMeta']);
+  const username = safeLine(typeof usernameRaw === 'object' ? firstPresent(usernameRaw, ['uniqueId', 'unique_id', 'username', 'nickname', 'name']) : usernameRaw).replace(/^@/, '');
+  const commentText = safeLine(firstPresent(input, ['comment_text', 'commentText', 'text', 'comment', 'content', 'body', 'message', 'shareTitle']));
+  const commentTime = normalizeTimestamp(firstPresent(input, ['comment_time', 'commentTime', 'createTime', 'create_time', 'createdAt', 'posted_at', 'postedAt', 'timestamp', 'time', 'date']));
   const scrapedAt = normalizeTimestamp(firstPresent(input, ['scraped_at', 'scrapedAt', 'collectedAt'])) || new Date().toISOString();
-  const likes = Number(firstPresent(input, ['likes', 'likeCount', 'diggCount']) || 0) || 0;
-  const replyTo = safeLine(firstPresent(input, ['reply_to', 'replyTo', 'parentCommentId', 'parent_id']));
+  const likes = Number(firstPresent(input, ['likes', 'likeCount', 'diggCount', 'digg_count', 'like_count']) || 0) || 0;
+  const replyTo = safeLine(firstPresent(input, ['reply_to', 'replyTo', 'parentCommentId', 'parent_comment_id', 'parent_id']));
   if (!commentText) return null;
   const fallbackPostUrl = postUrl || (postId ? `tiktok_post:${postId}` : 'post_desconocido');
   const fallbackUsername = username || 'usuario_desconocido';
@@ -73,8 +73,8 @@ function extractItems(value, inherited = {}) {
   if (Array.isArray(value)) return value.flatMap((item) => extractItems(item, inherited));
   if (!value || typeof value !== 'object') return [];
   const postContext = {
-    post_url: firstPresent(value, ['post_url', 'postUrl', 'url', 'videoUrl', 'webVideoUrl', 'shareUrl', 'link']) || inherited.post_url,
-    post_id: firstPresent(value, ['post_id', 'postId', 'awemeId', 'videoId', 'video_id', 'itemId']) || inherited.post_id,
+    post_url: firstPresent(value, ['post_url', 'postUrl', 'url', 'videoUrl', 'webVideoUrl', 'shareUrl', 'link', 'video_url', 'web_video_url']) || inherited.post_url,
+    post_id: firstPresent(value, ['post_id', 'postId', 'awemeId', 'videoId', 'video_id', 'itemId', 'aweme_id']) || inherited.post_id,
     post_caption: firstPresent(value, ['post_caption', 'postCaption', 'caption', 'description', 'desc']) || inherited.post_caption
   };
   const children = firstPresent(value, ['comments', 'commentList', 'items', 'data', 'results']);

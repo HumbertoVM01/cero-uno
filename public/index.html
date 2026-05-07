@@ -274,9 +274,9 @@
         <section class="social-field-system glass" id="social-field-root" aria-label="Campo Social Compilado">
           <div class="social-field-head">
             <div>
-              <div class="tagline">Campo Social Compilado · Scraper / Importación</div>
-              <h3>01 no escucha el instante en vivo. 01 escucha el campo acumulado.</h3>
-              <p>Los comentarios scrapeados de tus posts entran como materia cruda. No gobiernan el sistema: se compilan, se exportan a ciclo, se leen con mediación y vuelven como Estado Vivo, Misión y Archivo.</p>
+              <div class="tagline">Campo Social Automático · Apify API por username</div>
+              <h3>01 no espera el live. 01 llama al campo acumulado.</h3>
+              <p>El botón principal corre un scraper vía Apify API por username: @0100011011...0100011011 y @allivealliveallive. Los comentarios entran como materia cruda; no gobiernan, no votan y no interpretan el sistema.</p>
             </div>
             <div class="social-field-status" id="social-field-status">sin compilación todavía</div>
           </div>
@@ -285,21 +285,31 @@
             <div><span>Posts escaneados</span><strong>0</strong></div>
             <div><span>Comentarios compilados</span><strong>0</strong></div>
             <div><span>Comentarios nuevos</span><strong>0</strong></div>
-            <div><span>Última importación</span><strong>—</strong></div>
+            <div><span>Última sincronización</span><strong>—</strong></div>
             <div><span>Último ciclo</span><strong>—</strong></div>
-            <div><span>Deduplicación</span><strong>lista</strong></div>
+            <div><span>Scraper</span><strong>listo</strong></div>
           </div>
 
           <div class="social-field-grid">
             <section class="social-import-panel">
-              <h4>Importar comentarios scrapeados</h4>
-              <p class="microcopy">Acepta JSON, CSV o texto. Campos recomendados: post_url, post_id, post_caption, comment_id, username, comment_text, comment_time, likes, reply_to, scraped_at.</p>
-              <textarea id="social-import-input" rows="10" placeholder="Pega aquí el export de Apify / scraper / CSV / texto manual..."></textarea>
+              <h4>Actualizar Campo Social</h4>
+              <p class="microcopy">Flujo principal: Apify API scrapea comentarios públicos por username y los guarda en Neon. El token nunca vive en el frontend.</p>
+              <label class="compact-field">Usernames TikTok
+                <input id="social-sync-usernames" type="text" value="@0100011011...0100011011, @allivealliveallive" aria-label="Usernames TikTok para sincronizar" />
+              </label>
               <div class="form-actions">
-                <button type="button" id="social-import-button" class="yellow">Importar JSON / CSV / texto</button>
-                <button type="button" id="social-clear-import-button" class="ghost-button">Limpiar importación local</button>
+                <button type="button" id="social-sync-button" class="yellow">Actualizar Campo Social</button>
+                <button type="button" id="social-clear-import-button" class="ghost-button">Limpiar caché local</button>
               </div>
-              <p id="social-import-feedback" class="microcopy">El scraper no interpreta. Sólo trae campo.</p>
+              <details class="social-manual-fallback">
+                <summary>Importación manual de respaldo</summary>
+                <p class="microcopy">Úsala sólo si Apify falla o quieres meter una fuente externa. Acepta JSON, CSV o texto.</p>
+                <textarea id="social-import-input" rows="7" placeholder="Pega aquí export de Apify / scraper / CSV / texto manual..."></textarea>
+                <div class="form-actions">
+                  <button type="button" id="social-import-button" class="ghost-button">Importar respaldo manual</button>
+                </div>
+              </details>
+              <p id="social-import-feedback" class="microcopy">El scraper compila; el mediador interpreta.</p>
             </section>
 
             <section class="social-export-panel">
@@ -949,7 +959,7 @@
     </section>
   </main>
 
-  <footer class="footer">Cero Uno · v0.3.2 · Interface Nerviosa · corteza viva para leer, compilar Campo Social, crear, tocar y recordar ciclos.</footer>
+  <footer class="footer">Cero Uno · v0.3.3 · Interface Nerviosa · corteza viva para leer, compilar Campo Social, crear, tocar y recordar ciclos.</footer>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script>

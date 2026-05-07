@@ -1,4 +1,4 @@
--- CERO UNO · Primer Deploy · Neon schema · v0.3.2
+-- CERO UNO · Primer Deploy · Neon schema · v0.3.3
 -- Run this in the Neon SQL Editor before publishing the Netlify site.
 
 create extension if not exists pgcrypto;
@@ -75,7 +75,7 @@ create table if not exists signals (
 -- Optional cleanup job to run manually or via scheduled function later:
 -- delete from tap_guard where created_at < now() - interval '24 hours';
 
--- Campo Social Compilado · comentarios de posts TikTok · v0.3.2
+-- Campo Social Compilado · comentarios de posts TikTok · v0.3.3
 -- El scraper no interpreta, no clasifica y no decide: sólo compila campo crudo para ciclos mediados.
 create table if not exists social_posts (
   id uuid primary key default gen_random_uuid(),
@@ -106,6 +106,25 @@ create table if not exists social_comments (
   status text not null default 'new',
   created_at timestamptz not null default now()
 );
+
+
+create table if not exists social_sync_runs (
+  id uuid primary key default gen_random_uuid(),
+  started_at timestamptz not null default now(),
+  finished_at timestamptz,
+  status text not null default 'running',
+  actor_id text,
+  mode text not null default 'username',
+  usernames text[] not null default '{}'::text[],
+  posts_scanned integer not null default 0,
+  comments_fetched integer not null default 0,
+  comments_inserted integer not null default 0,
+  comments_duplicate integer not null default 0,
+  error_message text,
+  raw_summary jsonb not null default '{}'::jsonb
+);
+
+create index if not exists social_sync_runs_started_idx on social_sync_runs (started_at desc);
 
 create table if not exists field_cycles (
   id uuid primary key default gen_random_uuid(),

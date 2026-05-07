@@ -58,10 +58,10 @@ exports.handler = async (event) => {
     const postLines = [...posts.values()].map((p, i) => `${i + 1}. ${p.post_url}\n   Caption: ${safeLine(p.caption) || 'sin caption'}\n   Comentarios incluidos: ${p.count}`);
     const commentLines = comments.map((c) => `[${c.post_url}] [${formatDate(c.comment_time || c.scraped_at)}] @${safeLine(c.username || 'usuario_desconocido')}: ${safeLine(c.comment_text)}`);
     const exportText = [
-      'CICLO CERO UNO — CAMPO SOCIAL COMPILADO',
+      'CICLO CERO UNO — CAMPO SOCIAL AUTOMÁTICO',
       '',
       `Fecha de exportación: ${formatDate(new Date().toISOString())}`,
-      'Fuente: TikTok posts de @0100011011...0100011011',
+      'Fuente: TikTok posts de @0100011011...0100011011 y @allivealliveallive · sincronización por username vía Apify',
       `Modo de exportación: ${mode}`,
       '',
       'Posts incluidos:',
@@ -78,7 +78,7 @@ exports.handler = async (event) => {
       ...(commentLines.length ? commentLines : ['sin comentarios incluidos']),
       '',
       'INSTRUCCIÓN PARA CHATGPT:',
-      'Lee este Campo Social compilado como ciclo de Cero Uno. No analices comentario por comentario de forma aislada. No conviertas comentarios en votos. No absolutices el campo. Detecta señales, tensiones, deseos, dudas, preguntas recurrentes, riesgos OMEGA, postura AEMP sugerida, cambio de Estado Vivo, misión posible y memoria de Archivo. El mediador conserva la decisión final.'
+      'Lee este Campo Social automático, scrapeado por username, como ciclo de Cero Uno. No analices comentario por comentario de forma aislada. No conviertas comentarios en votos. No absolutices el campo. Detecta señales, tensiones, deseos, dudas, preguntas recurrentes, riesgos OMEGA, postura AEMP sugerida, cambio de Estado Vivo, misión posible y memoria de Archivo. El mediador conserva la decisión final.'
     ].join('\n');
 
     return json(200, { ok: true, mode, included: comments.length, comment_ids: comments.map((c) => c.dedupe_key), export_text: exportText });

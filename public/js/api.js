@@ -3,6 +3,7 @@ const API = {
   list: '/api/list-zero-ones',
   tap: '/api/tap-zero-one',
   stats: '/api/stats',
+  syncTikTokComments: '/api/sync-tiktok-comments',
   importSocialComments: '/api/import-social-comments',
   listSocialComments: '/api/list-social-comments',
   exportSocialCycle: '/api/export-social-cycle',
@@ -47,6 +48,15 @@ export async function tapZeroOne(id) {
 
 export async function getStats() {
   return request(API.stats);
+}
+
+
+export async function syncTikTokComments({ usernames = [], secret = '', commentsPerPost = 200, maxPosts = 25 } = {}) {
+  return request(API.syncTikTokComments, {
+    method: 'POST',
+    headers: secret ? { 'X-Social-Sync-Secret': secret } : {},
+    body: JSON.stringify({ usernames, commentsPerPost, maxPosts })
+  });
 }
 
 export async function importSocialComments(items, options = {}) {

@@ -1,7 +1,7 @@
 {
-  "archive_id": "archivo_memoria_ciclo_v0_3_2_campo_social_compilado",
+  "archive_id": "archivo_memoria_ciclo_v0_3_3_campo_social_automatico",
   "summary": "El Archivo recuerda ciclos de desarrollo de 01. No funciona como changelog técnico ni registro oficial; funciona como hipocampo inicial para que la plataforma pueda mutar con continuidad.",
-  "current_cycle": "cycle_v0_3_2_campo_social_compilado",
+  "current_cycle": "cycle_v0_3_3_campo_social_automatico",
   "rules": [
     "Recordar no vuelve oficial una comparecencia.",
     "Cada ciclo debe conservar señal, lectura, decisión, cambio, postura AEMP, vigilancia OMEGA y memoria operativa.",
@@ -174,26 +174,26 @@
       "date_label": "Fase v0.2.8",
       "signal": "01 necesitaba probar si los comentarios en tiempo real podían entrar a la página como materia cruda para ciclos posteriores.",
       "reading": "La prueba aclaró una doctrina importante: recibir volumen no equivale a analizar, decidir ni actualizar Estado Vivo.",
-      "decision": "Registrar el ensayo como memoria técnica previa, pero no conservarlo como funcionalidad activa en v0.3.2.",
+      "decision": "Registrar el ensayo como memoria técnica previa, pero no conservarlo como funcionalidad activa en v0.3.3.",
       "changes": [
         "se exploró captura de comentarios en tiempo real",
         "se confirmó que el análisis debía ocurrir por ciclo mediado",
-        "la funcionalidad queda reemplazada por Campo Social Compilado"
+        "la funcionalidad queda reemplazada por Campo Social Automático"
       ],
       "aemp_posture": "probar sin absolutizar el canal",
       "omega_watch": "No confundir velocidad o volumen con verdad, popularidad o mandato.",
       "memory": "La escucha acumulada es más estable para esta fase que depender del instante."
     },
     {
-      "id": "cycle_v0_3_2_campo_social_compilado",
-      "version": "v0.3.2",
-      "title": "Campo Social Compilado",
+      "id": "cycle_v0_3_3_campo_social_automatico",
+      "version": "v0.3.3",
+      "title": "Campo Social Automático",
       "type": "maduracion",
       "ontological_phase": "Tubo Neural / Reflejos iniciales",
-      "date_label": "Fase v0.3.2",
+      "date_label": "Fase v0.3.3",
       "signal": "La funcionalidad en vivo dependía del instante y no era la fuente más estable para la siguiente comparecencia.",
       "reading": "01 necesita metabolizar la huella acumulada de los posts, no sólo el momento en vivo.",
-      "decision": "Eliminar la funcionalidad en vivo activa y reemplazarla por Campo Social Compilado.",
+      "decision": "Eliminar la funcionalidad en vivo activa y reemplazarla por Campo Social Automático.",
       "changes": [
         "se elimina ruta de escucha en vivo de la experiencia pública",
         "Campo pasa a navegación principal",

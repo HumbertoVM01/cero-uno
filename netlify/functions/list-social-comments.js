@@ -56,7 +56,9 @@ exports.handler = async (event) => {
         (select count(*)::int from social_posts) as posts,
         (select count(*)::int from social_comments) as comments,
         (select count(*)::int from social_comments where status = 'new') as new_comments,
-        (select max(scraped_at) from social_comments) as last_import
+        (select max(scraped_at) from social_comments) as last_import,
+        (select max(finished_at) from social_sync_runs where status = 'synced') as last_sync_at,
+        (select status from social_sync_runs order by started_at desc limit 1) as last_sync_status
     `;
     const posts = await sql`
       select p.post_url, p.post_id, p.caption, count(c.id)::int as comment_count, max(c.scraped_at) as last_scraped

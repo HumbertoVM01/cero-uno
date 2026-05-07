@@ -1,4 +1,4 @@
-# Contrato del Scraper de Comentarios TikTok · Cero Uno v0.3.2
+# Contrato del Scraper de Comentarios TikTok · Cero Uno v0.3.3
 
 El scraper no interpreta.  
 El scraper no clasifica.  
@@ -7,7 +7,20 @@ Sólo compila comentarios públicos de posts y los entrega como Campo Social cru
 
 ## Fuente
 
-TikTok posts de `@0100011011...0100011011`.
+TikTok posts de `@0100011011...0100011011` y `@allivealliveallive`, sincronizados por username vía Apify API.
+
+## Flujo principal
+
+```txt
+Actualizar Campo Social
+→ /api/sync-tiktok-comments
+→ Apify API
+→ normalización Cero Uno
+→ Neon social_posts + social_comments
+→ exportación de ciclo para ChatGPT
+```
+
+La importación JSON/CSV/texto existe sólo como respaldo manual.
 
 ## Payload aceptado
 

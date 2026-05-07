@@ -37,27 +37,28 @@
   to = "/.netlify/functions/stats"
   status = 200
 
+
 [[redirects]]
-  from = "/api/live-session-start"
-  to = "/.netlify/functions/live-session-start"
+  from = "/api/sync-tiktok-comments"
+  to = "/.netlify/functions/sync-tiktok-comments"
   status = 200
 
 [[redirects]]
-  from = "/api/live-session-end"
-  to = "/.netlify/functions/live-session-end"
+  from = "/api/import-social-comments"
+  to = "/.netlify/functions/import-social-comments"
   status = 200
 
 [[redirects]]
-  from = "/api/receive-live-comment"
-  to = "/.netlify/functions/receive-live-comment"
+  from = "/api/list-social-comments"
+  to = "/.netlify/functions/list-social-comments"
   status = 200
 
 [[redirects]]
-  from = "/api/list-live-comments"
-  to = "/.netlify/functions/list-live-comments"
+  from = "/api/export-social-cycle"
+  to = "/.netlify/functions/export-social-cycle"
   status = 200
 
 [[redirects]]
-  from = "/api/export-live-cycle"
-  to = "/.netlify/functions/export-live-cycle"
+  from = "/api/save-field-cycle"
+  to = "/.netlify/functions/save-field-cycle"
   status = 200

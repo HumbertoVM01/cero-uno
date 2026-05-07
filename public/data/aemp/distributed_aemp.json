@@ -1,5 +1,5 @@
 {
-  "aemp_id": "aemp_distribuido_v0_3_2_campo_social_compilado",
+  "aemp_id": "aemp_distribuido_v0_3_3_campo_social_automatico",
   "summary": "AEMP Distribuido convierte la modulación pragmática en una capa transversal de la plataforma. No cancela la acción; evita que una lectura se vuelva absoluta.",
   "core_rule": "Cada lectura de 01 debe poder decir qué ilumina, qué deja fuera, qué riesgo activa y qué postura operativa conviene.",
   "active_posture": {
@@ -103,8 +103,8 @@
       "blind_spot": "Puede volverse registro oficial, museo o nostalgia rígida.",
       "operational_posture": "Recordar para orientar el siguiente ciclo, no para cerrar el pasado."
     },
-    "campo_social_compilado": {
-      "label": "Campo Social Compilado",
+    "campo_social_automatico": {
+      "label": "Campo Social Automático",
       "frame": "escucha acumulada",
       "question": "¿Estamos leyendo huella social o dejando que el volumen gobierne?",
       "illumination": "Trae comentarios reales de posts con hora y username para ciclos posteriores.",

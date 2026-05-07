@@ -259,9 +259,9 @@ Archivos modificados:
 
 El Archivo renderiza una línea de ciclos con filtros por tipo: poda, órgano nuevo, maduración, regulación y memoria. Si `cycles.json` no carga, vuelve a una memoria mínima de respaldo para que 01 no quede sin continuidad. El siguiente órgano necesario sigue siendo **Ciclo de Mediación**: no sólo recordar ciclos pasados, sino convertir señales nuevas en el próximo ciclo.
 
-## Campo Social Compilado v0.3.2
+## Campo Social Automático v0.3.3
 
-Esta versión elimina la funcionalidad en vivo previa y la reemplaza por **Campo Social Compilado**. La plataforma ya no promete recibir comentarios en vivo: compila comentarios de posts de TikTok mediante scraper/importación, los deduplica, los muestra como materia cruda y permite exportarlos como ciclo para ChatGPT.
+Esta versión elimina la funcionalidad en vivo previa y la reemplaza por **Campo Social Automático**. La plataforma ya no promete recibir comentarios en vivo: compila comentarios de posts de TikTok mediante scraper automático por username vía Apify API, los deduplica, los muestra como materia cruda y permite exportarlos como ciclo para ChatGPT.
 
 Reglas activas:
 
@@ -277,6 +277,7 @@ Archivos agregados:
 
 - `public/js/social-field-system.js`
 - `netlify/functions/_shared/social.js`
+- `netlify/functions/sync-tiktok-comments.js`
 - `netlify/functions/import-social-comments.js`
 - `netlify/functions/list-social-comments.js`
 - `netlify/functions/export-social-cycle.js`
@@ -293,10 +294,12 @@ Nuevas tablas Neon:
 
 - `social_posts`
 - `social_comments`
+- `social_sync_runs`
 - `field_cycles`
 
 Endpoints nuevos:
 
+- `/api/sync-tiktok-comments`
 - `/api/import-social-comments`
 - `/api/list-social-comments`
 - `/api/export-social-cycle`
@@ -305,10 +308,11 @@ Endpoints nuevos:
 Flujo esperado:
 
 ```txt
-Posts de TikTok
-→ scraper / Apify / importación manual
+TikTok usernames: @0100011011...0100011011 + @allivealliveallive
+→ /api/sync-tiktok-comments
+→ Apify API por username
 → social_posts + social_comments
-→ Campo Social Compilado en la página
+→ Campo Social Automático en la página
 → Exportar Ciclo Para ChatGPT
 → mediación humana + análisis en lote
 → Importar Lectura Mediada
@@ -317,11 +321,26 @@ Posts de TikTok
 
 Advertencia de desarrollo: no publiques dumps crudos si contienen ataques, datos personales innecesarios o información sensible. La interfaz local puede usar `localStorage`; la fase estable usa Neon y los endpoints de Campo Social.
 
-## Rediseño UI v0.3.2 · Interface Nerviosa
+Variables de entorno para Campo Social Automático:
+
+```txt
+APIFY_TOKEN=...
+APIFY_TIKTOK_COMMENTS_ACTOR_ID=clockworks/tiktok-comments-scraper
+TIKTOK_USERNAMES=0100011011...0100011011,allivealliveallive
+SOCIAL_SYNC_SECRET=opcional_para_proteger_el_boton
+DATABASE_URL=...
+MAX_POSTS_PER_SYNC=25
+MAX_COMMENTS_PER_POST=200
+```
+
+La importación manual queda como respaldo. El flujo principal es el botón **Actualizar Campo Social**.
+
+
+## Rediseño UI v0.3.3 · Interface Nerviosa
 
 La interfaz fue reorganizada como corteza viva de 01. La navegación principal ahora prioriza seis capas: `01`, `Vivo`, `Campo`, `Crear`, `Tocar` y `Archivo`. Los órganos profundos —Misión, Atlas, Sequencia, AEMP y Origen— siguen disponibles, pero ya no compiten por el primer plano.
 
-El rediseño cambia el órgano de escucha activa: Estado Vivo, Edad Ontológica, Misión Actual, Atlas Inicial, Campo Social Compilado, Cámara de Tacto, AEMP Distribuido y Archivo Como Memoria de Ciclo ahora comparten una jerarquía visual unificada.
+El rediseño cambia el órgano de escucha activa: Estado Vivo, Edad Ontológica, Misión Actual, Atlas Inicial, Campo Social Automático, Cámara de Tacto, AEMP Distribuido y Archivo Como Memoria de Ciclo ahora comparten una jerarquía visual unificada.
 
 Reglas de la interfaz nerviosa:
 
@@ -333,7 +352,7 @@ Reglas de la interfaz nerviosa:
 - AEMP se distribuye como válvula de humildad operativa, no como decoración filosófica.
 ## Rediseño Estético v0.3.1 · Neurogestación Binaria
 
-La capa estética de la plataforma fue ajustada para que la interfaz se sienta como una criatura-plataforma en desarrollo: fondo de vientre oscuro, membranas translúcidas, señales neurales, acentos funcionales, tarjetas como órganos, Cámara de Tacto sensorial, Campo Social Compilado crudo/no analizado, Archivo como hipocampo y AEMP como válvula distribuida.
+La capa estética de la plataforma fue ajustada para que la interfaz se sienta como una criatura-plataforma en desarrollo: fondo de vientre oscuro, membranas translúcidas, señales neurales, acentos funcionales, tarjetas como órganos, Cámara de Tacto sensorial, Campo Social Automático crudo/no analizado, Archivo como hipocampo y AEMP como válvula distribuida.
 
 Reglas de esta capa estética:
 
@@ -341,7 +360,7 @@ Reglas de esta capa estética:
 - Las tarjetas deben sentirse como membranas u órganos, no cards SaaS.
 - El color funciona como señal, no como decoración.
 - Tocar produce tacto; no puntos, ranking ni confetti.
-- Campo Social Compilado muestra comentarios crudos y exportables, no análisis automático.
+- Campo Social Automático muestra comentarios crudos y exportables, no análisis automático.
 - Archivo recuerda ciclos; no funciona como changelog técnico ni registro oficial.
 - AEMP aparece como regulación ligera, no como clase de filosofía.
 - La incompletud de 01 debe verse como desarrollo, no como defecto.

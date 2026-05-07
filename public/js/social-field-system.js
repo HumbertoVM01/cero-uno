@@ -1,6 +1,9 @@
+import { syncTikTokComments, listSocialComments, importSocialComments, exportSocialCycle, saveFieldCycle } from './api.js';
 const STORE_KEY = 'cero_uno_social_field_v1';
 const MAX_RENDERED_COMMENTS = 120;
 const EXPORT_COMMENT_LIMIT = 2000;
+const DEFAULT_USERNAMES = ['0100011011...0100011011', 'allivealliveallive'];
+const SYNC_SECRET_KEY = 'cero_uno_social_sync_secret_v1';
 
 const $ = (sel, root = document) => root.querySelector(sel);
 
@@ -14,7 +17,9 @@ const DEFAULT_STORE = {
   lastExportText: '',
   lastReadingSummary: '',
   localLivingState: null,
-  localMission: null
+  localMission: null,
+  syncStatus: 'listo',
+  lastSyncSummary: null
 };
 
 function cloneDefaultStore() {
@@ -77,6 +82,72 @@ function formatTime(value) {
   return date.toLocaleString('es-MX', { dateStyle: 'short', timeStyle: 'short' });
 }
 
+
+function parseUsernames(value) {
+  const raw = Array.isArray(value) ? value.join(',') : String(value || '');
+  const list = raw.split(/[\n,]+/).map((item) => item.trim().replace(/^@+/, '')).filter(Boolean);
+  return [...new Set(list.length ? list : DEFAULT_USERNAMES)];
+}
+
+function getUsernameInput() {
+  const input = $('#social-sync-usernames');
+  return parseUsernames(input?.value || DEFAULT_USERNAMES.join(', '));
+}
+
+function getSyncSecret() {
+  return localStorage.getItem(SYNC_SECRET_KEY) || '';
+}
+
+function setSyncSecret(value) {
+  if (value) localStorage.setItem(SYNC_SECRET_KEY, value);
+}
+
+function normalizeServerComment(comment = {}) {
+  return {
+    id: comment.dedupe_key || comment.id,
+    dedupe_key: comment.dedupe_key || comment.id,
+    post_url: comment.post_url || comment.postUrl || 'post_desconocido',
+    post_id: comment.post_id || comment.postId || '',
+    post_caption: comment.post_caption || comment.caption || '',
+    comment_id: comment.external_comment_id || comment.comment_id || '',
+    username: String(comment.username || 'usuario_desconocido').replace(/^@/, ''),
+    comment_text: comment.comment_text || comment.text || '',
+    comment_time: comment.comment_time || '',
+    likes: Number(comment.likes || 0) || 0,
+    reply_to: comment.reply_to || '',
+    scraped_at: comment.scraped_at || '',
+    status: comment.status || 'new',
+    cycle_id: comment.cycle_id || '',
+    imported_at: comment.scraped_at || new Date().toISOString(),
+    raw: comment.raw_comment || comment
+  };
+}
+
+function storeFromServerPayload(store, payload = {}) {
+  const comments = toArray(payload.comments).map(normalizeServerComment).filter((comment) => comment.comment_text);
+  const stats = payload.stats || payload.metrics || {};
+  return {
+    ...store,
+    comments,
+    posts: buildPosts(comments),
+    lastImportAt: stats.last_sync_at || stats.last_import || store.lastImportAt,
+    syncStatus: comments.length ? 'sincronizado' : (store.syncStatus || 'listo')
+  };
+}
+
+async function hydrateFromApi(store) {
+  try {
+    const { data } = await listSocialComments({ limit: 1000, status: '' });
+    if (!data?.ok) return store;
+    const next = storeFromServerPayload(store, data);
+    saveStore(next);
+    return next;
+  } catch (err) {
+    console.warn('[Cero Uno] Campo Social API no disponible; usando almacenamiento local.', err);
+    return { ...store, syncStatus: store.comments.length ? 'modo local' : 'api no disponible' };
+  }
+}
+
 function stableId(prefix = 'id') {
   if (crypto?.randomUUID) return crypto.randomUUID();
   return `${prefix}_${Date.now()}_${Math.random().toString(16).slice(2)}`;
@@ -114,17 +185,17 @@ function normalizeTimestamp(value) {
 }
 
 function normalizeComment(input = {}, inherited = {}) {
-  const postUrl = safeLine(firstPresent(input, ['post_url', 'postUrl', 'url', 'videoUrl', 'webVideoUrl', 'shareUrl', 'link']) || inherited.post_url || inherited.url);
-  const postId = safeLine(firstPresent(input, ['post_id', 'postId', 'awemeId', 'videoId', 'video_id', 'itemId']) || inherited.post_id || inherited.postId || inherited.awemeId || inherited.videoId);
+  const postUrl = safeLine(firstPresent(input, ['post_url', 'postUrl', 'url', 'videoUrl', 'webVideoUrl', 'shareUrl', 'link', 'video_url', 'web_video_url']) || inherited.post_url || inherited.url);
+  const postId = safeLine(firstPresent(input, ['post_id', 'postId', 'awemeId', 'videoId', 'video_id', 'itemId', 'aweme_id']) || inherited.post_id || inherited.postId || inherited.awemeId || inherited.videoId);
   const postCaption = safeLine(firstPresent(input, ['post_caption', 'postCaption', 'caption', 'description', 'desc', 'textExtra']) || inherited.post_caption || inherited.caption || inherited.desc);
-  const commentId = safeLine(firstPresent(input, ['comment_id', 'commentId', 'cid', 'id', 'commentCid']));
-  const usernameRaw = firstPresent(input, ['username', 'uniqueId', 'authorName', 'author', 'user', 'nickname', 'displayName']);
-  const username = safeLine(typeof usernameRaw === 'object' ? firstPresent(usernameRaw, ['uniqueId', 'username', 'nickname', 'name']) : usernameRaw);
-  const commentText = safeLine(firstPresent(input, ['comment_text', 'commentText', 'text', 'comment', 'content', 'body', 'message']));
-  const commentTime = normalizeTimestamp(firstPresent(input, ['comment_time', 'commentTime', 'createTime', 'createdAt', 'posted_at', 'postedAt', 'timestamp', 'time', 'date']));
+  const commentId = safeLine(firstPresent(input, ['comment_id', 'commentId', 'cid', 'id', 'commentCid', 'comment_id_str']));
+  const usernameRaw = firstPresent(input, ['username', 'uniqueId', 'unique_id', 'authorName', 'author', 'user', 'nickname', 'displayName', 'authorMeta']);
+  const username = safeLine(typeof usernameRaw === 'object' ? firstPresent(usernameRaw, ['uniqueId', 'unique_id', 'username', 'nickname', 'name']) : usernameRaw);
+  const commentText = safeLine(firstPresent(input, ['comment_text', 'commentText', 'text', 'comment', 'content', 'body', 'message', 'shareTitle']));
+  const commentTime = normalizeTimestamp(firstPresent(input, ['comment_time', 'commentTime', 'createTime', 'create_time', 'createdAt', 'posted_at', 'postedAt', 'timestamp', 'time', 'date']));
   const scrapedAt = normalizeTimestamp(firstPresent(input, ['scraped_at', 'scrapedAt', 'collectedAt']) || new Date().toISOString());
-  const likes = Number(firstPresent(input, ['likes', 'likeCount', 'diggCount']) || 0) || 0;
-  const replyTo = safeLine(firstPresent(input, ['reply_to', 'replyTo', 'parentCommentId', 'parent_id']));
+  const likes = Number(firstPresent(input, ['likes', 'likeCount', 'diggCount', 'digg_count', 'like_count']) || 0) || 0;
+  const replyTo = safeLine(firstPresent(input, ['reply_to', 'replyTo', 'parentCommentId', 'parent_comment_id', 'parent_id']));
   const fallbackPostUrl = postUrl || (postId ? `tiktok_post:${postId}` : 'post_desconocido');
   const fallbackUsername = username || 'usuario_desconocido';
   if (!commentText) return null;
@@ -156,8 +227,8 @@ function extractJsonItems(value, inherited = {}) {
   if (!value || typeof value !== 'object') return [];
 
   const postContext = {
-    post_url: firstPresent(value, ['post_url', 'postUrl', 'url', 'videoUrl', 'webVideoUrl', 'shareUrl', 'link']) || inherited.post_url,
-    post_id: firstPresent(value, ['post_id', 'postId', 'awemeId', 'videoId', 'video_id', 'itemId']) || inherited.post_id,
+    post_url: firstPresent(value, ['post_url', 'postUrl', 'url', 'videoUrl', 'webVideoUrl', 'shareUrl', 'link', 'video_url', 'web_video_url']) || inherited.post_url,
+    post_id: firstPresent(value, ['post_id', 'postId', 'awemeId', 'videoId', 'video_id', 'itemId', 'aweme_id']) || inherited.post_id,
     post_caption: firstPresent(value, ['post_caption', 'postCaption', 'caption', 'description', 'desc']) || inherited.post_caption
   };
 
@@ -346,10 +417,10 @@ function buildExportText(store, context = {}) {
     : ['sin comentarios incluidos'];
 
   return [
-    'CICLO CERO UNO — CAMPO SOCIAL COMPILADO',
+    'CICLO CERO UNO — CAMPO SOCIAL AUTOMÁTICO',
     '',
     `Fecha de exportación: ${formatDateTime(exportDate)}`,
-    'Fuente: TikTok posts de @0100011011...0100011011',
+    'Fuente: TikTok posts de @0100011011...0100011011 y @allivealliveallive · sincronización por username vía Apify',
     `Modo de exportación: ${modeLabel}`,
     '',
     'Posts incluidos:',
@@ -371,7 +442,7 @@ function buildExportText(store, context = {}) {
     ...commentLines,
     '',
     'INSTRUCCIÓN PARA CHATGPT:',
-    'Lee este Campo Social compilado como ciclo de Cero Uno.',
+    'Lee este Campo Social automático, scrapeado por username, como ciclo de Cero Uno.',
     'No analices comentario por comentario de forma aislada.',
     'No conviertas comentarios en votos.',
     'No absolutices el campo.',
@@ -383,17 +454,18 @@ function buildExportText(store, context = {}) {
 function renderMetrics(store) {
   const posts = buildPosts(store.comments);
   const newCount = store.comments.filter((comment) => comment.status !== 'cycled').length;
+  const sync = store.lastSyncSummary || {};
   const metrics = $('#social-field-metrics');
   if (metrics) {
     metrics.innerHTML = `
       <div><span>Posts escaneados</span><strong>${posts.length.toLocaleString('es-MX')}</strong></div>
       <div><span>Comentarios compilados</span><strong>${store.comments.length.toLocaleString('es-MX')}</strong></div>
       <div><span>Comentarios nuevos</span><strong>${newCount.toLocaleString('es-MX')}</strong></div>
-      <div><span>Última importación</span><strong>${formatDateTime(store.lastImportAt)}</strong></div>
+      <div><span>Última sincronización</span><strong>${formatDateTime(sync.last_sync_at || store.lastImportAt)}</strong></div>
       <div><span>Último ciclo</span><strong>${formatDateTime(store.lastCycleAt)}</strong></div>
-      <div><span>Deduplicación</span><strong>por id / huella</strong></div>`;
+      <div><span>Scraper</span><strong>${escapeHtml(store.syncStatus || 'listo')}</strong></div>`;
   }
-  setText('#social-field-status', store.comments.length ? 'campo compilado localmente' : 'sin compilación todavía');
+  setText('#social-field-status', store.syncStatus || (store.comments.length ? 'campo sincronizado' : 'sin compilación todavía'));
   const home = $('#social-field-home-card h2');
   if (home) home.textContent = `${store.comments.length.toLocaleString('es-MX')} comentarios compilados`;
 }
@@ -439,7 +511,55 @@ function renderSocialField(store) {
   if (store.lastReadingSummary) setValue('#social-reading-summary', store.lastReadingSummary);
 }
 
-function importRawComments(store) {
+async function syncAutomaticComments(store) {
+  const usernames = getUsernameInput();
+  const button = $('#social-sync-button');
+  const previousLabel = button?.textContent || '';
+  if (button) {
+    button.disabled = true;
+    button.textContent = 'Sincronizando…';
+  }
+  let secret = getSyncSecret();
+  try {
+    let result;
+    try {
+      result = await syncTikTokComments({ usernames, secret });
+    } catch (err) {
+      if (/secret|401|inv[aá]lido/i.test(String(err.message || err)) && !secret) {
+        secret = prompt('La sincronización requiere SOCIAL_SYNC_SECRET. Pégalo una vez para guardarlo en este navegador:') || '';
+        setSyncSecret(secret);
+        result = await syncTikTokComments({ usernames, secret });
+      } else {
+        throw err;
+      }
+    }
+    const summary = result.data || {};
+    let next = {
+      ...store,
+      syncStatus: 'sincronizado',
+      lastImportAt: summary.last_sync_at || new Date().toISOString(),
+      lastSyncSummary: summary
+    };
+    next = await hydrateFromApi(next);
+    next.lastSyncSummary = summary;
+    next.syncStatus = 'sincronizado';
+    saveStore(next);
+    setText('#social-import-feedback', `Sync completo por username: @${usernames.join(', @')}. ${summary.comments_inserted || 0} nuevos, ${summary.comments_duplicate || 0} duplicados, ${summary.comments_fetched || 0} recibidos.`);
+    return next;
+  } catch (err) {
+    const next = { ...store, syncStatus: 'error de scraper' };
+    saveStore(next);
+    setText('#social-import-feedback', `No se pudo sincronizar con Apify: ${err.message || err}`);
+    return next;
+  } finally {
+    if (button) {
+      button.disabled = false;
+      button.textContent = previousLabel || 'Actualizar Campo Social';
+    }
+  }
+}
+
+async function importRawComments(store) {
   const input = $('#social-import-input');
   const rawText = input?.value || '';
   const incoming = parseImportedComments(rawText);
@@ -447,16 +567,25 @@ function importRawComments(store) {
     setText('#social-import-feedback', 'No encontré comentarios válidos. Revisa que exista comment_text/text/comment y username/user.');
     return store;
   }
-  const merged = mergeComments(store.comments, incoming);
-  const next = {
-    ...store,
-    comments: merged.comments,
-    posts: buildPosts(merged.comments),
-    lastImportAt: new Date().toISOString()
-  };
-  saveStore(next);
-  setText('#social-import-feedback', `Importación completa: ${merged.added} nuevos, ${merged.duplicates} duplicados conservados.`);
-  return next;
+  try {
+    const { data } = await importSocialComments(incoming, { source: 'manual_fallback' });
+    let next = await hydrateFromApi({ ...store, syncStatus: 'respaldo manual importado', lastImportAt: new Date().toISOString() });
+    saveStore(next);
+    setText('#social-import-feedback', `Respaldo manual guardado en backend: ${data.inserted || 0} nuevos, ${data.duplicates || 0} duplicados.`);
+    return next;
+  } catch (err) {
+    const merged = mergeComments(store.comments, incoming);
+    const next = {
+      ...store,
+      comments: merged.comments,
+      posts: buildPosts(merged.comments),
+      lastImportAt: new Date().toISOString(),
+      syncStatus: 'respaldo local'
+    };
+    saveStore(next);
+    setText('#social-import-feedback', `Backend no disponible. Importación local: ${merged.added} nuevos, ${merged.duplicates} duplicados conservados.`);
+    return next;
+  }
 }
 
 async function copyText(value, label = 'Copiado.') {
@@ -485,7 +614,7 @@ function collectReading() {
   };
 }
 
-function saveMediatedReading(store) {
+async function saveMediatedReading(store) {
   const reading = collectReading();
   const cycleId = `cycle_social_${String(store.cycles.length + 1).padStart(3, '0')}_${Date.now()}`;
   const exportedIds = toArray(store.lastExportIds);
@@ -501,8 +630,24 @@ function saveMediatedReading(store) {
     export_text: store.lastExportText,
     ...reading
   };
+  let backendResult = null;
+  try {
+    const { data } = await saveFieldCycle({
+      source: 'tiktok_posts_username_apify',
+      filter_used: { mode: $('#social-filter-mode')?.value || 'new', post_url: $('#social-post-filter')?.value || 'all' },
+      post_count: cycle.post_count,
+      comment_count: cycle.comment_count,
+      export_text: store.lastExportText,
+      comment_ids: exportedIds,
+      ...reading
+    });
+    backendResult = data;
+  } catch (err) {
+    console.warn('[Cero Uno] No se pudo guardar ciclo en backend; se guarda localmente.', err);
+  }
+
   const summary = [
-    `CICLO GUARDADO — ${cycleId}`,
+    `CICLO GUARDADO — ${backendResult?.cycle?.id || cycleId}`,
     `Señal: ${reading.signal || 'sin señal escrita'}`,
     `Tensiones: ${reading.tensions || 'sin tensiones escritas'}`,
     `OMEGA: ${reading.omega || 'sin lectura OMEGA'}`,
@@ -510,7 +655,7 @@ function saveMediatedReading(store) {
     `Misión: ${reading.mission_update || 'sin misión actualizada'}`,
     `Archivo: ${reading.archive_note || 'sin nota de archivo'}`,
     '',
-    'Integración local realizada. Para volverlo estado del repo, traslada esta lectura a los JSON de data/archive, data/state y data/missions.'
+    backendResult?.ok ? 'Integración guardada en Neon y reflejada localmente.' : 'Integración local realizada. Backend no disponible o sin credenciales.'
   ].join('\n');
   const next = {
     ...store,
@@ -524,7 +669,7 @@ function saveMediatedReading(store) {
   };
   saveStore(next);
   setValue('#social-reading-summary', summary);
-  setText('#social-import-feedback', 'Lectura mediada integrada localmente. Estado, misión y archivo quedan actualizados en este navegador.');
+  setText('#social-import-feedback', backendResult?.ok ? 'Lectura mediada integrada en backend. Estado, misión y archivo quedan actualizados localmente.' : 'Lectura mediada integrada localmente. Estado, misión y archivo quedan actualizados en este navegador.');
   const missionCard = $('#mission-home-card p');
   if (missionCard && reading.mission_update) missionCard.textContent = reading.mission_update;
   const stateCard = $('#living-state-home-card p');
@@ -551,12 +696,20 @@ function markLastExportAsCycled(store) {
 export async function initSocialFieldSystem(context = {}) {
   if (!$('#social-field-root')) return null;
   let store = loadStore();
+  const usernameInput = $('#social-sync-usernames');
+  if (usernameInput && !usernameInput.value) usernameInput.value = DEFAULT_USERNAMES.map((u) => `@${u}`).join(', ');
   store.posts = buildPosts(store.comments);
+  store = await hydrateFromApi(store);
   saveStore(store);
   renderSocialField(store);
 
-  $('#social-import-button')?.addEventListener('click', () => {
-    store = importRawComments(store);
+  $('#social-sync-button')?.addEventListener('click', async () => {
+    store = await syncAutomaticComments(store);
+    renderSocialField(store);
+  });
+
+  $('#social-import-button')?.addEventListener('click', async () => {
+    store = await importRawComments(store);
     renderSocialField(store);
   });
 
@@ -574,17 +727,33 @@ export async function initSocialFieldSystem(context = {}) {
   $('#social-filter-mode')?.addEventListener('change', () => renderSocialField(store));
   $('#social-post-filter')?.addEventListener('change', () => renderComments(store));
 
-  $('#social-export-button')?.addEventListener('click', () => {
+  $('#social-export-button')?.addEventListener('click', async () => {
     const filtered = filterComments(store).comments.slice(0, EXPORT_COMMENT_LIMIT);
-    const exportText = buildExportText(store, context);
-    store = {
-      ...store,
-      lastExportText: exportText,
-      lastExportIds: filtered.map((comment) => comment.dedupe_key || comment.id)
-    };
-    saveStore(store);
-    setValue('#social-export-output', exportText);
-    setText('#social-import-feedback', `Ciclo exportado localmente con ${filtered.length} comentarios.`);
+    const mode = $('#social-filter-mode')?.value || 'new';
+    const postFilter = $('#social-post-filter')?.value || 'all';
+    try {
+      const { data } = await exportSocialCycle({ mode, limit: EXPORT_COMMENT_LIMIT, postUrl: postFilter === 'all' ? '' : postFilter });
+      store = {
+        ...store,
+        lastExportText: data.export_text || '',
+        lastExportIds: toArray(data.comment_ids),
+        syncStatus: 'ciclo exportado'
+      };
+      saveStore(store);
+      setValue('#social-export-output', store.lastExportText);
+      setText('#social-import-feedback', `Ciclo exportado desde backend con ${data.included || store.lastExportIds.length} comentarios.`);
+    } catch (err) {
+      const exportText = buildExportText(store, context);
+      store = {
+        ...store,
+        lastExportText: exportText,
+        lastExportIds: filtered.map((comment) => comment.dedupe_key || comment.id),
+        syncStatus: 'export local'
+      };
+      saveStore(store);
+      setValue('#social-export-output', exportText);
+      setText('#social-import-feedback', `Backend no disponible. Ciclo exportado localmente con ${filtered.length} comentarios.`);
+    }
   });
 
   $('#social-copy-export-button')?.addEventListener('click', () => copyText($('#social-export-output')?.value, 'Export copiado para ChatGPT.'));
@@ -595,8 +764,8 @@ export async function initSocialFieldSystem(context = {}) {
     renderSocialField(store);
   });
 
-  $('#social-save-reading-button')?.addEventListener('click', () => {
-    store = saveMediatedReading(store);
+  $('#social-save-reading-button')?.addEventListener('click', async () => {
+    store = await saveMediatedReading(store);
     renderSocialField(store);
   });
 
