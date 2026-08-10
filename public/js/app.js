@@ -74,7 +74,7 @@ function updateAssetCaseContext(){
   }
   display.classList.remove('idle');box.removeAttribute('aria-hidden');randomButton.hidden=false;randomButton.disabled=false;
   const key=creator.selected,kind=pomParts.has(key)?'pom':'gem';
-  const scale=key==='body'?0.9:key==='top'?0.68:pomParts.has(key)?0.47:0.52;
+  const scale=key==='body'?0.9:key==='top'?0.884:pomParts.has(key)?0.611:0.676;
   $$('.asset-case-group',box).forEach(g=>{g.hidden=g.dataset.kind!==kind;if(!g.hidden)$$('.asset-choice',g).forEach(b=>{b.style.setProperty('--choice-scale',String(scale));b.classList.toggle('selected',b.dataset.asset===creator.parts[key])})});
 }
 function syncAssetCaseSelection(){
