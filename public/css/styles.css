@@ -23,3 +23,35 @@ button,input{font:inherit;color:inherit}button{cursor:pointer}button:disabled{cu
 @media(max-width:850px){:root{--row-h:150px}.topbar{grid-template-columns:auto 1fr auto}.brand{font-size:14px}.main-nav{justify-self:center}.main-nav .nav-link{padding:8px 10px;font-size:12px}.hero-shell{grid-template-columns:1fr;min-height:auto}.hero-copy{text-align:center;padding-top:20px}.hero-lede{margin:auto}.hero-actions{justify-content:center}.champion-zone{margin-top:5px}.how-it-works{grid-template-columns:1fr}.caress-header{align-items:flex-start;flex-direction:column}.presence-pill{margin:0}.museum-scroller{height:calc(100vh - 285px)}.exhibit-card{grid-template-columns:112px minmax(0,1fr) 130px;gap:8px;padding:8px}.card-allive .allive-stage{width:106px}.allive-title{font-size:14px}.scent-description{font-size:8px}.card-stats{gap:1px}.stat-row{padding:1px 4px}.jump-controls{right:12px}.champions{gap:6px}}
 @media(max-width:620px){:root{--row-h:146px}.page{padding-left:10px;padding-right:10px}.topbar{top:7px;width:calc(100% - 12px);height:58px;padding-left:10px}.brand{display:none}.topbar{grid-template-columns:1fr auto}.main-nav{justify-self:start}.creator-stage-panel{padding-left:10px;padding-right:10px;overflow:hidden}.creator-allive-slot{width:min(420px,100%);max-width:100%}.name-line{flex-wrap:wrap;gap:5px}.name-line input{width:100%;text-align:center;font-size:16px}.soft-input{font-size:16px}.display-case-head{flex-wrap:wrap}.asset-case{padding:8px}.asset-case-group{grid-template-columns:repeat(4,minmax(0,1fr))}.asset-choice{height:88px}.publish-actions{grid-template-columns:1fr}.museum-scroller{height:calc(100vh - 275px);border-radius:22px}.exhibit-card{grid-template-columns:82px minmax(0,1fr) 92px;border-radius:21px;margin-left:2px;margin-right:2px}.card-allive .allive-stage{width:78px}.rank-badge{font-size:14px}.allive-title{font-size:11px}.scent-line{font-size:8px}.scent-description{font-size:7px;line-height:1.13}.scent-notes,.exhibitor{font-size:7px}.stat-row{font-size:7px}.stat-row strong{font-size:8px}.card-actions button{font-size:7px;padding:6px 3px}.card-actions .caress-button{font-size:8px}.champions{grid-template-columns:repeat(3,minmax(0,1fr))}.champion{padding:6px 3px 10px}.champion-name{font-size:10px}.champion-count{font-size:9px}.hero-copy h1{font-size:57px}.jump-controls button{width:41px;height:41px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}.allive-part,.exhibit-card,.scent-row{transition:none!important}.rainbow-glow{animation:none!important}}
+
+/* v5 — silhouette-safe glows + compact deselected display case */
+.allive-part .rainbow-glow{inset:-10px;overflow:visible}
+.allive-part .glow-copy{inset:10px;width:calc(100% - 20px);height:calc(100% - 20px);object-fit:contain;filter:drop-shadow(0 -6px 4px #ff4f99) drop-shadow(6px 0 4px #ffdc57) drop-shadow(0 6px 4px #5bea98) drop-shadow(-6px 0 4px #5fc3ff);opacity:.95}
+.asset-choice{outline:none!important;-webkit-tap-highlight-color:transparent}
+.asset-choice:focus,.asset-choice:focus-visible{outline:none!important}
+.asset-choice .choice-glow{position:absolute;inset:-8px;opacity:0;pointer-events:none;overflow:visible;transition:opacity .1s ease;animation:choiceGlowHue 1.7s linear infinite}
+.asset-choice .choice-glow-copy{position:absolute;left:6%;top:6%;width:88%;height:88%;object-fit:contain;transform:scale(var(--choice-scale,1));filter:drop-shadow(0 -5px 3px #ff4f99) drop-shadow(5px 0 3px #ffdc57) drop-shadow(0 5px 3px #5bea98) drop-shadow(-5px 0 3px #5fc3ff);opacity:.92}
+.asset-choice.selected .choice-glow{opacity:.92}
+.display-case.idle{padding:13px 20px;transition:padding .18s ease}
+.display-case.idle .display-case-head{justify-content:center;text-align:center}
+.display-case.idle .display-case-head .eyebrow{margin-bottom:2px}
+.display-case.idle .asset-case{display:none}
+#random-part[hidden]{display:none!important}
+@keyframes choiceGlowHue{to{filter:hue-rotate(360deg)}}
+/* v5 hard reset of the legacy mask-based vitrine glow */
+.asset-choice .choice-glow{
+  z-index:1;
+  background:none!important;
+  -webkit-mask-image:none!important;
+  mask-image:none!important;
+  -webkit-mask:none!important;
+  mask:none!important;
+  filter:none;
+  transform:none;
+}
+.asset-choice .choice-glow-copy{
+  z-index:1!important;
+  filter:drop-shadow(0 -5px 3px #ff4f99) drop-shadow(5px 0 3px #ffdc57) drop-shadow(0 5px 3px #5bea98) drop-shadow(-5px 0 3px #5fc3ff)!important;
+}
+.asset-choice>img:not(.choice-glow-copy){z-index:2}
+.asset-choice:active .choice-glow-copy{filter:drop-shadow(0 -5px 3px #ff4f99) drop-shadow(5px 0 3px #ffdc57) drop-shadow(0 5px 3px #5bea98) drop-shadow(-5px 0 3px #5fc3ff)!important}

@@ -11,7 +11,9 @@ const DEF={
 const REACTIONS=['jump','wave','dance','excited','sidehop','shimmy'];
 const imageCache=new Map();
 const alphaCache=new Map();
+const glowMaskCache=new Map();
 const ALPHA_SIZE=128;
+const GLOW_MASK_SIZE=192;
 
 function absSrc(src){try{return new URL(src,location.href).href}catch{return src}}
 function loadImage(src){
@@ -35,9 +37,25 @@ async function alphaMap(src){
     return alpha;
   })();alphaCache.set(key,job);return job;
 }
+// Build a clean binary silhouette for glows. This deliberately discards faint
+// transparent pixels around exported PNG bounds, so Safari can never reveal a
+// square image box when drop-shadows are applied.
+export async function glowMaskSrc(src){
+  const key=absSrc(src);if(glowMaskCache.has(key))return glowMaskCache.get(key);
+  const job=(async()=>{
+    const img=await loadImage(src);if(!img)return src;
+    const c=document.createElement('canvas');c.width=c.height=GLOW_MASK_SIZE;
+    const ctx=c.getContext('2d',{willReadFrequently:true});ctx.clearRect(0,0,c.width,c.height);ctx.drawImage(img,0,0,c.width,c.height);
+    const image=ctx.getImageData(0,0,c.width,c.height),d=image.data;
+    // Use an intentionally firm threshold: the real fuzzy edge stays visible in
+    // the foreground PNG; the glow is generated from the solid inner silhouette.
+    for(let i=0;i<d.length;i+=4){const a=d[i+3];if(a>=72){d[i]=255;d[i+1]=255;d[i+2]=255;d[i+3]=255}else{d[i]=d[i+1]=d[i+2]=d[i+3]=0}}
+    ctx.putImageData(image,0,0);return c.toDataURL('image/png');
+  })();glowMaskCache.set(key,job);return job;
+}
 export function preloadCatalogAssets(catalog){
   const srcs=[...catalog.poms,...catalog.gems].map(x=>x.src);
-  return Promise.allSettled(srcs.map(loadImage));
+  return Promise.allSettled(srcs.map(async src=>{await loadImage(src);glowMaskSrc(src)}));
 }
 
 export class AlliveView{
@@ -57,7 +75,7 @@ export class AlliveView{
     if(hero)this.startHeroLoop();
   }
   assetSrc(key,id){const type=DEF[key].type;const list=type==='pom'?this.catalog.poms:this.catalog.gems;return list.find(x=>x.id===id)?.src||''}
-  setGlowSource(p,src){p.glowImg.src=src}
+  setGlowSource(p,src){const token=(p.glowToken||0)+1;p.glowToken=token;glowMaskSrc(src).then(mask=>{if(p.glowToken===token)p.glowImg.src=mask})}
   setData(data){this.data=data;for(const key of Object.keys(DEF)){const src=this.assetSrc(key,data.parts[key]);const p=this.partEls.get(key);p.src=src;p.img.src=src;this.setGlowSource(p,src);loadImage(src);alphaMap(src)}}
   async updatePart(key,id){
     this.data.parts[key]=id;const src=this.assetSrc(key,id);const p=this.partEls.get(key);if(!src||p.src===src)return true;

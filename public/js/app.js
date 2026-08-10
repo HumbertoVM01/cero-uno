@@ -1,6 +1,6 @@
 import { API } from './api.js';
 import { sounds } from './audio.js';
-import { AlliveView, REACTIONS, preloadCatalogAssets } from './allive.js';
+import { AlliveView, REACTIONS, preloadCatalogAssets, glowMaskSrc } from './allive.js';
 import { CardMaker } from './card.js';
 
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
@@ -53,9 +53,12 @@ function initAssetCase(){
   for(const [kind,items] of [['pom',catalog.poms],['gem',catalog.gems]]){
     const group=document.createElement('div');group.className='asset-case-group';group.dataset.kind=kind;
     for(const item of items){
-      const b=document.createElement('button');b.className='asset-choice';b.dataset.asset=item.id;b.dataset.kind=kind;b.title=item.name;b.style.setProperty('--choice-mask',`url("${item.src}")`);
+      const b=document.createElement('button');b.className='asset-choice';b.dataset.asset=item.id;b.dataset.kind=kind;b.title=item.name;
+      const glow=document.createElement('span');glow.className='choice-glow';
+      const glowImg=document.createElement('img');glowImg.className='choice-glow-copy';glowImg.alt='';glowImg.draggable=false;glow.append(glowImg);
+      glowMaskSrc(item.src).then(src=>glowImg.src=src);
       const img=document.createElement('img');img.src=item.src;img.alt=item.name;img.decoding='async';img.draggable=false;
-      const glow=document.createElement('span');glow.className='choice-glow';b.append(glow,img);
+      b.append(glow,img);
       b.onclick=()=>{const key=creator.selected;if(!key)return;const expected=pomParts.has(key)?'pom':'gem';if(expected!==kind)return;setPart(key,item.id,true)};
       group.append(b)
     }
@@ -63,10 +66,16 @@ function initAssetCase(){
   }
 }
 function updateAssetCaseContext(){
-  const key=creator.selected||creator.lastSelected||'body',kind=pomParts.has(key)?'pom':'gem';
+  const display=$('.display-case'),box=$('#asset-case'),randomButton=$('#random-part');
+  if(!creator.selected){
+    display.classList.add('idle');box.setAttribute('aria-hidden','true');randomButton.hidden=true;randomButton.disabled=true;
+    $$('.asset-case-group',box).forEach(g=>g.hidden=true);
+    return;
+  }
+  display.classList.remove('idle');box.removeAttribute('aria-hidden');randomButton.hidden=false;randomButton.disabled=false;
+  const key=creator.selected,kind=pomParts.has(key)?'pom':'gem';
   const scale=key==='body'?0.9:key==='top'?0.68:pomParts.has(key)?0.47:0.52;
-  $$('.asset-case-group',$('#asset-case')).forEach(g=>{g.hidden=g.dataset.kind!==kind;if(!g.hidden)$$('.asset-choice',g).forEach(b=>{b.style.setProperty('--choice-scale',String(scale));b.classList.toggle('selected',!!creator.selected&&b.dataset.asset===creator.parts[creator.selected])})});
-  $('#random-part').disabled=!creator.selected;
+  $$('.asset-case-group',box).forEach(g=>{g.hidden=g.dataset.kind!==kind;if(!g.hidden)$$('.asset-choice',g).forEach(b=>{b.style.setProperty('--choice-scale',String(scale));b.classList.toggle('selected',b.dataset.asset===creator.parts[key])})});
 }
 function syncAssetCaseSelection(){
   const key=creator.selected;if(!key){updateAssetCaseContext();return}
