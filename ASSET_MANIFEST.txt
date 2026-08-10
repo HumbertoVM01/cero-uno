@@ -1,0 +1,22 @@
+MUSEO DE ALLIVES — ASSET MANIFEST
+
+Pom Poms: 18
+Gemas: 13
+Olores: 120
+Sonidos: 39
+
+Capas ALLIVE, de atrás hacia adelante:
+1. Brazo izquierdo / brazo derecho / pierna izquierda / pierna derecha
+2. Cuerpo
+3. Ojo izquierdo / ojo derecho
+4. Pompón superior
+
+Canon geométrico (lienzo 1000 × 1000):
+Cuerpo: centro (500,555), tamaño 520
+Pompón: centro (500,300), tamaño 260
+Brazo I: (240,555), tamaño 130
+Brazo D: (760,555), tamaño 130
+Ojo I: (389,555), tamaño 148
+Ojo D: (611,555), tamaño 148
+Pierna I: (344,758), tamaño 130
+Pierna D: (656,758), tamaño 130

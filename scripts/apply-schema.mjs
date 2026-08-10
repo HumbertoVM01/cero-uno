@@ -1,0 +1,11 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { neon } from '@neondatabase/serverless';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const url = process.env.DATABASE_URL || process.env.NEON_DATABASE_URL;
+if (!url) throw new Error('DATABASE_URL es requerida.');
+const sql = neon(url);
+const schema = fs.readFileSync(path.join(__dirname, '..', 'neon', 'schema.sql'), 'utf8');
+await sql.query(schema);
+console.log('Esquema Museo De ALLIVES aplicado.');

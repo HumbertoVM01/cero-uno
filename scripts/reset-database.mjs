@@ -1,0 +1,14 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { neon } from '@neondatabase/serverless';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const url = process.env.DATABASE_URL || process.env.NEON_DATABASE_URL;
+if (!url) throw new Error('DATABASE_URL es requerida.');
+if (process.env.CONFIRM_ALLIVE_DB_RESET !== 'RESET_MUSEO_DE_ALLIVES') throw new Error('Define CONFIRM_ALLIVE_DB_RESET=RESET_MUSEO_DE_ALLIVES para confirmar el borrado.');
+const sql = neon(url);
+const reset = fs.readFileSync(path.join(__dirname, '..', 'neon', 'reset.sql'), 'utf8');
+const schema = fs.readFileSync(path.join(__dirname, '..', 'neon', 'schema.sql'), 'utf8');
+await sql.query(reset);
+await sql.query(schema);
+console.log('Base reiniciada y esquema Museo De ALLIVES aplicado.');
