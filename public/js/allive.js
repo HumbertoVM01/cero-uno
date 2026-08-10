@@ -56,13 +56,14 @@ export class AlliveView{
     if(hero)this.startHeroLoop();
   }
   assetSrc(key,id){const type=DEF[key].type;const list=type==='pom'?this.catalog.poms:this.catalog.gems;return list.find(x=>x.id===id)?.src||''}
-  setData(data){this.data=data;for(const key of Object.keys(DEF)){const src=this.assetSrc(key,data.parts[key]);const p=this.partEls.get(key);p.src=src;p.img.src=src;p.glow.style.setProperty('--mask',`url("${src}")`);loadImage(src);alphaMap(src)}}
+  setGlowMask(p,src){const mask=`url("${src}")`;p.glow.style.setProperty('-webkit-mask-image',mask);p.glow.style.setProperty('mask-image',mask)}
+  setData(data){this.data=data;for(const key of Object.keys(DEF)){const src=this.assetSrc(key,data.parts[key]);const p=this.partEls.get(key);p.src=src;p.img.src=src;this.setGlowMask(p,src);loadImage(src);alphaMap(src)}}
   async updatePart(key,id){
     this.data.parts[key]=id;const src=this.assetSrc(key,id);const p=this.partEls.get(key);if(!src||p.src===src)return true;
     const token=(p.updateToken||0)+1;p.updateToken=token;
     await loadImage(src); // Keep the old asset visible until the replacement is decoded.
     if(p.updateToken!==token)return false;
-    p.src=src;p.img.src=src;p.glow.style.setProperty('--mask',`url("${src}")`);alphaMap(src);return true;
+    p.src=src;p.img.src=src;this.setGlowMask(p,src);alphaMap(src);return true;
   }
   select(key){this.selected=key||null;for(const [k,p] of this.partEls)p.el.classList.toggle('selected',k===this.selected)}
   setPartRandomizing(key,v){const p=this.partEls.get(key);if(p)p.el.classList.toggle('randomizing',!!v)}
