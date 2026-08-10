@@ -1,9 +1,0 @@
-/api/create-zero-one /.netlify/functions/create-zero-one 200
-/api/list-zero-ones /.netlify/functions/list-zero-ones 200
-/api/tap-zero-one /.netlify/functions/tap-zero-one 200
-/api/stats /.netlify/functions/stats 200
-/api/sync-tiktok-comments /.netlify/functions/sync-tiktok-comments 200
-/api/import-social-comments /.netlify/functions/import-social-comments 200
-/api/list-social-comments /.netlify/functions/list-social-comments 200
-/api/export-social-cycle /.netlify/functions/export-social-cycle 200
-/api/save-field-cycle /.netlify/functions/save-field-cycle 200

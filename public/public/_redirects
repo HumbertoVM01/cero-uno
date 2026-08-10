@@ -1,4 +1,0 @@
-/api/create-zero-one /.netlify/functions/create-zero-one 200
-/api/list-zero-ones /.netlify/functions/list-zero-ones 200
-/api/tap-zero-one /.netlify/functions/tap-zero-one 200
-/api/stats /.netlify/functions/stats 200
