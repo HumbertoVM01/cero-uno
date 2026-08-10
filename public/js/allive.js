@@ -1,12 +1,12 @@
 const DEF={
   body:{cls:'body',x:500,y:555,size:520,z:20,type:'pom'},
-  top:{cls:'top',x:500,y:300,size:338,z:40,type:'pom'},
+  top:{cls:'top',x:500,y:300,size:299,z:40,type:'pom'},
   leftArm:{cls:'left-arm',x:240,y:555,size:169,z:10,type:'pom'},
   rightArm:{cls:'right-arm',x:760,y:555,size:169,z:10,type:'pom'},
   leftLeg:{cls:'left-leg',x:344,y:758,size:169,z:10,type:'pom'},
   rightLeg:{cls:'right-leg',x:656,y:758,size:169,z:10,type:'pom'},
-  leftEye:{cls:'left-eye',x:389,y:555,size:192.4,z:30,type:'gem'},
-  rightEye:{cls:'right-eye',x:611,y:555,size:192.4,z:30,type:'gem'},
+  leftEye:{cls:'left-eye',x:389,y:555,size:176.8,z:30,type:'gem'},
+  rightEye:{cls:'right-eye',x:611,y:555,size:176.8,z:30,type:'gem'},
 };
 const REACTIONS=['jump','wave','dance','excited','sidehop','shimmy'];
 const imageCache=new Map();
