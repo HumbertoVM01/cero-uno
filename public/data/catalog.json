@@ -162,455 +162,483 @@
     {
       "id": "abeto",
       "name": "Abeto",
-      "description": "Amaderado, seco y envolvente, con una sensación natural que recuerda troncos, resina y aire de bosque.",
+      "description": "Verde, frío y resinoso, como entrar a un bosque de coníferas después de una mañana húmeda. Tiene el olor limpio de las agujas recién frotadas, madera fresca y savia, con una sensación ligeramente balsámica que recuerda al aire de montaña.",
       "notes": [
-        "Abeto",
-        "madera",
+        "agujas de abeto",
         "resina",
-        "bosque"
+        "savia",
+        "madera fresca",
+        "aire de bosque"
       ],
       "order": 1
     },
     {
       "id": "albahaca",
       "name": "Albahaca",
-      "description": "Herbal y verde, fresco al principio y aromático al asentarse, como hojas recién frotadas entre los dedos.",
+      "description": "Intensamente verde y aromática, con el carácter jugoso de una hoja de albahaca recién cortada. Mezcla frescura herbal, un toque ligeramente anisado y una faceta especiada que le da más profundidad que a una simple hoja verde.",
       "notes": [
-        "Albahaca",
-        "hojas verdes",
-        "hierbas aromáticas",
-        "frescura"
+        "hoja de albahaca",
+        "hierbas verdes",
+        "anís suave",
+        "especias frescas"
       ],
       "order": 2
     },
     {
       "id": "alcanfor",
       "name": "Alcanfor",
-      "description": "Muy fresco y penetrante, con una sensación limpia, mentolada y fría que abre el aroma de inmediato.",
+      "description": "Penetrante, cristalino y extremadamente fresco. Tiene una sensación fría casi medicinal, con un carácter limpio y aromático que parece despejar el aire y dejar detrás un rastro de madera blanca y hierbas intensas.",
       "notes": [
-        "Alcanfor",
-        "mentol",
-        "hojas frescas",
-        "aire frío"
+        "alcanfor",
+        "frescor cristalino",
+        "hierbas intensas",
+        "madera blanca"
       ],
       "order": 3
     },
     {
       "id": "almizcle-blanco",
       "name": "Almizcle blanco",
-      "description": "Limpio, suave y ligeramente empolvado, con una calidez de piel y tela recién lavada.",
+      "description": "Suave, limpio y envolvente, como tela recién lavada calentándose sobre la piel. Es ligeramente empolvado y cremoso, con una sensación íntima y mullida que recuerda a sábanas blancas, jabón delicado y piel limpia.",
       "notes": [
-        "Almizcle blanco",
-        "piel limpia",
+        "almizcle limpio",
         "algodón",
-        "polvo suave"
+        "jabón suave",
+        "polvo limpio",
+        "piel"
       ],
       "order": 4
     },
     {
       "id": "angelica",
       "name": "Angélica",
-      "description": "Verde, aromático y ligeramente anisado, con un carácter vegetal seco y delicadamente especiado.",
+      "description": "Herbal y terrosa, con una frescura verde que rápidamente revela una raíz seca, ligeramente amarga y especiada. Tiene algo de bosque húmedo y algo de jardín medicinal, con una dulzura discreta escondida debajo.",
       "notes": [
-        "Angélica",
-        "hierbas",
-        "semillas",
-        "verde seco"
+        "raíz de angélica",
+        "hojas verdes",
+        "tierra húmeda",
+        "especias secas"
       ],
       "order": 5
     },
     {
       "id": "anis-estrella",
       "name": "Anís estrella",
-      "description": "Dulce, especiado y nítidamente anisado, con una frescura licorosa y cálida al mismo tiempo.",
+      "description": "Dulce, especiado y muy reconocible, con una nota intensa de regaliz y una frescura aromática ligeramente mentolada. Tiene un carácter oscuro y brillante al mismo tiempo, como una especia tostada que conserva un borde fresco.",
       "notes": [
-        "Anís estrella",
         "anís",
         "regaliz",
-        "especias"
+        "especias dulces",
+        "frescor herbal"
       ],
       "order": 6
     },
     {
       "id": "arandano-azul",
       "name": "Arándano azul (blueberry)",
-      "description": "Frutal, jugoso y dulce, con una acidez suave de frutos azules maduros.",
+      "description": "Afrutado, jugoso y profundamente dulce, con el aroma oscuro de arándanos maduros recién aplastados. Tiene una acidez suave y una faceta casi de mermelada, pero conserva un toque fresco que evita que se vuelva completamente confitado.",
       "notes": [
-        "Arándano azul",
-        "arándano",
-        "frutos azules",
-        "jugo"
+        "arándano azul",
+        "frutos oscuros",
+        "jugo dulce",
+        "mermelada",
+        "acidez suave"
       ],
       "order": 7
     },
     {
       "id": "arandano-rojo",
       "name": "Arándano rojo (cranberry)",
-      "description": "Frutal y brillante, con acidez marcada, dulzor rojo y un acabado ligeramente seco.",
+      "description": "Más ácido y brillante que el arándano azul. Huele a pequeñas bayas rojas recién abiertas, con una mezcla de jugo agrio, dulzor ligero y un toque seco que recuerda a la piel de la fruta.",
       "notes": [
-        "Arándano rojo",
-        "fruta ácida",
-        "jugo rojo",
-        "dulzor"
+        "cranberry",
+        "frutos rojos",
+        "jugo ácido",
+        "piel de baya",
+        "dulzor ligero"
       ],
       "order": 8
     },
     {
       "id": "arbol-del-te",
       "name": "Árbol del té",
-      "description": "Herbal y verde, fresco al principio y aromático al asentarse, como hojas recién frotadas entre los dedos.",
+      "description": "Verde, medicinal y refrescante, con una presencia herbal seca y penetrante. Recuerda a hojas trituradas, madera húmeda y una corriente de aire limpio, con un ligero carácter alcanforado.",
       "notes": [
-        "Árbol del té",
-        "hojas verdes",
-        "hierbas aromáticas",
-        "frescura"
+        "hojas de árbol del té",
+        "hierbas verdes",
+        "alcanfor suave",
+        "madera húmeda"
       ],
       "order": 9
     },
     {
       "id": "artemisa",
       "name": "Artemisa",
-      "description": "Verde, aromático y ligeramente anisado, con un carácter vegetal seco y delicadamente especiado.",
+      "description": "Herbal, amarga y misteriosa. Tiene el olor de hojas silvestres secándose al sol, con matices verdes, terrosos y ligeramente alcanforados que evocan un jardín de hierbas creciendo sin domesticar.",
       "notes": [
-        "Artemisa",
-        "hierbas",
-        "semillas",
-        "verde seco"
+        "artemisa",
+        "hierbas amargas",
+        "hojas secas",
+        "tierra",
+        "alcanfor suave"
       ],
       "order": 10
     },
     {
       "id": "azucar-morena",
       "name": "Azúcar morena",
-      "description": "Dulce, tostado y cálido, como azúcar húmeda con notas de caramelo oscuro y melaza.",
+      "description": "Dulce y cálida, con más profundidad que el azúcar blanca. Huele a cristales húmedos de azúcar morena, melaza ligera, caramelo recién empezando a tostarse y un fondo casi mantequilloso.",
       "notes": [
-        "Azúcar morena",
-        "caramelo",
+        "azúcar morena",
         "melaza",
-        "tostado"
+        "caramelo claro",
+        "mantequilla dulce"
       ],
       "order": 11
     },
     {
       "id": "bambu",
       "name": "Bambú",
-      "description": "Verde, acuoso y muy limpio, como vegetación fresca cortada y aire húmedo.",
+      "description": "Verde, acuático y muy limpio. Recuerda al interior húmedo de un tallo recién cortado, con savia fresca, hojas verdes y una sensación transparente de agua que lo hace ligero y sereno.",
       "notes": [
-        "Bambú",
-        "verde fresco",
-        "agua",
-        "hojas"
+        "bambú verde",
+        "savia",
+        "hojas frescas",
+        "agua limpia",
+        "tallo húmedo"
       ],
       "order": 12
     },
     {
       "id": "baya-de-enebro",
       "name": "Baya de enebro",
-      "description": "Fresco, seco y resinoso, con un toque aromático de baya y bosque frío.",
+      "description": "Fresca, resinosa y ligeramente picante. Tiene el olor verde y seco de las bayas machacadas, con un carácter parecido al pino, pero más brillante, aromático y ligeramente cítrico.",
       "notes": [
-        "Baya de enebro",
         "enebro",
+        "bayas verdes",
         "resina",
-        "madera"
+        "pino seco",
+        "cítrico herbal"
       ],
       "order": 13
     },
     {
       "id": "benjui",
       "name": "Benjuí",
-      "description": "Resinoso, cálido y balsámico, con una dulzura oscura y un fondo ligeramente ahumado.",
+      "description": "Resinoso, cálido y reconfortante, con una dulzura parecida a la vainilla pero más oscura y balsámica. Evoca resina ámbar calentada lentamente, caramelo tostado y madera dulce.",
       "notes": [
-        "Benjuí",
-        "resina",
-        "bálsamo",
-        "humo suave"
+        "resina de benjuí",
+        "vainilla balsámica",
+        "ámbar",
+        "caramelo oscuro",
+        "madera dulce"
       ],
       "order": 14
     },
     {
       "id": "bergamota",
       "name": "Bergamota",
-      "description": "Cítrico, luminoso y chispeante, con cáscara fresca, jugo y una limpieza brillante.",
+      "description": "Cítrica pero mucho más aromática que un limón común. Combina cáscara brillante, jugo amargo, flores ligeras y una delicada nota verde que recuerda al aroma característico del té Earl Grey.",
       "notes": [
-        "Bergamota",
-        "cítrico",
-        "cáscara",
-        "jugo"
+        "cáscara de bergamota",
+        "cítrico amargo",
+        "té",
+        "flores frescas",
+        "hojas verdes"
       ],
       "order": 15
     },
     {
       "id": "brandy",
       "name": "Brandy",
-      "description": "Cálido, dulce y licoroso, con notas de madera, azúcar tostada y fruta madura.",
+      "description": "Cálido, frutal y licoroso, como una copa de brandy recién servida. Tiene notas de uva madura, fruta seca, madera de barrica y una dulzura caramelizada que se vuelve más profunda conforme permanece.",
       "notes": [
-        "Brandy",
-        "licor",
-        "madera",
-        "caramelo"
+        "brandy",
+        "uva madura",
+        "fruta seca",
+        "roble",
+        "caramelo oscuro"
       ],
       "order": 16
     },
     {
       "id": "brisa-marina",
       "name": "Brisa marina",
-      "description": "Limpio, aireado y acuoso, con una sensación fresca de tela, agua y aire claro.",
+      "description": "Fresca, aireada y ligeramente salada. Evoca viento entrando desde el mar, agua mineral, ropa moviéndose junto a la costa y una humedad limpia que deja una sensación azul y abierta.",
       "notes": [
-        "Brisa marina",
-        "aire limpio",
-        "agua",
-        "tela fresca"
+        "aire marino",
+        "sal",
+        "agua mineral",
+        "brisa fresca",
+        "ozono"
       ],
       "order": 17
     },
     {
       "id": "cafe",
       "name": "Café",
-      "description": "Tostado, cálido y reconfortante, con café recién preparado y un dulzor suave de repostería.",
+      "description": "Oscuro, tostado y profundamente aromático, como abrir una bolsa de granos recién molidos. Tiene amargor cálido, tostado intenso, cacao seco y una faceta ligeramente caramelizada.",
       "notes": [
-        "Café",
         "café tostado",
-        "azúcar",
-        "masa dulce"
+        "granos molidos",
+        "cacao",
+        "caramelo oscuro",
+        "tostado"
       ],
       "order": 18
     },
     {
       "id": "canela",
       "name": "Canela",
-      "description": "Especiado y cálido, con un ataque aromático vivo y un fondo seco ligeramente dulce.",
+      "description": "Cálida, dulce y especiada, con el olor seco y envolvente de una rama de canela recién partida. Tiene una sensación picante que rápidamente se vuelve dulce, amaderada y ligeramente empolvada.",
       "notes": [
-        "Canela",
-        "especias",
-        "calidez",
-        "madera seca"
+        "canela",
+        "corteza seca",
+        "especias cálidas",
+        "madera dulce"
       ],
       "order": 19
     },
     {
       "id": "cedro-negro-y-enebro",
       "name": "Cedro negro y enebro",
-      "description": "Amaderado, seco y envolvente, con una sensación natural que recuerda troncos, resina y aire de bosque.",
+      "description": "Amaderado, oscuro y fresco. El cedro aporta una base seca y profunda mientras el enebro introduce un filo verde, resinoso y aromático, como caminar entre árboles oscuros con aire frío alrededor.",
       "notes": [
-        "Cedro negro y enebro",
-        "madera",
+        "cedro oscuro",
+        "enebro",
         "resina",
-        "bosque"
+        "madera seca",
+        "bosque frío"
       ],
       "order": 20
     },
     {
       "id": "cereza",
       "name": "Cereza",
-      "description": "Frutal, rojo y jugoso, con dulzor de cereza madura y una acidez suave.",
+      "description": "Roja, jugosa y dulce, con el aroma reconocible de una cereza madura recién partida. Combina pulpa azucarada, una acidez brillante y un ligero matiz almendrado proveniente del hueso.",
       "notes": [
-        "Cereza",
-        "fruta roja",
-        "jugo",
-        "dulzor"
+        "cereza madura",
+        "jugo rojo",
+        "almendra suave",
+        "azúcar",
+        "acidez frutal"
       ],
       "order": 21
     },
     {
       "id": "cesped-recien-cortado",
       "name": "Césped recién cortado",
-      "description": "Verde, acuoso y muy limpio, como vegetación fresca cortada y aire húmedo.",
+      "description": "Intensamente verde y húmedo, como pasar junto a un jardín segundos después de cortar el pasto. Huele a hojas rotas, clorofila, tallos jugosos y tierra calentada por el sol.",
       "notes": [
-        "Césped recién cortado",
-        "verde fresco",
-        "agua",
-        "hojas"
+        "césped cortado",
+        "clorofila",
+        "tallos verdes",
+        "tierra húmeda"
       ],
       "order": 22
     },
     {
       "id": "chocolate",
       "name": "Chocolate",
-      "description": "Dulce y cremoso, con cacao, azúcar tostada y una sensación de postre recién horneado.",
+      "description": "Rico, oscuro y cremoso, con el aroma profundo del cacao mezclado con azúcar. Tiene amargor suave, leche cálida y una textura olfativa densa que recuerda a chocolate derritiéndose lentamente.",
       "notes": [
-        "Chocolate",
         "cacao",
+        "chocolate oscuro",
+        "leche",
         "azúcar",
-        "masa horneada"
+        "manteca de cacao"
       ],
       "order": 23
     },
     {
       "id": "cipres",
       "name": "Ciprés",
-      "description": "Amaderado, seco y envolvente, con una sensación natural que recuerda troncos, resina y aire de bosque.",
+      "description": "Verde, seco y elegante, con una madera resinosa más austera que el pino. Evoca ramas de ciprés, corteza fresca y aire frío, con un fondo ligeramente terroso y aromático.",
       "notes": [
-        "Ciprés",
-        "madera",
+        "ciprés",
+        "ramas verdes",
+        "madera seca",
         "resina",
-        "bosque"
+        "tierra"
       ],
       "order": 24
     },
     {
       "id": "clavo-de-olor",
       "name": "Clavo de olor",
-      "description": "Especiado y cálido, con un ataque aromático vivo y un fondo seco ligeramente dulce.",
+      "description": "Muy especiado, cálido y penetrante. Tiene una dulzura oscura casi medicinal, con madera seca y un calor picante que recuerda a clavos enteros recién triturados entre los dedos.",
       "notes": [
-        "Clavo de olor",
-        "especias",
-        "calidez",
-        "madera seca"
+        "clavo",
+        "especias oscuras",
+        "madera",
+        "dulzor cálido",
+        "eugenol"
       ],
       "order": 25
     },
     {
       "id": "coco",
       "name": "Coco",
-      "description": "Cremoso, tropical y dulce, con pulpa de coco y una suavidad lechosa.",
+      "description": "Tropical, lechoso y ligeramente tostado, como abrir un coco fresco. Combina pulpa blanca, agua de coco, una cremosidad natural y un matiz seco parecido a la cáscara.",
       "notes": [
-        "Coco",
-        "crema",
-        "leche",
-        "dulzor tropical"
+        "pulpa de coco",
+        "agua de coco",
+        "leche ligera",
+        "cáscara seca"
       ],
       "order": 26
     },
     {
       "id": "colonia",
       "name": "Colonia",
-      "description": "Limpio, aireado y acuoso, con una sensación fresca de tela, agua y aire claro.",
+      "description": "Fresca y pulida, inspirada en una colonia clásica recién aplicada. Abre con cítricos brillantes y continúa con hierbas limpias, flores discretas y un fondo ligeramente jabonoso.",
       "notes": [
-        "Colonia",
-        "aire limpio",
-        "agua",
-        "tela fresca"
+        "cítricos",
+        "hierbas aromáticas",
+        "jabón limpio",
+        "flores ligeras",
+        "almizcle"
       ],
       "order": 27
     },
     {
       "id": "crema-de-coco",
       "name": "Crema de coco",
-      "description": "Cremoso, tropical y dulce, con pulpa de coco y una suavidad lechosa.",
+      "description": "Más dulce, espesa y golosa que el coco fresco. Huele a crema de coco batida con azúcar, leche condensada y pulpa tropical, con una textura suave casi de postre.",
       "notes": [
-        "Crema de coco",
-        "coco",
-        "crema",
-        "leche"
+        "crema de coco",
+        "leche condensada",
+        "azúcar",
+        "coco dulce",
+        "vainilla suave"
       ],
       "order": 28
     },
     {
       "id": "cuero",
       "name": "Cuero",
-      "description": "Oscuro, seco y cálido, con cuero suave, madera y un dulzor ahumado discreto.",
+      "description": "Seco, cálido y profundo, como una pieza de cuero nuevo dentro de una tienda silenciosa. Tiene matices ahumados, amaderados y ligeramente animales, suavizados por una sensación cálida y pulida.",
       "notes": [
-        "Cuero",
+        "cuero",
         "madera",
         "humo suave",
-        "dulzor"
+        "piel curtida",
+        "ámbar seco"
       ],
       "order": 29
     },
     {
       "id": "durazno",
       "name": "Durazno",
-      "description": "Frutal, aterciopelado y jugoso, con pulpa madura y un dulzor suave.",
+      "description": "Jugoso, aterciopelado y dulce, con el olor de un durazno perfectamente maduro. La pulpa es melosa y brillante, mientras la piel aporta una faceta suave y ligeramente floral.",
       "notes": [
-        "Durazno",
-        "pulpa",
+        "pulpa de durazno",
+        "piel aterciopelada",
         "néctar",
-        "dulzor"
+        "flores suaves"
       ],
       "order": 30
     },
     {
       "id": "eucalipto",
       "name": "Eucalipto",
-      "description": "Muy fresco y penetrante, con una sensación limpia, mentolada y fría que abre el aroma de inmediato.",
+      "description": "Intensamente fresco y expansivo, con una sensación fría que parece abrir el aire. Huele a hojas de eucalipto recién quebradas, mentol verde, madera limpia y un toque alcanforado.",
       "notes": [
-        "Eucalipto",
+        "eucalipto",
+        "hojas verdes",
         "mentol",
-        "hojas frescas",
-        "aire frío"
+        "alcanfor",
+        "madera fresca"
       ],
       "order": 31
     },
     {
       "id": "flores-de-cerezo",
       "name": "Flores de cerezo",
-      "description": "Floral, suave y envolvente, con pétalos frescos, un dulzor delicado y una sensación limpia de jardín.",
+      "description": "Floral, tenue y luminoso, muy diferente a la fruta de cereza. Evoca pétalos rosados en aire fresco, con una dulzura delicada, ligeramente acuática y apenas empolvada.",
       "notes": [
-        "Flores de cerezo",
-        "pétalos",
-        "floral",
-        "jardín"
+        "pétalos de cerezo",
+        "flores rosadas",
+        "aire fresco",
+        "agua floral",
+        "almizcle suave"
       ],
       "order": 32
     },
     {
       "id": "flores-de-ciruelo",
       "name": "Flores de ciruelo (plum blossoms)",
-      "description": "Floral, suave y envolvente, con pétalos frescos, un dulzor delicado y una sensación limpia de jardín.",
+      "description": "Floral suave con un carácter ligeramente más profundo y afrutado que la flor de cerezo. Recuerda a pétalos blancos y rosados, ciruela apenas madura y una dulzura fresca con un fondo delicadamente almizclado.",
       "notes": [
-        "Flores de ciruelo",
+        "flor de ciruelo",
         "pétalos",
-        "floral",
-        "jardín"
+        "ciruela ligera",
+        "almizcle",
+        "néctar"
       ],
       "order": 33
     },
     {
       "id": "frambuesa",
       "name": "Frambuesa",
-      "description": "Frutal, jugoso y alegre, con pulpa madura, néctar y un dulzor fresco.",
+      "description": "Brillante, roja y jugosa, con una combinación equilibrada de dulzor y acidez. Tiene el aroma de frambuesas recién trituradas, semillas pequeñas, jugo vivo y un toque de mermelada fresca.",
       "notes": [
-        "Frambuesa",
-        "fruta madura",
-        "jugo",
-        "néctar"
+        "frambuesa",
+        "frutos rojos",
+        "jugo ácido",
+        "semillas",
+        "mermelada"
       ],
       "order": 34
     },
     {
       "id": "fresa",
       "name": "Fresa",
-      "description": "Frutal, jugoso y alegre, con pulpa madura, néctar y un dulzor fresco.",
+      "description": "Dulce, alegre y reconociblemente roja. Huele a fresas maduras recién cortadas, con pulpa jugosa, azúcar natural y una faceta verde muy ligera que recuerda a las hojas y al tallo.",
       "notes": [
-        "Fresa",
-        "fruta madura",
-        "jugo",
-        "néctar"
+        "fresa madura",
+        "jugo dulce",
+        "azúcar",
+        "hojas verdes"
       ],
       "order": 35
     },
     {
       "id": "fresia",
       "name": "Fresia",
-      "description": "Floral, suave y envolvente, con pétalos frescos, un dulzor delicado y una sensación limpia de jardín.",
+      "description": "Floral transparente, limpio y ligeramente cítrico. Tiene una frescura casi acuática, con pétalos blancos y amarillos, una dulzura mínima y una sensación de ramo recién colocado en agua.",
       "notes": [
-        "Fresia",
-        "pétalos",
-        "floral",
-        "jardín"
+        "fresia",
+        "pétalos frescos",
+        "cítrico suave",
+        "agua floral",
+        "aire limpio"
       ],
       "order": 36
     },
     {
       "id": "galleta-con-chispas-de-chocolate",
       "name": "Galleta con chispas de chocolate",
-      "description": "Dulce y cremoso, con cacao, azúcar tostada y una sensación de postre recién horneado.",
+      "description": "Huele a una galleta recién salida del horno: mantequilla dorada, masa dulce, vainilla y chocolate todavía tibio. Los bordes ligeramente tostados aportan una nota horneada que equilibra toda la dulzura.",
       "notes": [
-        "Galleta con chispas de chocolate",
-        "cacao",
+        "galleta",
+        "mantequilla",
+        "vainilla",
         "chocolate",
-        "azúcar"
+        "azúcar morena",
+        "masa horneada"
       ],
       "order": 37
     },
     {
       "id": "galleta-de-avena",
       "name": "Galleta de avena",
-      "description": "Dulce, horneado y cálido, como una cocina con masa recién hecha, especias suaves y azúcar tostada.",
+      "description": "Cálida, casera y menos azucarada que una galleta tradicional. Combina avena tostada, mantequilla, cereal seco y azúcar morena con una sensación ligeramente especiada y reconfortante.",
       "notes": [
-        "Galleta de avena",
-        "masa horneada",
-        "azúcar",
+        "avena tostada",
+        "mantequilla",
+        "cereal",
+        "azúcar morena",
         "especias suaves"
       ],
       "order": 38
@@ -618,695 +646,754 @@
     {
       "id": "gardenia",
       "name": "Gardenia",
-      "description": "Floral, suave y envolvente, con pétalos frescos, un dulzor delicado y una sensación limpia de jardín.",
+      "description": "Floral blanco, cremoso e intenso. Tiene pétalos exuberantes y una dulzura densa casi aterciopelada, con matices verdes que recuerdan que la flor acaba de ser cortada del jardín.",
       "notes": [
-        "Gardenia",
-        "pétalos",
-        "floral",
-        "jardín"
+        "gardenia",
+        "flores blancas",
+        "pétalos cremosos",
+        "hojas verdes",
+        "néctar"
       ],
       "order": 39
     },
     {
       "id": "gaulteria",
       "name": "Gaulteria (wintergreen)",
-      "description": "Muy fresco y penetrante, con una sensación limpia, mentolada y fría que abre el aroma de inmediato.",
+      "description": "Fría, dulce y penetrante, con una frescura mentolada característica que recuerda a hojas verdes trituradas y dulces de menta. Tiene una faceta ligeramente medicinal y un dulzor limpio de fondo.",
       "notes": [
-        "Gaulteria",
-        "mentol",
-        "hojas frescas",
-        "aire frío"
+        "wintergreen",
+        "menta dulce",
+        "hojas verdes",
+        "frescor frío"
       ],
       "order": 40
     },
     {
       "id": "geranio",
       "name": "Geranio",
-      "description": "Floral, suave y envolvente, con pétalos frescos, un dulzor delicado y una sensación limpia de jardín.",
+      "description": "Verde y floral, con una faceta rosada más seca y herbal que una rosa tradicional. Huele a hojas de geranio frotadas entre las manos, pétalos frescos y un toque ligeramente cítrico.",
       "notes": [
-        "Geranio",
-        "pétalos",
-        "floral",
-        "jardín"
+        "hoja de geranio",
+        "rosa verde",
+        "cítrico suave",
+        "tallos",
+        "pétalos"
       ],
       "order": 41
     },
     {
       "id": "guayaba",
       "name": "Guayaba",
-      "description": "Frutal, jugoso y alegre, con pulpa madura, néctar y un dulzor fresco.",
+      "description": "Tropical, jugosa y muy aromática. Mezcla pulpa rosada dulce, una acidez verde y una faceta ligeramente almizclada que le da ese carácter peculiar de fruta madura recién abierta.",
       "notes": [
-        "Guayaba",
-        "fruta madura",
-        "jugo",
-        "néctar"
+        "guayaba rosada",
+        "pulpa tropical",
+        "néctar",
+        "acidez verde",
+        "piel"
       ],
       "order": 42
     },
     {
       "id": "hierba-de-limon",
       "name": "Hierba de limón (lemongrass)",
-      "description": "Herbal y verde, fresco al principio y aromático al asentarse, como hojas recién frotadas entre los dedos.",
+      "description": "Verde, cítrica y vibrante. Tiene la intensidad del limón pero con una base claramente herbácea, como tallos frescos aplastados que liberan aceites cítricos y una ligera nota terrosa.",
       "notes": [
-        "Hierba de limón",
-        "hojas verdes",
-        "hierbas aromáticas",
-        "frescura"
+        "lemongrass",
+        "tallos verdes",
+        "limón",
+        "hierbas",
+        "tierra ligera"
       ],
       "order": 43
     },
     {
       "id": "hierbabuena",
       "name": "Hierbabuena (spearmint)",
-      "description": "Muy fresco y penetrante, con una sensación limpia, mentolada y fría que abre el aroma de inmediato.",
+      "description": "Fresca y verde, pero más suave y dulce que la menta piperita. Recuerda a hojas de hierbabuena recién cortadas, con una sensación refrescante amable y un ligero dulzor vegetal.",
       "notes": [
-        "Hierbabuena",
-        "mentol",
+        "hierbabuena",
         "hojas frescas",
-        "aire frío"
+        "menta dulce",
+        "tallos verdes"
       ],
       "order": 44
     },
     {
       "id": "higo",
       "name": "Higo",
-      "description": "Frutal, verde y lechoso, con pulpa dulce, hojas frescas y un fondo suave.",
+      "description": "Verde, lechoso y afrutado al mismo tiempo. Huele a la pulpa dulce y granulosa de un higo maduro, mezclada con hojas verdes, savia lechosa y una sombra suave de madera.",
       "notes": [
-        "Higo",
-        "hoja verde",
-        "pulpa",
-        "leche vegetal"
+        "higo maduro",
+        "hoja de higuera",
+        "savia",
+        "pulpa dulce",
+        "madera"
       ],
       "order": 45
     },
     {
       "id": "hinojo",
       "name": "Hinojo",
-      "description": "Verde, aromático y ligeramente anisado, con un carácter vegetal seco y delicadamente especiado.",
+      "description": "Verde, anisado y ligeramente dulce. Tiene la frescura crujiente del bulbo recién cortado junto con notas de regaliz, hierbas y semillas secas que le dan un carácter muy aromático.",
       "notes": [
-        "Hinojo",
-        "hierbas",
+        "hinojo",
+        "anís",
+        "bulbo verde",
         "semillas",
-        "verde seco"
+        "hierbas frescas"
       ],
       "order": 46
     },
     {
       "id": "incienso",
       "name": "Incienso (olíbano)",
-      "description": "Resinoso, cálido y balsámico, con una dulzura oscura y un fondo ligeramente ahumado.",
+      "description": "Resinoso, mineral y contemplativo. Al principio es seco y ligeramente cítrico; después desarrolla humo limpio, madera pálida y una profundidad balsámica que recuerda a resina calentándose lentamente.",
       "notes": [
-        "Incienso",
+        "olíbano",
         "resina",
-        "bálsamo",
-        "humo suave"
+        "humo limpio",
+        "madera",
+        "mineral",
+        "cítrico seco"
       ],
       "order": 47
     },
     {
       "id": "jazmin",
       "name": "Jazmín",
-      "description": "Floral, suave y envolvente, con pétalos frescos, un dulzor delicado y una sensación limpia de jardín.",
+      "description": "Floral blanco, rico y envolvente, con un perfume intenso de pétalos abiertos durante la noche. Es dulce y cremoso, pero conserva un matiz verde y ligeramente indólico que le aporta profundidad natural.",
       "notes": [
-        "Jazmín",
-        "pétalos",
-        "floral",
-        "jardín"
+        "jazmín",
+        "flores blancas",
+        "pétalos nocturnos",
+        "néctar",
+        "hojas verdes"
       ],
       "order": 48
     },
     {
       "id": "jengibre",
       "name": "Jengibre",
-      "description": "Especiado y cálido, con un ataque aromático vivo y un fondo seco ligeramente dulce.",
+      "description": "Picante, fresco y efervescente. Huele a una raíz de jengibre recién cortada, con jugo cítrico, calor especiado y una faceta terrosa que aparece detrás del primer destello brillante.",
       "notes": [
-        "Jengibre",
-        "especias",
-        "calidez",
-        "madera seca"
+        "jengibre fresco",
+        "raíz",
+        "cítrico",
+        "especias picantes",
+        "tierra"
       ],
       "order": 49
     },
     {
       "id": "laurel",
       "name": "Laurel",
-      "description": "Herbal y verde, fresco al principio y aromático al asentarse, como hojas recién frotadas entre los dedos.",
+      "description": "Herbal, seco y aromático, con el carácter limpio de una hoja de laurel quebrada. Combina eucalipto suave, madera verde, especias secas y un fondo ligeramente amargo.",
       "notes": [
-        "Laurel",
-        "hojas verdes",
-        "hierbas aromáticas",
-        "frescura"
+        "hoja de laurel",
+        "hierbas secas",
+        "eucalipto suave",
+        "madera verde"
       ],
       "order": 50
     },
     {
       "id": "lavanda",
       "name": "Lavanda",
-      "description": "Floral, suave y envolvente, con pétalos frescos, un dulzor delicado y una sensación limpia de jardín.",
+      "description": "Floral y herbal al mismo tiempo, con una frescura limpia y relajada. Huele a flores de lavanda secándose entre tallos verdes, con un fondo ligeramente dulce, empolvado y balsámico.",
       "notes": [
-        "Lavanda",
-        "pétalos",
-        "floral",
-        "jardín"
+        "lavanda",
+        "tallos verdes",
+        "flores secas",
+        "hierbas",
+        "polvo floral"
       ],
       "order": 51
     },
     {
       "id": "leche",
       "name": "Leche",
-      "description": "Cremoso, suave y limpio, con una dulzura láctea tenue y una sensación reconfortante.",
+      "description": "Suave, cremosa y discretamente dulce. Recuerda a leche tibia recién servida, con una sensación limpia y reconfortante, un ligero dulzor lácteo y un fondo casi aterciopelado.",
       "notes": [
-        "Leche",
-        "crema",
-        "dulzor suave",
-        "limpio"
+        "leche tibia",
+        "crema ligera",
+        "lactónico",
+        "dulzor suave"
       ],
       "order": 52
     },
     {
       "id": "lilas",
       "name": "Lilas",
-      "description": "Floral, suave y envolvente, con pétalos frescos, un dulzor delicado y una sensación limpia de jardín.",
+      "description": "Floral fresco, ligeramente verde y nostálgico. Huele a un ramo grande de lilas recién cortadas, con pétalos húmedos, tallos verdes y una dulzura aérea que llena el espacio sin sentirse pesada.",
       "notes": [
-        "Lilas",
-        "pétalos",
-        "floral",
-        "jardín"
+        "lilas",
+        "pétalos húmedos",
+        "tallos verdes",
+        "néctar ligero",
+        "aire primaveral"
       ],
       "order": 53
     },
     {
       "id": "lima",
       "name": "Lima (lime)",
-      "description": "Cítrico, luminoso y chispeante, con cáscara fresca, jugo y una limpieza brillante.",
+      "description": "Cítrica, verde y afilada. Tiene el aroma de la cáscara recién exprimida, jugo ácido y aceites verdes brillantes, con una sensación más seca y punzante que la naranja o el limón.",
       "notes": [
-        "Lima",
-        "cítrico",
-        "cáscara",
-        "jugo"
+        "lima",
+        "cáscara verde",
+        "jugo ácido",
+        "aceites cítricos"
       ],
       "order": 54
     },
     {
       "id": "limon",
       "name": "Limón",
-      "description": "Cítrico, luminoso y chispeante, con cáscara fresca, jugo y una limpieza brillante.",
+      "description": "Brillante, limpio y jugoso, como cortar un limón fresco y doblar la cáscara para liberar sus aceites. Combina acidez viva, pulpa cítrica y una faceta ligeramente amarga y luminosa.",
       "notes": [
-        "Limón",
-        "cítrico",
-        "cáscara",
-        "jugo"
+        "limón",
+        "cáscara amarilla",
+        "jugo",
+        "aceites cítricos",
+        "acidez"
       ],
       "order": 55
     },
     {
       "id": "lino-fresco",
       "name": "Lino fresco",
-      "description": "Limpio, aireado y acuoso, con una sensación fresca de tela, agua y aire claro.",
+      "description": "Limpio, seco y aireado, como sábanas recién lavadas extendidas en una habitación luminosa. Mezcla algodón, jabón delicado, aire fresco y un toque tenue de flores blancas.",
       "notes": [
-        "Lino fresco",
-        "aire limpio",
-        "agua",
-        "tela fresca"
+        "lino limpio",
+        "algodón",
+        "jabón",
+        "aire fresco",
+        "flores blancas"
       ],
       "order": 56
     },
     {
       "id": "lirio",
       "name": "Lirio",
-      "description": "Floral, suave y envolvente, con pétalos frescos, un dulzor delicado y una sensación limpia de jardín.",
+      "description": "Floral elegante, limpio y ligeramente verde. Sus pétalos se sienten frescos y suaves, con una dulzura contenida y una faceta acuática que recuerda a un arreglo floral recién preparado.",
       "notes": [
-        "Lirio",
-        "pétalos",
-        "floral",
-        "jardín"
+        "lirio",
+        "pétalos frescos",
+        "hojas verdes",
+        "agua floral",
+        "polen suave"
       ],
       "order": 57
     },
     {
       "id": "lluvia",
       "name": "Lluvia",
-      "description": "Limpio, aireado y acuoso, con una sensación fresca de tela, agua y aire claro.",
+      "description": "Fresca, mineral y húmeda, como el instante en que empieza a llover sobre tierra y piedra calientes. Combina aire frío, pavimento mojado, suelo húmedo y esa nota terrosa característica que queda suspendida después de la lluvia.",
       "notes": [
-        "Lluvia",
-        "aire limpio",
-        "agua",
-        "tela fresca"
+        "petrichor",
+        "tierra mojada",
+        "piedra húmeda",
+        "ozono",
+        "aire frío"
       ],
       "order": 58
     },
     {
       "id": "loto",
       "name": "Loto",
-      "description": "Floral, suave y envolvente, con pétalos frescos, un dulzor delicado y una sensación limpia de jardín.",
+      "description": "Floral acuático, sereno y translúcido. Evoca pétalos flotando sobre agua limpia, con una dulzura extremadamente ligera, verdes húmedos y una sensación fresca casi mineral.",
       "notes": [
-        "Loto",
-        "pétalos",
-        "floral",
-        "jardín"
+        "flor de loto",
+        "agua",
+        "pétalos acuáticos",
+        "hojas húmedas",
+        "mineral"
       ],
       "order": 59
     },
     {
       "id": "madera-de-agar",
       "name": "Madera de agar (oud)",
-      "description": "Amaderado, seco y envolvente, con una sensación natural que recuerda troncos, resina y aire de bosque.",
+      "description": "Oscura, resinosa y extraordinariamente profunda. Tiene madera envejecida, humo dulce, tierra, cuero suave y una faceta balsámica densa que permanece mucho tiempo y se vuelve más cálida con el tiempo.",
       "notes": [
-        "Madera de agar",
-        "madera",
+        "oud",
+        "madera oscura",
         "resina",
-        "bosque"
+        "humo",
+        "cuero",
+        "tierra"
       ],
       "order": 60
     },
     {
       "id": "madera-de-cedro",
       "name": "Madera de cedro",
-      "description": "Amaderado, seco y envolvente, con una sensación natural que recuerda troncos, resina y aire de bosque.",
+      "description": "Seca, limpia y cálida, como abrir una caja de cedro recién lijada. Tiene vetas amaderadas claras, virutas secas, resina tenue y una sensación tranquila y estructurada.",
       "notes": [
-        "Madera de cedro",
-        "madera",
-        "resina",
-        "bosque"
+        "cedro",
+        "virutas de madera",
+        "resina seca",
+        "corteza",
+        "madera cálida"
       ],
       "order": 61
     },
     {
       "id": "madera-de-teca",
       "name": "Madera de teca",
-      "description": "Amaderado, seco y envolvente, con una sensación natural que recuerda troncos, resina y aire de bosque.",
+      "description": "Amaderada, suave y ligeramente exótica. Se siente más cálida y pulida que el cedro, con madera seca, aceites naturales, ámbar ligero y una sombra especiada.",
       "notes": [
-        "Madera de teca",
-        "madera",
-        "resina",
-        "bosque"
+        "teca",
+        "madera pulida",
+        "aceites de madera",
+        "ámbar",
+        "especias suaves"
       ],
       "order": 62
     },
     {
       "id": "madreselva",
       "name": "Madreselva",
-      "description": "Floral, suave y envolvente, con pétalos frescos, un dulzor delicado y una sensación limpia de jardín.",
+      "description": "Floral dulce y soleada, como acercarse a una enredadera llena de flores al final de la tarde. Tiene néctar abundante, pétalos amarillos y blancos y una faceta ligeramente verde y melosa.",
       "notes": [
-        "Madreselva",
-        "pétalos",
-        "floral",
-        "jardín"
+        "madreselva",
+        "néctar",
+        "pétalos amarillos",
+        "miel floral",
+        "hojas verdes"
       ],
       "order": 63
     },
     {
       "id": "maiz-dulce",
       "name": "Maíz dulce",
-      "description": "Dulce y vegetal, con grano tierno, mantequilla suave y una calidez de cocina.",
+      "description": "Dulce, vegetal y cremoso, con el olor cálido de granos de maíz recién cocidos. Tiene una dulzura natural casi lechosa, cereal suave y una nota verde que recuerda a la mazorca fresca.",
       "notes": [
-        "Maíz dulce",
-        "maíz",
-        "grano dulce",
-        "mantequilla"
+        "maíz dulce",
+        "grano cocido",
+        "cereal",
+        "mantequilla ligera",
+        "hoja verde"
       ],
       "order": 64
     },
     {
       "id": "mango",
       "name": "Mango",
-      "description": "Frutal, jugoso y alegre, con pulpa madura, néctar y un dulzor fresco.",
+      "description": "Tropical, exuberante y muy jugoso. Huele a mango maduro abierto por la mitad, con pulpa anaranjada, néctar espeso, una acidez verde alrededor del hueso y un fondo ligeramente cremoso.",
       "notes": [
-        "Mango",
-        "fruta madura",
-        "jugo",
-        "néctar"
+        "mango maduro",
+        "pulpa tropical",
+        "néctar",
+        "piel verde",
+        "dulzor jugoso"
       ],
       "order": 65
     },
     {
       "id": "manzana",
       "name": "Manzana",
-      "description": "Crujiente, jugoso y fresco, con pulpa verde-roja y una acidez dulce muy limpia.",
+      "description": "Crujiente, fresca y jugosa, como partir una manzana recién sacada del refrigerador. Combina pulpa acuosa, piel verde-roja y un dulzor limpio con una pequeña acidez brillante.",
       "notes": [
-        "Manzana",
+        "manzana fresca",
+        "piel",
         "pulpa crujiente",
         "jugo",
-        "frescura"
+        "acidez"
       ],
       "order": 66
     },
     {
       "id": "manzana-con-canela",
       "name": "Manzana con canela",
-      "description": "Especiado y cálido, con un ataque aromático vivo y un fondo seco ligeramente dulce.",
+      "description": "Frutal y cálida, como manzanas cortadas comenzando a cocinarse con especias. La fruta conserva su acidez jugosa mientras la canela añade corteza seca, azúcar morena y una sensación horneada.",
       "notes": [
-        "Manzana con canela",
-        "especias",
-        "calidez",
-        "madera seca"
+        "manzana cocida",
+        "canela",
+        "azúcar morena",
+        "piel de manzana",
+        "especias"
       ],
       "order": 67
     },
     {
       "id": "manzanilla",
       "name": "Manzanilla",
-      "description": "Floral-herbal, suave y calmado, con flores secas, miel ligera y una nota de heno limpio.",
+      "description": "Floral-herbal, suave y ligeramente dulce, con un carácter parecido a manzana seca y heno. Tiene pequeñas flores amarillas, hierba seca y una sensación cálida, tranquila y ligeramente melosa.",
       "notes": [
-        "Manzanilla",
+        "manzanilla",
         "flores secas",
-        "miel suave",
-        "heno"
+        "manzana suave",
+        "heno",
+        "miel ligera"
       ],
       "order": 68
     },
     {
       "id": "maracuya",
       "name": "Maracuyá",
-      "description": "Frutal, jugoso y alegre, con pulpa madura, néctar y un dulzor fresco.",
+      "description": "Tropical, ácido y eléctrico. Tiene el olor intensamente aromático de la pulpa amarilla y sus semillas, con una mezcla de néctar dulce, cítrico agrio y una faceta verde muy jugosa.",
       "notes": [
-        "Maracuyá",
-        "fruta madura",
-        "jugo",
-        "néctar"
+        "maracuyá",
+        "pulpa ácida",
+        "semillas",
+        "néctar tropical",
+        "cítrico"
       ],
       "order": 69
     },
     {
       "id": "mejorana",
       "name": "Mejorana",
-      "description": "Herbal y verde, fresco al principio y aromático al asentarse, como hojas recién frotadas entre los dedos.",
+      "description": "Herbal, cálida y ligeramente dulce. Recuerda a hojas secas entre los dedos, con un carácter verde suave, especias delicadas y una faceta terrosa menos intensa que el orégano.",
       "notes": [
-        "Mejorana",
-        "hojas verdes",
-        "hierbas aromáticas",
-        "frescura"
+        "mejorana",
+        "hojas secas",
+        "hierbas cálidas",
+        "tierra",
+        "especias suaves"
       ],
       "order": 70
     },
     {
       "id": "melisa",
       "name": "Melisa",
-      "description": "Herbal y verde, fresco al principio y aromático al asentarse, como hojas recién frotadas entre los dedos.",
+      "description": "Verde, cítrica y delicadamente herbal. Huele a hojas frescas de melisa frotadas entre las manos, liberando limón suave, vegetación húmeda y una dulzura ligera parecida a la miel.",
       "notes": [
-        "Melisa",
+        "melisa",
         "hojas verdes",
-        "hierbas aromáticas",
-        "frescura"
+        "limón suave",
+        "miel ligera",
+        "hierbas"
       ],
       "order": 71
     },
     {
       "id": "melon-cantalupo",
       "name": "Melón cantalupo",
-      "description": "Frutal, jugoso y alegre, con pulpa madura, néctar y un dulzor fresco.",
+      "description": "Acuoso, dulce y anaranjado, como cortar un cantalupo perfectamente maduro. Tiene pulpa jugosa, azúcar natural y una nota ligeramente vegetal cerca de la cáscara.",
       "notes": [
-        "Melón cantalupo",
-        "fruta madura",
+        "cantalupo",
+        "pulpa de melón",
         "jugo",
-        "néctar"
+        "azúcar",
+        "cáscara verde"
       ],
       "order": 72
     },
     {
       "id": "menta-piperita",
       "name": "Menta piperita",
-      "description": "Muy fresco y penetrante, con una sensación limpia, mentolada y fría que abre el aroma de inmediato.",
+      "description": "Fría, intensa y penetrante, notablemente más mentolada que la hierbabuena. Produce una sensación casi helada con hojas verdes, mentol cristalino y un fondo herbal limpio.",
       "notes": [
-        "Menta piperita",
+        "menta piperita",
         "mentol",
-        "hojas frescas",
-        "aire frío"
+        "hojas verdes",
+        "frescor helado"
       ],
       "order": 73
     },
     {
       "id": "miel",
       "name": "Miel",
-      "description": "Dulce, dorado y envolvente, con néctar floral, cera tibia y una calidez densa.",
+      "description": "Dorada, densa y naturalmente dulce. Huele a miel recién servida, con néctar floral, cera tibia y una pequeña faceta polínica que evita que se sienta como azúcar simple.",
       "notes": [
-        "Miel",
+        "miel",
         "néctar",
-        "cera",
-        "dulzor dorado"
+        "cera de abeja",
+        "polen",
+        "flores cálidas"
       ],
       "order": 74
     },
     {
       "id": "mirra",
       "name": "Mirra",
-      "description": "Resinoso, cálido y balsámico, con una dulzura oscura y un fondo ligeramente ahumado.",
+      "description": "Resinosa, oscura y seca, con una dulzura balsámica mucho menos evidente que el benjuí. Evoca resina endurecida, madera antigua, humo tenue y una amargura terrosa casi medicinal.",
       "notes": [
-        "Mirra",
-        "resina",
-        "bálsamo",
-        "humo suave"
+        "mirra",
+        "resina oscura",
+        "madera antigua",
+        "humo",
+        "tierra seca"
       ],
       "order": 75
     },
     {
       "id": "muguet",
       "name": "Muguet (lirio de los valles)",
-      "description": "Floral, suave y envolvente, con pétalos frescos, un dulzor delicado y una sensación limpia de jardín.",
+      "description": "Floral blanco, fresco y verde, mucho más ligero y delicado que un lirio grande. Recuerda a pequeñas campanas blancas cubiertas de rocío, hojas tiernas y aire húmedo de primavera.",
       "notes": [
-        "Muguet",
-        "pétalos",
-        "floral",
-        "jardín"
+        "muguet",
+        "campanillas blancas",
+        "rocío",
+        "hojas verdes",
+        "aire primaveral"
       ],
       "order": 76
     },
     {
       "id": "naranja-dulce",
       "name": "Naranja dulce",
-      "description": "Cítrico, luminoso y chispeante, con cáscara fresca, jugo y una limpieza brillante.",
+      "description": "Redonda, jugosa y alegre, con el olor completo de una naranja recién pelada. Combina jugo dulce, pulpa brillante y aceites aromáticos de la cáscara con una ligera amargura cítrica.",
       "notes": [
-        "Naranja dulce",
-        "cítrico",
+        "naranja",
+        "jugo",
         "cáscara",
-        "jugo"
+        "pulpa cítrica",
+        "aceites dulces"
       ],
       "order": 77
     },
     {
       "id": "neroli",
       "name": "Neroli (flor de naranjo)",
-      "description": "Cítrico, luminoso y chispeante, con cáscara fresca, jugo y una limpieza brillante.",
+      "description": "Floral cítrico, luminoso y ligeramente amargo. Huele a flores blancas de naranjo, con pétalos frescos, hojas verdes y un destello de cáscara de naranja que mantiene todo transparente.",
       "notes": [
-        "Neroli",
-        "cítrico",
-        "cáscara",
-        "jugo"
+        "flor de naranjo",
+        "pétalos blancos",
+        "hojas",
+        "cítrico amargo",
+        "néctar"
       ],
       "order": 78
     },
     {
       "id": "nuez-moscada",
       "name": "Nuez moscada",
-      "description": "Especiado y cálido, con un ataque aromático vivo y un fondo seco ligeramente dulce.",
+      "description": "Cálida, seca y especiada, con una madera suave debajo. Tiene una dulzura tenue y polvosa, mezclada con semillas recién ralladas y un toque ligeramente picante.",
       "notes": [
-        "Nuez moscada",
-        "especias",
-        "calidez",
-        "madera seca"
+        "nuez moscada",
+        "especias cálidas",
+        "madera seca",
+        "semilla",
+        "polvo dulce"
       ],
       "order": 79
     },
     {
       "id": "oregano",
       "name": "Orégano",
-      "description": "Herbal y verde, fresco al principio y aromático al asentarse, como hojas recién frotadas entre los dedos.",
+      "description": "Herbal, seco e intenso, con una presencia verde mucho más potente que la mejorana. Huele a hojas trituradas, tierra caliente y aceites aromáticos ligeramente picantes.",
       "notes": [
-        "Orégano",
-        "hojas verdes",
-        "hierbas aromáticas",
-        "frescura"
+        "orégano",
+        "hojas secas",
+        "hierbas mediterráneas",
+        "tierra",
+        "especias verdes"
       ],
       "order": 80
     },
     {
       "id": "orquidea",
       "name": "Orquídea",
-      "description": "Floral, suave y envolvente, con pétalos frescos, un dulzor delicado y una sensación limpia de jardín.",
+      "description": "Floral sofisticado, suave y ligeramente cremoso. Evoca pétalos exóticos con una dulzura contenida, un fondo aterciopelado y pequeños matices verdes y vainillados.",
       "notes": [
-        "Orquídea",
-        "pétalos",
-        "floral",
-        "jardín"
+        "orquídea",
+        "pétalos cremosos",
+        "verde floral",
+        "vainilla tenue",
+        "almizcle"
       ],
       "order": 81
     },
     {
       "id": "osmanto",
       "name": "Osmanto",
-      "description": "Floral, suave y envolvente, con pétalos frescos, un dulzor delicado y una sensación limpia de jardín.",
+      "description": "Floral afrutado y aterciopelado, con una personalidad inusual. Sus pequeñas flores desprenden un aroma parecido al albaricoque y durazno seco, acompañado de té suave y una ligera faceta de cuero.",
       "notes": [
-        "Osmanto",
-        "pétalos",
-        "floral",
-        "jardín"
+        "osmanto",
+        "albaricoque",
+        "durazno seco",
+        "té",
+        "cuero suave"
       ],
       "order": 82
     },
     {
       "id": "pachuli",
       "name": "Pachuli",
-      "description": "Terroso, oscuro y húmedo, con hojas secas, madera y una dulzura profunda.",
+      "description": "Terroso, húmedo y profundo, con hojas oscuras y madera. Huele a suelo de bosque, raíces y vegetación seca, desarrollando después una dulzura amaderada ligeramente balsámica.",
       "notes": [
-        "Pachuli",
+        "pachuli",
         "tierra húmeda",
-        "hojas",
-        "madera"
+        "hojas oscuras",
+        "raíces",
+        "madera",
+        "resina"
       ],
       "order": 83
     },
     {
       "id": "palmarosa",
       "name": "Palmarosa",
-      "description": "Floral, suave y envolvente, con pétalos frescos, un dulzor delicado y una sensación limpia de jardín.",
+      "description": "Verde y floral, con un aroma rosado fresco pero menos empolvado que una rosa. Combina hierbas húmedas, geranio, pétalos rosados y una nota ligeramente cítrica.",
       "notes": [
-        "Palmarosa",
-        "pétalos",
-        "floral",
-        "jardín"
+        "palmarosa",
+        "rosa verde",
+        "geranio",
+        "hierbas",
+        "cítrico suave"
       ],
       "order": 84
     },
     {
       "id": "palo-de-rosa",
       "name": "Palo de rosa",
-      "description": "Amaderado, seco y envolvente, con una sensación natural que recuerda troncos, resina y aire de bosque.",
+      "description": "Amaderado pero sorprendentemente luminoso. Tiene madera suave y rosada, una faceta floral delicada y un toque cítrico que hace que se sienta limpio y ligeramente dulce.",
       "notes": [
-        "Palo de rosa",
-        "madera",
-        "resina",
-        "bosque"
+        "palo de rosa",
+        "madera floral",
+        "pétalos suaves",
+        "cítrico",
+        "madera dulce"
       ],
       "order": 85
     },
     {
       "id": "pan-de-jengibre",
       "name": "Pan de jengibre",
-      "description": "Especiado y cálido, con un ataque aromático vivo y un fondo seco ligeramente dulce.",
+      "description": "Dulce, horneado y especiado, como abrir el horno cuando el pan de jengibre acaba de dorarse. Mezcla melaza, harina tostada, jengibre, canela y clavo con bordes caramelizados.",
       "notes": [
-        "Pan de jengibre",
-        "especias",
-        "calidez",
-        "madera seca"
+        "pan horneado",
+        "jengibre",
+        "melaza",
+        "canela",
+        "clavo",
+        "azúcar tostada"
       ],
       "order": 86
     },
     {
       "id": "pan-de-maiz",
       "name": "Pan de maíz",
-      "description": "Dulce, horneado y cálido, como una cocina con masa recién hecha, especias suaves y azúcar tostada.",
+      "description": "Cálido, mantequilloso y ligeramente dulce. Huele a harina de maíz recién horneada, bordes dorados, mantequilla derretida y cereal tostado con una textura olfativa suave y casera.",
       "notes": [
-        "Pan de maíz",
-        "masa horneada",
-        "azúcar",
-        "especias suaves"
+        "harina de maíz",
+        "mantequilla",
+        "cereal tostado",
+        "corteza dorada",
+        "azúcar ligera"
       ],
       "order": 87
     },
     {
       "id": "pan-de-platano-con-nuez",
       "name": "Pan de plátano con nuez",
-      "description": "Dulce, horneado y cálido, como una cocina con masa recién hecha, especias suaves y azúcar tostada.",
+      "description": "Rico y recién horneado, con plátano maduro mezclado con masa dulce y nueces tostadas. Tiene mantequilla, vainilla y una corteza caramelizada que aporta profundidad.",
       "notes": [
-        "Pan de plátano con nuez",
-        "masa horneada",
-        "azúcar",
-        "especias suaves"
+        "plátano maduro",
+        "nuez tostada",
+        "pan dulce",
+        "mantequilla",
+        "vainilla"
       ],
       "order": 88
     },
     {
       "id": "pastel-de-cafe",
       "name": "Pastel de café",
-      "description": "Tostado, cálido y reconfortante, con café recién preparado y un dulzor suave de repostería.",
+      "description": "Dulce, mantequilloso y especiado, inspirado en un coffee cake recién cortado. Predominan masa horneada, canela, azúcar morena y migas de streusel, con una nota tostada de café suave detrás.",
       "notes": [
-        "Pastel de café",
-        "café tostado",
-        "azúcar",
-        "masa dulce"
+        "pastel",
+        "café suave",
+        "canela",
+        "streusel",
+        "mantequilla",
+        "azúcar morena"
       ],
       "order": 89
     },
     {
       "id": "pastel-de-queso-de-cereza",
       "name": "Pastel de queso de cereza",
-      "description": "Frutal, rojo y jugoso, con dulzor de cereza madura y una acidez suave.",
+      "description": "Cremoso y decadente, con queso dulce y vainilla cubiertos por cerezas brillantes. La fruta aporta acidez roja mientras una base de galleta tostada añade mantequilla y textura.",
       "notes": [
-        "Pastel de queso de cereza",
+        "cheesecake",
         "cereza",
-        "fruta roja",
-        "jugo"
+        "queso crema",
+        "vainilla",
+        "galleta",
+        "mantequilla"
       ],
       "order": 90
     },
     {
       "id": "pay-de-calabaza",
       "name": "Pay de calabaza",
-      "description": "Dulce, horneado y cálido, como una cocina con masa recién hecha, especias suaves y azúcar tostada.",
+      "description": "Cálido, cremoso y especiado, como cortar un pay recién horneado. Tiene puré de calabaza dulce, canela, nuez moscada, clavo y una corteza de mantequilla ligeramente tostada.",
       "notes": [
-        "Pay de calabaza",
-        "masa horneada",
-        "azúcar",
-        "especias suaves"
+        "calabaza",
+        "canela",
+        "nuez moscada",
+        "clavo",
+        "masa de pay",
+        "mantequilla"
       ],
       "order": 91
     },
     {
       "id": "peonia",
       "name": "Peonía",
-      "description": "Floral, suave y envolvente, con pétalos frescos, un dulzor delicado y una sensación limpia de jardín.",
+      "description": "Floral rosado, fresco y delicadamente húmedo. Recuerda a grandes pétalos suaves recién abiertos, con una dulzura ligera, un matiz verde y una sensación de rocío sobre flores frescas.",
       "notes": [
-        "Peonía",
-        "pétalos",
-        "floral",
-        "jardín"
+        "peonía",
+        "pétalos rosados",
+        "rocío",
+        "tallos verdes",
+        "flores frescas"
       ],
       "order": 92
     },
     {
       "id": "pepino",
       "name": "Pepino",
-      "description": "Amaderado, seco y envolvente, con una sensación natural que recuerda troncos, resina y aire de bosque.",
+      "description": "Acuoso, verde y crujiente. Huele al instante exacto de cortar un pepino frío: pulpa húmeda, cáscara verde, semillas frescas y una sensación extremadamente limpia.",
       "notes": [
-        "Pepino",
-        "madera",
-        "resina",
-        "bosque"
+        "pepino",
+        "agua vegetal",
+        "cáscara verde",
+        "semillas",
+        "frescor"
       ],
       "order": 93
     },
     {
       "id": "pera",
       "name": "Pera",
-      "description": "Frutal, acuoso y delicadamente dulce, con pulpa madura y una frescura limpia.",
+      "description": "Jugosa, suave y delicadamente dulce. Tiene una pulpa acuosa y ligeramente granulosa, néctar fresco y una pequeña faceta floral que la hace más suave que la manzana.",
       "notes": [
-        "Pera",
+        "pera madura",
         "pulpa jugosa",
-        "agua",
-        "dulzor"
+        "néctar",
+        "piel verde",
+        "flores suaves"
       ],
       "order": 94
     },
     {
       "id": "pimienta-negra",
       "name": "Pimienta negra",
-      "description": "Especiado y cálido, con un ataque aromático vivo y un fondo seco ligeramente dulce.",
+      "description": "Seca, vibrante y picante, con una sensación casi chispeante en la nariz. Huele a granos recién molidos, madera seca y especias oscuras con un pequeño destello cítrico.",
       "notes": [
-        "Pimienta negra",
-        "especias",
-        "calidez",
-        "madera seca"
+        "pimienta negra",
+        "granos molidos",
+        "especias secas",
+        "madera",
+        "cítrico"
       ],
       "order": 95
     },
     {
       "id": "pino",
       "name": "Pino",
-      "description": "Amaderado, seco y envolvente, con una sensación natural que recuerda troncos, resina y aire de bosque.",
+      "description": "Verde, resinoso y fresco, con el olor reconocible de agujas de pino calentadas entre las manos. Combina savia pegajosa, corteza, madera y un aire limpio de bosque.",
       "notes": [
-        "Pino",
-        "madera",
+        "agujas de pino",
         "resina",
+        "savia",
+        "corteza",
         "bosque"
       ],
       "order": 96
@@ -1314,191 +1401,211 @@
     {
       "id": "pina",
       "name": "Piña",
-      "description": "Frutal, jugoso y alegre, con pulpa madura, néctar y un dulzor fresco.",
+      "description": "Tropical, chispeante y muy jugosa. Mezcla pulpa amarilla dulce con una acidez brillante, néctar y una faceta ligeramente verde y fibrosa cerca de la cáscara.",
       "notes": [
-        "Piña",
-        "fruta madura",
-        "jugo",
-        "néctar"
+        "piña",
+        "pulpa tropical",
+        "jugo ácido",
+        "néctar",
+        "cáscara verde"
       ],
       "order": 97
     },
     {
       "id": "platano",
       "name": "Plátano",
-      "description": "Frutal, cremoso y dulce, con pulpa madura y una sensación suave de postre.",
+      "description": "Dulce, cremoso y maduro, con el olor reconocible de la pulpa amarilla recién pelada. Tiene una textura suave, casi láctea, y una ligera nota verde proveniente de la cáscara.",
       "notes": [
-        "Plátano",
+        "plátano",
         "pulpa cremosa",
-        "dulzor",
-        "fruta madura"
+        "fruta madura",
+        "cáscara verde",
+        "dulzor"
       ],
       "order": 98
     },
     {
       "id": "ravintsara",
       "name": "Ravintsara",
-      "description": "Herbal y verde, fresco al principio y aromático al asentarse, como hojas recién frotadas entre los dedos.",
+      "description": "Fresca, verde y aromática, con una mezcla de hojas, madera y un carácter alcanforado limpio. Tiene una sensación clara y ligeramente especiada, menos mentolada que el eucalipto.",
       "notes": [
-        "Ravintsara",
+        "ravintsara",
         "hojas verdes",
-        "hierbas aromáticas",
-        "frescura"
+        "alcanfor suave",
+        "madera",
+        "especias frescas"
       ],
       "order": 99
     },
     {
       "id": "romero",
       "name": "Romero",
-      "description": "Herbal y verde, fresco al principio y aromático al asentarse, como hojas recién frotadas entre los dedos.",
+      "description": "Verde, seco y muy aromático, como rozar una rama de romero con la mano. Combina agujas herbales, madera ligera, alcanfor tenue y una faceta fresca ligeramente resinosa.",
       "notes": [
-        "Romero",
-        "hojas verdes",
-        "hierbas aromáticas",
-        "frescura"
+        "romero",
+        "hierbas verdes",
+        "madera",
+        "alcanfor",
+        "resina suave"
       ],
       "order": 100
     },
     {
       "id": "ron",
       "name": "Ron",
-      "description": "Cálido, dulce y licoroso, con notas de madera, azúcar tostada y fruta madura.",
+      "description": "Dulce, cálido y licoroso, con notas de caña de azúcar y barrica. Evoca ron oscuro, melaza, vainilla, madera tostada y una pequeña sombra de especias.",
       "notes": [
-        "Ron",
-        "licor",
-        "madera",
-        "caramelo"
+        "ron",
+        "caña de azúcar",
+        "melaza",
+        "barrica",
+        "vainilla",
+        "especias"
       ],
       "order": 101
     },
     {
       "id": "rosa",
       "name": "Rosa",
-      "description": "Floral, suave y envolvente, con pétalos frescos, un dulzor delicado y una sensación limpia de jardín.",
+      "description": "Floral profundo y aterciopelado, con el olor completo de una rosa recién abierta. Combina pétalos húmedos, néctar, una ligera frescura verde del tallo y un fondo suave parecido a miel.",
       "notes": [
-        "Rosa",
+        "rosa",
         "pétalos",
-        "floral",
-        "jardín"
+        "rocío",
+        "tallo verde",
+        "néctar",
+        "miel floral"
       ],
       "order": 102
     },
     {
       "id": "salvia-esclarea",
       "name": "Salvia esclarea (Clary Sage)",
-      "description": "Herbal y verde, fresco al principio y aromático al asentarse, como hojas recién frotadas entre los dedos.",
+      "description": "Herbal, verde y ligeramente ambarada. Tiene hojas aromáticas, heno, té y una faceta suavemente dulce que puede recordar al tabaco seco y a hierbas calentadas por el sol.",
       "notes": [
-        "Salvia esclarea",
-        "hojas verdes",
-        "hierbas aromáticas",
-        "frescura"
+        "salvia esclarea",
+        "hojas",
+        "heno",
+        "té",
+        "hierbas secas",
+        "ámbar"
       ],
       "order": 103
     },
     {
       "id": "sandalo",
       "name": "Sándalo",
-      "description": "Amaderado, seco y envolvente, con una sensación natural que recuerda troncos, resina y aire de bosque.",
+      "description": "Amaderado, cremoso y muy suave. A diferencia de maderas más secas, el sándalo tiene una textura casi lechosa, con madera cálida, polvo fino y una dulzura discreta y envolvente.",
       "notes": [
-        "Sándalo",
-        "madera",
-        "resina",
-        "bosque"
+        "sándalo",
+        "madera cremosa",
+        "leche de madera",
+        "polvo suave",
+        "dulzor cálido"
       ],
       "order": 104
     },
     {
       "id": "sandia",
       "name": "Sandía",
-      "description": "Frutal, jugoso y alegre, con pulpa madura, néctar y un dulzor fresco.",
+      "description": "Acuosa, fresca y ligeramente dulce, como morder el centro frío de una sandía recién cortada. Tiene pulpa roja, agua azucarada y una faceta verde-crujiente proveniente de la cáscara.",
       "notes": [
-        "Sandía",
-        "fruta madura",
-        "jugo",
-        "néctar"
+        "sandía",
+        "pulpa roja",
+        "agua dulce",
+        "cáscara verde",
+        "frescor"
       ],
       "order": 105
     },
     {
       "id": "habano-dulce",
       "name": "Habano dulce",
-      "description": "Oscuro, seco y cálido, con cuero suave, madera y un dulzor ahumado discreto.",
+      "description": "Cálido, seco y ligeramente dulce, inspirado en hojas de tabaco curadas y una caja de madera. Tiene miel oscura, vainilla tenue, cuero suave y una faceta tostada y terrosa.",
       "notes": [
-        "Habano dulce",
-        "cuero",
+        "hoja de tabaco dulce",
         "madera",
-        "humo suave"
+        "miel oscura",
+        "cuero",
+        "vainilla",
+        "tostado"
       ],
       "order": 106
     },
     {
       "id": "talco-para-bebe",
       "name": "Talco para bebé",
-      "description": "Limpio, empolvado y suave, con una sensación cremosa de talco, algodón y flores tenues.",
+      "description": "Limpio, suave y muy empolvado. Recuerda a talco blanco, algodón, jabón cremoso y flores extremadamente suaves, con una sensación seca y reconfortante.",
       "notes": [
-        "Talco para bebé",
         "talco",
         "algodón",
-        "polvo suave"
+        "jabón suave",
+        "flores blancas",
+        "polvo limpio"
       ],
       "order": 107
     },
     {
       "id": "te-blanco",
       "name": "Té blanco",
-      "description": "Limpio, aireado y acuoso, con una sensación fresca de tela, agua y aire claro.",
+      "description": "Delicado, transparente y ligeramente floral. Huele a hojas de té apenas infusionadas, aire limpio, flores blancas tenues y una pequeña faceta seca que mantiene el aroma elegante y ligero.",
       "notes": [
-        "Té blanco",
+        "té blanco",
+        "hojas secas",
+        "flores claras",
         "aire limpio",
-        "agua",
-        "tela fresca"
+        "almizcle suave"
       ],
       "order": 108
     },
     {
       "id": "te-verde",
       "name": "Té verde",
-      "description": "Verde, ligero y ligeramente seco, con hojas de té frescas y un acabado limpio.",
+      "description": "Verde, fresco y ligeramente amargo, con el olor de hojas de té húmedas recién infusionadas. Tiene vegetación limpia, vapor, una faceta seca y un pequeño destello cítrico.",
       "notes": [
-        "Té verde",
-        "hojas",
-        "verde seco",
-        "frescura"
+        "té verde",
+        "hojas húmedas",
+        "vapor",
+        "hierbas",
+        "cítrico suave"
       ],
       "order": 109
     },
     {
       "id": "tomillo",
       "name": "Tomillo",
-      "description": "Herbal y verde, fresco al principio y aromático al asentarse, como hojas recién frotadas entre los dedos.",
+      "description": "Herbal, seco y penetrante, con una intensidad cálida y ligeramente medicinal. Huele a pequeñas hojas trituradas, tierra seca, madera y aceites aromáticos especiados.",
       "notes": [
-        "Tomillo",
-        "hojas verdes",
-        "hierbas aromáticas",
-        "frescura"
+        "tomillo",
+        "hojas secas",
+        "hierbas intensas",
+        "tierra",
+        "especias"
       ],
       "order": 110
     },
     {
       "id": "toronja",
       "name": "Toronja",
-      "description": "Cítrico, luminoso y chispeante, con cáscara fresca, jugo y una limpieza brillante.",
+      "description": "Cítrica, jugosa y amargamente refrescante. Tiene pulpa rosada, cáscara gruesa y aceites brillantes, con una amargura característica que la diferencia claramente de naranja y limón.",
       "notes": [
-        "Toronja",
-        "cítrico",
-        "cáscara",
-        "jugo"
+        "toronja",
+        "pulpa rosada",
+        "cáscara amarga",
+        "jugo cítrico",
+        "aceites"
       ],
       "order": 111
     },
     {
       "id": "tulipan",
       "name": "Tulipán",
-      "description": "Floral, suave y envolvente, con pétalos frescos, un dulzor delicado y una sensación limpia de jardín.",
+      "description": "Floral verde, fresco y discreto. Evoca un tulipán recién cortado más por sus pétalos húmedos y tallo crujiente que por una dulzura intensa, con una sensación de jardín limpio y primavera.",
       "notes": [
-        "Tulipán",
-        "pétalos",
-        "floral",
+        "tulipán",
+        "pétalos frescos",
+        "tallo verde",
+        "rocío",
         "jardín"
       ],
       "order": 112
@@ -1506,96 +1613,106 @@
     {
       "id": "uva",
       "name": "Uva",
-      "description": "Frutal, jugoso y alegre, con pulpa madura, néctar y un dulzor fresco.",
+      "description": "Dulce, jugosa y púrpura, con el olor de uvas maduras recién aplastadas. Tiene jugo azucarado, piel oscura y una ligera acidez que mantiene la fruta brillante.",
       "notes": [
-        "Uva",
-        "fruta madura",
-        "jugo",
-        "néctar"
+        "uva madura",
+        "jugo púrpura",
+        "piel de uva",
+        "azúcar",
+        "acidez"
       ],
       "order": 113
     },
     {
       "id": "vainilla",
       "name": "Vainilla",
-      "description": "Dulce, cálida y familiar, con vaina de vainilla, azúcar suave y un fondo cremoso.",
+      "description": "Cálida, dulce y aromática, centrada en el olor de una vaina de vainilla más que en un postre. Tiene una dulzura suave, madera ligera, semillas oscuras y una faceta balsámica cálida.",
       "notes": [
-        "Vainilla",
-        "vaina",
-        "azúcar",
-        "crema"
+        "vaina de vainilla",
+        "semillas",
+        "madera dulce",
+        "bálsamo",
+        "azúcar suave"
       ],
       "order": 114
     },
     {
       "id": "vainilla-cremosa",
       "name": "Vainilla cremosa",
-      "description": "Muy cremosa, dulce y redonda, con vainilla suave, leche y azúcar batida.",
+      "description": "Más rica, láctea y golosa que la vainilla clásica. Huele a crema de vainilla batida, leche, azúcar y una pequeña cantidad de mantequilla, creando una sensación suave parecida a un postre.",
       "notes": [
-        "Vainilla cremosa",
-        "vainilla",
-        "crema",
-        "leche"
+        "crema de vainilla",
+        "leche",
+        "azúcar",
+        "mantequilla",
+        "custard"
       ],
       "order": 115
     },
     {
       "id": "verbena",
       "name": "Verbena",
-      "description": "Cítrica y herbal, fresca y luminosa, con hojas verdes y un carácter de limón limpio.",
+      "description": "Cítrica, verde y chispeante, con el aroma vivo de hojas de verbena recién frotadas. Tiene limón brillante, hierbas frescas y una ligera faceta floral que la vuelve más delicada que el lemongrass.",
       "notes": [
-        "Verbena",
+        "verbena",
         "limón",
         "hojas verdes",
-        "frescura"
+        "hierbas frescas",
+        "flores ligeras"
       ],
       "order": 116
     },
     {
       "id": "vetiver",
       "name": "Vetiver",
-      "description": "Amaderado, seco y envolvente, con una sensación natural que recuerda troncos, resina y aire de bosque.",
+      "description": "Terroso, seco y profundamente amaderado. Huele a raíces limpias, suelo seco y madera con una faceta ligeramente ahumada y verde que recuerda a hierba después del sol.",
       "notes": [
-        "Vetiver",
+        "raíz de vetiver",
+        "tierra seca",
         "madera",
-        "resina",
-        "bosque"
+        "humo tenue",
+        "hierba"
       ],
       "order": 117
     },
     {
       "id": "violeta",
       "name": "Violeta",
-      "description": "Floral, suave y envolvente, con pétalos frescos, un dulzor delicado y una sensación limpia de jardín.",
+      "description": "Floral suave, empolvada y ligeramente dulce, con una textura casi aterciopelada. Evoca pequeños pétalos morados, polvo cosmético delicado y hojas verdes frescas debajo de la flor.",
       "notes": [
-        "Violeta",
-        "pétalos",
-        "floral",
-        "jardín"
+        "violeta",
+        "pétalos morados",
+        "polvo floral",
+        "hojas verdes",
+        "dulzor suave"
       ],
       "order": 118
     },
     {
       "id": "waffles-de-calabaza-con-nuez-pacana",
       "name": "Waffles de calabaza con nuez pacana",
-      "description": "Dulce, horneado y cálido, como una cocina con masa recién hecha, especias suaves y azúcar tostada.",
+      "description": "Denso, cálido y completamente goloso. Huele a waffles recién hechos cubiertos con calabaza especiada, mantequilla, jarabe dulce y nueces pacanas tostadas, con bordes ligeramente caramelizados.",
       "notes": [
-        "Waffles de calabaza con nuez pacana",
-        "masa horneada",
-        "azúcar",
-        "especias suaves"
+        "waffle",
+        "calabaza",
+        "nuez pacana",
+        "mantequilla",
+        "jarabe",
+        "canela",
+        "masa tostada"
       ],
       "order": 119
     },
     {
       "id": "ylang-ylang",
       "name": "Ylang-ylang",
-      "description": "Floral, suave y envolvente, con pétalos frescos, un dulzor delicado y una sensación limpia de jardín.",
+      "description": "Floral tropical, exuberante y cremoso. Tiene flores amarillas intensamente perfumadas, dulzura de néctar y una faceta ligeramente frutal y especiada que puede recordar a plátano maduro y flores cálidas.",
       "notes": [
-        "Ylang-ylang",
-        "pétalos",
-        "floral",
-        "jardín"
+        "ylang-ylang",
+        "flores amarillas",
+        "néctar",
+        "fruta tropical",
+        "especias suaves"
       ],
       "order": 120
     }
