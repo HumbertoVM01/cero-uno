@@ -18,7 +18,7 @@ const museum={view:'random',items:[],total:0,start:1,seed:Math.random(),busy:fal
 document.addEventListener('pointerdown',()=>sounds.unlock(),{capture:true,passive:true});
 
 async function init(){
-  const catalogPromise=fetch('/data/catalog.json').then(r=>r.json());
+  const catalogPromise=fetch('/data/catalog.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(`Catalog ${r.status}`);return r.json()});
   const soundPromise=sounds.preloadCritical();
   catalog=await catalogPromise;
   preloadCatalogAssets(catalog);
