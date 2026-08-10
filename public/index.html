@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#fff7ec">
+  <meta name="description" content="Museo De ALLIVES — crea, exhibe y acaricia ALLIVES.">
+  <title>Museo De ALLIVES</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <button class="brand nav-link" data-page="home" aria-label="Museo De ALLIVES">Museo De ALLIVES</button>
+    <nav class="main-nav" aria-label="Navegación principal">
+      <button class="nav-link" data-page="home">Museo</button>
+      <button class="nav-link" data-page="create">Crear</button>
+      <button class="nav-link" data-page="caress">Acariciar</button>
+    </nav>
+    <button id="sound-toggle" class="sound-toggle" aria-pressed="true" title="Sonido">🔊</button>
+  </header>
+
+  <main id="app">
+    <section id="page-home" class="page active" data-page="home">
+      <div class="hero-shell">
+        <div class="hero-copy">
+          <p class="eyebrow">Bienvenido al</p>
+          <h1>Museo De ALLIVES</h1>
+          <p class="hero-lede">Crea un ALLIVE, dale un olor y un nombre, exhíbelo en el Museo y acaricia los ALLIVES que quieres ver cobrar vida.</p>
+          <div class="hero-actions">
+            <button class="candy-button primary nav-link" data-page="create">Crea Tu ALLIVE Haciendo Click Aquí</button>
+            <button class="candy-button secondary nav-link" data-page="caress">Acaricia ALLIVES Haciendo Click Aquí</button>
+          </div>
+        </div>
+        <section class="champion-zone" aria-labelledby="champion-title">
+          <div class="section-heading compact">
+            <p class="eyebrow">Los favoritos de toda la historia</p>
+            <h2 id="champion-title">Los Tres Más Acariciados</h2>
+          </div>
+          <div id="home-champions" class="champions"></div>
+        </section>
+      </div>
+      <section class="how-it-works">
+        <article><span>1</span><h3>Crear</h3><p>Arma un ALLIVE como si entraras a una pequeña fábrica de dulces.</p></article>
+        <article><span>2</span><h3>Exhibir</h3><p>Dinos de qué es. Su combinación de ocho partes y olor define su identidad única.</p></article>
+        <article><span>3</span><h3>Acariciar</h3><p>Los rankings cambian en vivo. Los ALLIVES más acariciados pueden convertirse en piezas reales.</p></article>
+      </section>
+    </section>
+
+    <section id="page-create" class="page" data-page="create">
+      <header class="page-heading">
+        <p class="eyebrow">La fábrica de dulces</p>
+        <h1>Crear</h1>
+        <p>Toca una parte del ALLIVE para cambiarla. Siempre encontrarás uno listo y moviéndose desde que entras.</p>
+      </header>
+
+      <div class="creator-layout">
+        <div class="creator-stage-panel candy-panel">
+          <div id="creator-allive" class="creator-allive-slot"></div>
+          <div class="name-line">
+            <span>ALLIVE De</span>
+            <input id="subject-name" type="text" maxlength="80" autocomplete="off" placeholder="Algodón De Azúcar" aria-label="De qué es tu ALLIVE">
+          </div>
+          <p id="creator-message" class="creator-message" aria-live="polite"></p>
+        </div>
+
+        <section class="display-case candy-panel" aria-labelledby="display-case-title">
+          <div class="display-case-head">
+            <div><p class="eyebrow">Vitrina</p><h2 id="display-case-title">Selecciona Una Parte</h2></div>
+            <button id="random-part" class="mini-candy-button">✦ Al Azar</button>
+          </div>
+          <div id="asset-case" class="asset-case"></div>
+        </section>
+
+        <button id="random-allive" class="machine-button">✦ ALLIVE AL AZAR ✦</button>
+
+        <section class="scent-station candy-panel" aria-labelledby="scent-title">
+          <div class="section-heading compact">
+            <p class="eyebrow">Máquina de aromas</p>
+            <h2 id="scent-title">Escoge Su Olor</h2>
+          </div>
+          <div id="scent-wheel" class="scent-wheel" tabindex="0" aria-label="Ruleta de olores">
+            <div class="scent-selection-band"></div>
+            <div id="scent-wheel-track" class="scent-wheel-track"></div>
+          </div>
+          <button id="random-scent" class="candy-button scent-random">✦ Olor Al Azar ✦</button>
+          <article id="scent-info" class="scent-info"></article>
+        </section>
+
+        <section class="publish-panel candy-panel">
+          <label class="field-label" for="exhibited-by">¿Quién Lo Exhibe? <small>Opcional</small></label>
+          <input id="exhibited-by" class="soft-input" type="text" maxlength="60" autocomplete="name" placeholder="Tu nombre">
+          <div class="publish-actions">
+            <button id="creator-photo" class="candy-button secondary">Tomar Foto</button>
+            <button id="exhibit-allive" class="candy-button primary">Exhibir ALLIVE</button>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section id="page-caress" class="page page-caress" data-page="caress">
+      <header class="caress-header">
+        <div>
+          <p class="eyebrow">El museo está vivo</p>
+          <h1>Acariciar</h1>
+        </div>
+        <div class="presence-pill">♡ <strong id="presence-count">0</strong> personas acariciando ahora</div>
+      </header>
+
+      <div class="ranking-tabs" role="tablist" aria-label="Explorar ALLIVES">
+        <button data-view="random" class="ranking-tab active">Al Azar</button>
+        <button data-view="recent" class="ranking-tab">Recientes</button>
+        <button data-view="day" class="ranking-tab">Día</button>
+        <button data-view="week" class="ranking-tab">Semana</button>
+        <button data-view="month" class="ranking-tab">Mes</button>
+        <button data-view="year" class="ranking-tab">Año</button>
+        <button data-view="all" class="ranking-tab">Más Acariciados</button>
+      </div>
+
+      <div class="caress-toolbar">
+        <button id="refresh-random" class="mini-candy-button">↻ Refrescar ALLIVES</button>
+        <div id="view-location" class="view-location"></div>
+      </div>
+
+      <div id="museum-scroller" class="museum-scroller" aria-live="polite">
+        <div id="virtual-stage" class="virtual-stage">
+          <div id="virtual-window" class="virtual-window"></div>
+        </div>
+        <div id="museum-empty" class="museum-empty" hidden>
+          <h2>Aún No Hay ALLIVES Aquí</h2>
+          <p>Esta ventana empieza a llenarse cuando los ALLIVES reciben caricias.</p>
+          <button class="candy-button primary nav-link" data-page="create">Crear Un ALLIVE</button>
+        </div>
+      </div>
+      <div class="jump-controls" aria-label="Saltar en el ranking">
+        <button id="jump-top" title="Ir hasta arriba">↑</button>
+        <button id="jump-bottom" title="Ir hasta abajo">↓</button>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="card-dialog" class="card-dialog">
+    <div class="card-dialog-inner">
+      <button id="card-close" class="dialog-close" aria-label="Cerrar">×</button>
+      <canvas id="trading-card-canvas" width="1500" height="2100"></canvas>
+      <div class="dialog-actions">
+        <button id="card-save" class="candy-button primary">Guardar Ficha</button>
+        <button id="card-back" class="candy-button secondary">Volver</button>
+      </div>
+      <p id="card-save-note" class="save-note"></p>
+    </div>
+  </dialog>
+
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
