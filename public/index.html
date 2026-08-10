@@ -16,7 +16,10 @@
       <button class="nav-link" data-page="create">Crear</button>
       <button class="nav-link" data-page="caress">Acariciar</button>
     </nav>
-    <button id="sound-toggle" class="sound-toggle" aria-pressed="true" title="Sonido">🔊</button>
+    <button id="sound-toggle" class="sound-toggle icon-button" aria-pressed="true" aria-label="Silenciar sonidos" title="Sonido">
+      <svg class="sound-on-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 9.25h3.25L12 5.8v12.4l-4.25-3.45H4.5z"/><path d="M15.2 8.3c1.15.9 1.8 2.15 1.8 3.7s-.65 2.8-1.8 3.7"/><path d="M17.8 5.8c1.85 1.5 2.95 3.6 2.95 6.2s-1.1 4.7-2.95 6.2"/></svg>
+      <svg class="sound-off-icon" viewBox="0 0 24 24" aria-hidden="true" hidden><path d="M4.5 9.25h3.25L12 5.8v12.4l-4.25-3.45H4.5z"/><path d="M15.5 9.1l5 5"/><path d="M20.5 9.1l-5 5"/></svg>
+    </button>
   </header>
 
   <main id="app">
@@ -40,7 +43,7 @@
         </section>
       </div>
       <section class="how-it-works">
-        <article><span>1</span><h3>Crear</h3><p>Arma un ALLIVE como si entraras a una pequeña fábrica de dulces.</p></article>
+        <article><span>1</span><h3>Crear</h3><p>Combina sus partes, escoge su olor y decide de qué es.</p></article>
         <article><span>2</span><h3>Exhibir</h3><p>Dinos de qué es. Su combinación de ocho partes y olor define su identidad única.</p></article>
         <article><span>3</span><h3>Acariciar</h3><p>Los rankings cambian en vivo. Los ALLIVES más acariciados pueden convertirse en piezas reales.</p></article>
       </section>
@@ -48,17 +51,17 @@
 
     <section id="page-create" class="page" data-page="create">
       <header class="page-heading">
-        <p class="eyebrow">La fábrica de dulces</p>
         <h1>Crear</h1>
-        <p>Toca una parte del ALLIVE para cambiarla. Siempre encontrarás uno listo y moviéndose desde que entras.</p>
+        <p>Toca una parte del ALLIVE para cambiarla.</p>
       </header>
 
       <div class="creator-layout">
         <div class="creator-stage-panel candy-panel">
+          <button id="random-allive" class="machine-button random-allive-top">✦ ALLIVE AL AZAR ✦</button>
           <div id="creator-allive" class="creator-allive-slot"></div>
           <div class="name-line">
             <span>ALLIVE De</span>
-            <input id="subject-name" type="text" maxlength="80" autocomplete="off" placeholder="Algodón De Azúcar" aria-label="De qué es tu ALLIVE">
+            <input id="subject-name" type="text" maxlength="80" autocomplete="off" placeholder="…" aria-label="De qué es tu ALLIVE">
           </div>
           <p id="creator-message" class="creator-message" aria-live="polite"></p>
         </div>
@@ -71,7 +74,6 @@
           <div id="asset-case" class="asset-case"></div>
         </section>
 
-        <button id="random-allive" class="machine-button">✦ ALLIVE AL AZAR ✦</button>
 
         <section class="scent-station candy-panel" aria-labelledby="scent-title">
           <div class="section-heading compact">
@@ -132,8 +134,8 @@
         </div>
       </div>
       <div class="jump-controls" aria-label="Saltar en el ranking">
-        <button id="jump-top" title="Ir hasta arriba">↑</button>
-        <button id="jump-bottom" title="Ir hasta abajo">↓</button>
+        <button id="jump-top" class="icon-button" title="Ir hasta arriba" aria-label="Ir hasta arriba"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 14.5 12 9l5.5 5.5"/></svg></button>
+        <button id="jump-bottom" class="icon-button" title="Ir hasta abajo" aria-label="Ir hasta abajo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6.5 9.5 5.5 5.5 5.5-5.5"/></svg></button>
       </div>
     </section>
   </main>

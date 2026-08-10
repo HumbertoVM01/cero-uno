@@ -1,6 +1,6 @@
 import { API } from './api.js';
 import { sounds } from './audio.js';
-import { AlliveView, REACTIONS } from './allive.js';
+import { AlliveView, REACTIONS, preloadCatalogAssets } from './allive.js';
 import { CardMaker } from './card.js';
 
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
@@ -11,31 +11,94 @@ const visitorToken=(()=>{let t=localStorage.getItem('allive-visitor');if(!t){t=c
 let catalog, cardMaker, creatorView;
 const pomParts=new Set(['body','top','leftArm','rightArm','leftLeg','rightLeg']);
 const partNames={body:'Cuerpo',top:'Pompón Superior',leftArm:'Brazo Izquierdo',rightArm:'Brazo Derecho',leftLeg:'Pierna Izquierda',rightLeg:'Pierna Derecha',leftEye:'Ojo Izquierdo',rightEye:'Ojo Derecho'};
-const partScale={body:1,top:.5,leftArm:.25,rightArm:.25,leftLeg:.25,rightLeg:.25,leftEye:.285,rightEye:.285};
 
-const creator={parts:{},scentId:null,selected:'body',scentIndex:0,busy:false};
+const creator={parts:{},scentId:null,selected:'body',lastSelected:'body',scentIndex:0,busy:false};
 const museum={view:'random',items:[],total:0,start:1,seed:Math.random(),busy:false,fast:false,scrollTimer:null,lastScrollTop:0,lastScrollTime:performance.now(),stages:[],focusedId:null,lastRank:new Map(),cooldownUntil:0,liveTimer:null,presenceTimer:null,liveTicks:0};
 
+document.addEventListener('pointerdown',()=>sounds.unlock(),{capture:true,passive:true});
+
 async function init(){
-  catalog=await fetch('/data/catalog.json').then(r=>r.json());cardMaker=new CardMaker($('#trading-card-canvas'),catalog);initSound();initNav();initCreator();initCardDialog();initMuseum();await loadHome();
+  const catalogPromise=fetch('/data/catalog.json').then(r=>r.json());
+  const soundPromise=sounds.preloadCritical();
+  catalog=await catalogPromise;
+  preloadCatalogAssets(catalog);
+  await soundPromise;
+  cardMaker=new CardMaker($('#trading-card-canvas'),catalog);initSound();initNav();initCreator();initCardDialog();initMuseum();await loadHome();
   const params=new URLSearchParams(location.search);const page=params.get('page');const allive=params.get('allive');if(page==='create')navigate('create',false);else if(page==='caress'||allive){navigate('caress',false);if(allive)await openSharedAllive(allive)}else navigate('home',false);
 }
 
-function initSound(){const b=$('#sound-toggle');const paint=()=>{b.textContent=sounds.enabled?'🔊':'🔇';b.setAttribute('aria-pressed',String(sounds.enabled))};paint();b.onclick=()=>{sounds.setEnabled(!sounds.enabled);paint();if(sounds.enabled)sounds.play('ui_press_01',.55)}}
+function initSound(){const b=$('#sound-toggle');const paint=()=>{const on=sounds.enabled;b.setAttribute('aria-pressed',String(on));b.setAttribute('aria-label',on?'Silenciar sonidos':'Activar sonidos');$('.sound-on-icon',b).hidden=!on;$('.sound-off-icon',b).hidden=on};paint();b.onclick=()=>{sounds.setEnabled(!sounds.enabled);paint();if(sounds.enabled)sounds.play('ui_press_01',.55)}}
 function initNav(){$$('.nav-link').forEach(b=>b.addEventListener('click',()=>{sounds.play('nav_tab',.4);navigate(b.dataset.page)}));window.addEventListener('popstate',()=>{const p=new URLSearchParams(location.search).get('page')||'home';navigate(p,false)})}
 function navigate(page,push=true){if(!['home','create','caress'].includes(page))page='home';$$('.page').forEach(p=>p.classList.toggle('active',p.dataset.page===page));$$('.main-nav .nav-link').forEach(b=>b.classList.toggle('active',b.dataset.page===page));if(push){const u=new URL(location.href);if(page==='home')u.search='';else{u.search='';u.searchParams.set('page',page)}history.pushState({},'',u)}if(page==='caress'){startPresence();startLive()}else{stopPresence();stopLive()}window.scrollTo({top:0,behavior:'smooth'})}
 
 function randomCreatorState(){for(const k of Object.keys(partNames)){creator.parts[k]=rand(pomParts.has(k)?catalog.poms:catalog.gems).id}creator.scentIndex=Math.floor(Math.random()*catalog.scents.length);creator.scentId=catalog.scents[creator.scentIndex].id}
 function creatorData(){return {parts:{...creator.parts},scentId:creator.scentId,subjectName:$('#subject-name').value.trim(),exhibitedBy:$('#exhibited-by').value.trim()||null}}
-function initCreator(){randomCreatorState();creatorView=new AlliveView($('#creator-allive'),catalog,creatorData(),{interactive:true,onPartClick:selectPart});creatorView.select('body');renderAssetCase();renderScentWheel();renderScentInfo();$('#random-part').onclick=randomizePart;$('#random-allive').onclick=randomizeAllive;$('#random-scent').onclick=()=>randomizeScent(true);$('#creator-photo').onclick=()=>openCreatorCard();$('#exhibit-allive').onclick=exhibitCreator;setupScentGestures();$('#subject-name').addEventListener('input',clearCreatorMessage);$('#exhibited-by').addEventListener('input',clearCreatorMessage)}
+function initCreator(){
+  randomCreatorState();
+  creatorView=new AlliveView($('#creator-allive'),catalog,creatorData(),{interactive:true,onPartClick:selectPart});
+  creatorView.select('body');
+  initAssetCase();updateAssetCaseContext();renderScentWheel();renderScentInfo();
+  $('#random-part').onclick=randomizePart;$('#random-allive').onclick=randomizeAllive;$('#random-scent').onclick=()=>randomizeScent(true);$('#creator-photo').onclick=()=>openCreatorCard();$('#exhibit-allive').onclick=exhibitCreator;setupScentGestures();$('#subject-name').addEventListener('input',clearCreatorMessage);$('#exhibited-by').addEventListener('input',clearCreatorMessage)
+}
 function clearCreatorMessage(){const m=$('#creator-message');m.textContent='';m.classList.remove('bump')}
 function message(text){const m=$('#creator-message');m.textContent=text;m.classList.remove('bump');void m.offsetWidth;m.classList.add('bump')}
-function selectPart(key){if(creator.busy)return;creator.selected=key;creatorView.select(key);$('#display-case-title').textContent=partNames[key];sounds.playVariant(pomParts.has(key)?'pom_touch':'gem_touch',2,.65);renderAssetCase()}
-function renderAssetCase(){const k=creator.selected;const items=pomParts.has(k)?catalog.poms:catalog.gems;const box=$('#asset-case');box.replaceChildren();for(const item of items){const b=document.createElement('button');b.className='asset-choice'+(creator.parts[k]===item.id?' selected':'');b.dataset.scale=String(partScale[k]);b.dataset.asset=item.id;b.title=item.name;b.style.setProperty('--choice-mask',`url("${item.src}")`);b.style.setProperty('--choice-scale',String(k==='body'?0.9:k==='top'?0.68:pomParts.has(k)?0.47:0.52));b.innerHTML=`<span class="choice-glow"></span><img src="${item.src}" alt="${item.name}">`;b.onclick=()=>setPart(k,item.id,true);box.append(b)}}
-function syncAssetCaseSelection(){const current=creator.parts[creator.selected];$$('.asset-choice',$('#asset-case')).forEach(b=>b.classList.toggle('selected',b.dataset.asset===current))}
-function setPart(key,id,withSound=false){creator.parts[key]=id;creatorView.updatePart(key,id);if(withSound){sounds.playVariant(pomParts.has(key)?'pom_place':'gem_place',2,.72)}renderAssetCase();clearCreatorMessage()}
-async function randomizePart(){if(creator.busy)return;creator.busy=true;const key=creator.selected,items=pomParts.has(key)?catalog.poms:catalog.gems;const final=rand(items).id;sounds.play('random_start',.58);creatorView.setRandomizing(true);const delays=[45,55,70,90,130,180,240];for(let i=0;i<delays.length;i++){const id=i===delays.length-1?final:rand(items).id;creator.parts[key]=id;creatorView.updatePart(key,id);syncAssetCaseSelection();sounds.play(i<2?'random_tick_fast':i<5?'random_tick_medium':'random_tick_slow',.35);await sleep(delays[i])}sounds.play(pomParts.has(key)?'pom_random_land':'gem_random_land',.72);creatorView.setRandomizing(false);renderAssetCase();creator.busy=false;clearCreatorMessage()}
-async function randomizeAllive(){if(creator.busy)return;creator.busy=true;sounds.play('random_start',.64);creatorView.setRandomizing(true);const keys=Object.keys(partNames),final={};for(const k of keys)final[k]=rand(pomParts.has(k)?catalog.poms:catalog.gems).id;const delays=[50,55,65,80,100,130,165,210];for(let i=0;i<delays.length;i++){for(const k of keys){const id=i===delays.length-1?final[k]:rand(pomParts.has(k)?catalog.poms:catalog.gems).id;creator.parts[k]=id;creatorView.updatePart(k,id)}syncAssetCaseSelection();sounds.play(i<3?'random_tick_fast':i<6?'random_tick_medium':'random_tick_slow',.30);await sleep(delays[i])}sounds.play('pom_random_land',.35);await sleep(80);sounds.play('gem_random_land',.52);await sleep(80);sounds.play('allive_random_finish',.72);creatorView.setRandomizing(false);renderAssetCase();creator.busy=false;clearCreatorMessage()}
+function selectPart(key){
+  if(creator.busy)return;
+  if(!key){creator.selected=null;creatorView.select(null);$('#display-case-title').textContent='Selecciona Una Parte';updateAssetCaseContext();return}
+  creator.selected=key;creator.lastSelected=key;creatorView.select(key);$('#display-case-title').textContent=partNames[key];
+  sounds.playVariant(pomParts.has(key)?'pom_touch':'gem_touch',2,.65);updateAssetCaseContext();
+}
+function initAssetCase(){
+  const box=$('#asset-case');box.replaceChildren();
+  for(const [kind,items] of [['pom',catalog.poms],['gem',catalog.gems]]){
+    const group=document.createElement('div');group.className='asset-case-group';group.dataset.kind=kind;
+    for(const item of items){
+      const b=document.createElement('button');b.className='asset-choice';b.dataset.asset=item.id;b.dataset.kind=kind;b.title=item.name;b.style.setProperty('--choice-mask',`url("${item.src}")`);
+      const img=document.createElement('img');img.src=item.src;img.alt=item.name;img.decoding='async';img.draggable=false;
+      const glow=document.createElement('span');glow.className='choice-glow';b.append(glow,img);
+      b.onclick=()=>{const key=creator.selected;if(!key)return;const expected=pomParts.has(key)?'pom':'gem';if(expected!==kind)return;setPart(key,item.id,true)};
+      group.append(b)
+    }
+    box.append(group)
+  }
+}
+function updateAssetCaseContext(){
+  const key=creator.selected||creator.lastSelected||'body',kind=pomParts.has(key)?'pom':'gem';
+  const scale=key==='body'?0.9:key==='top'?0.68:pomParts.has(key)?0.47:0.52;
+  $$('.asset-case-group',$('#asset-case')).forEach(g=>{g.hidden=g.dataset.kind!==kind;if(!g.hidden)$$('.asset-choice',g).forEach(b=>{b.style.setProperty('--choice-scale',String(scale));b.classList.toggle('selected',!!creator.selected&&b.dataset.asset===creator.parts[creator.selected])})});
+  $('#random-part').disabled=!creator.selected;
+}
+function syncAssetCaseSelection(){
+  const key=creator.selected;if(!key){updateAssetCaseContext();return}
+  const kind=pomParts.has(key)?'pom':'gem',current=creator.parts[key];
+  $$('.asset-case-group',$('#asset-case')).forEach(g=>{if(g.dataset.kind===kind)$$('.asset-choice',g).forEach(b=>b.classList.toggle('selected',b.dataset.asset===current))})
+}
+async function setPart(key,id,withSound=false){
+  creator.parts[key]=id;const committed=await creatorView.updatePart(key,id);if(withSound&&committed)sounds.playVariant(pomParts.has(key)?'pom_place':'gem_place',2,.72);syncAssetCaseSelection();clearCreatorMessage()
+}
+async function randomizePart(){
+  if(creator.busy||!creator.selected)return;creator.busy=true;
+  const key=creator.selected,items=pomParts.has(key)?catalog.poms:catalog.gems,final=rand(items).id;
+  sounds.play('random_start',.58);creatorView.setPartRandomizing(key,true);
+  const delays=[45,55,70,90,130,180,240];
+  for(let i=0;i<delays.length;i++){
+    const id=i===delays.length-1?final:rand(items).id;creator.parts[key]=id;await creatorView.updatePart(key,id);syncAssetCaseSelection();sounds.play(i<2?'random_tick_fast':i<5?'random_tick_medium':'random_tick_slow',.35);await sleep(delays[i])
+  }
+  sounds.play(pomParts.has(key)?'pom_random_land':'gem_random_land',.72);creatorView.setPartRandomizing(key,false);syncAssetCaseSelection();creator.busy=false;clearCreatorMessage()
+}
+async function randomizeAllive(){
+  if(creator.busy)return;creator.busy=true;const selectedBefore=creator.selected;
+  sounds.play('random_start',.64);creatorView.setAllRandomizing(true);
+  const keys=Object.keys(partNames),final={};for(const k of keys)final[k]=rand(pomParts.has(k)?catalog.poms:catalog.gems).id;
+  const delays=[50,55,65,80,100,130,165,210];
+  for(let i=0;i<delays.length;i++){
+    const updates=[];
+    for(const k of keys){const id=i===delays.length-1?final[k]:rand(pomParts.has(k)?catalog.poms:catalog.gems).id;creator.parts[k]=id;updates.push(creatorView.updatePart(k,id))}
+    await Promise.all(updates);syncAssetCaseSelection();sounds.play(i<3?'random_tick_fast':i<6?'random_tick_medium':'random_tick_slow',.30);await sleep(delays[i])
+  }
+  sounds.play('pom_random_land',.35);await sleep(80);sounds.play('gem_random_land',.52);await sleep(80);sounds.play('allive_random_finish',.72);
+  creatorView.setAllRandomizing(false);creatorView.select(selectedBefore);creator.selected=selectedBefore;updateAssetCaseContext();creator.busy=false;clearCreatorMessage()
+}
 
 function wrapIndex(i){const n=catalog.scents.length;return ((i%n)+n)%n}
 function setScentIndex(i,{sound=false}={}){creator.scentIndex=wrapIndex(i);creator.scentId=catalog.scents[creator.scentIndex].id;if(sound)sounds.play('scent_tick',.34);renderScentWheel();renderScentInfo();clearCreatorMessage()}
