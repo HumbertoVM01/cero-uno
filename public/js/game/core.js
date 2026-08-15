@@ -70,7 +70,17 @@ export function diffBuild(player,target){const out={};for(const k of VISUAL_PART
 export function skillScore(mistakes){
   let sum=0;for(let i=1;i<=9;i++)sum+=(i/45)*(1/(1+(mistakes[i-1]||0)));return 100*sum;
 }
+export const GAME_SCORE_VERSION=1;
+export function speedPointsRaw(elapsedMs){
+  const seconds=Math.max(0,Number(elapsedMs)||0)/1000;
+  return 100*clamp((135-seconds)/90,0,1);
+}
+export function totalScore({memory,skill,elapsed}){
+  const M=clamp((Number(memory)||0)/9,0,1),S=clamp((Number(skill)||0)/100,0,1),speedRaw=speedPointsRaw(elapsed),speed=M*speedRaw;
+  return {memoryPoints:600*M,skillPoints:300*S,speedPoints:speed,total:Math.round(clamp(600*M+300*S+speed,0,1000)),speedRaw};
+}
 export function formatTime(ms){const total=Math.max(0,Math.floor(ms/1000)),m=Math.floor(total/60),s=total%60;return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`}
+export function formatTimeTenths(ms){const total=Math.max(0,Number(ms)||0)/1000,m=Math.floor(total/60),s=total-m*60;return m?`${m}:${s.toFixed(1).padStart(4,'0')}`:`${s.toFixed(1)} s`}
 
 export function chooseRoundTasks(seed,previous=[]){
   const rng=seeded(seed,'round-tasks'); const chosen=[],familyCount=new Map();
