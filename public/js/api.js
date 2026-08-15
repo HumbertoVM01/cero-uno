@@ -12,4 +12,7 @@ export const API={
   caress:(payload)=>request('/api/caress',{method:'POST',body:JSON.stringify(payload)}),
   snapshot:(ids,view)=>request('/api/snapshot',{method:'POST',body:JSON.stringify({ids,view})}),
   presence:(visitorToken)=>request('/api/presence',{method:'POST',body:JSON.stringify({visitorToken})}),
+  gameScore:(payload)=>request('/api/game-score',{method:'POST',body:JSON.stringify(payload)}),
+  gameRankEstimate:(payload)=>request('/api/game-rank-estimate',{method:'POST',body:JSON.stringify(payload)}),
+  gameRankings:(metric='total',offset=0,limit=20,version=1)=>request(`/api/game-rankings?metric=${encodeURIComponent(metric)}&offset=${offset}&limit=${limit}&version=${version}`),
 };
