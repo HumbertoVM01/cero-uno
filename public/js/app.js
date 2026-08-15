@@ -2,13 +2,14 @@ import { API } from './api.js';
 import { sounds } from './audio.js';
 import { AlliveView, REACTIONS, preloadCatalogAssets, glowMaskSrc } from './allive.js';
 import { CardMaker } from './card.js';
+import { initGamePage } from './game/game.js';
 
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const rand=a=>a[Math.floor(Math.random()*a.length)];
 const fmt=n=>new Intl.NumberFormat('es-MX').format(Number(n||0));
 const visitorToken=(()=>{let t=localStorage.getItem('allive-visitor');if(!t){t=crypto.randomUUID();localStorage.setItem('allive-visitor',t)}return t})();
-let catalog, cardMaker, creatorView;
+let catalog, cardMaker, creatorView, gameController;
 const pomParts=new Set(['body','top','leftArm','rightArm','leftLeg','rightLeg']);
 const partNames={body:'Cuerpo',top:'Pompón Superior',leftArm:'Brazo Izquierdo',rightArm:'Brazo Derecho',leftLeg:'Pierna Izquierda',rightLeg:'Pierna Derecha',leftEye:'Ojo Izquierdo',rightEye:'Ojo Derecho'};
 
@@ -23,13 +24,13 @@ async function init(){
   catalog=await catalogPromise;
   preloadCatalogAssets(catalog);
   await soundPromise;
-  cardMaker=new CardMaker($('#trading-card-canvas'),catalog);initSound();initNav();initCreator();initCardDialog();initMuseum();await loadHome();
-  const params=new URLSearchParams(location.search);const page=params.get('page');const allive=params.get('allive');if(page==='create')navigate('create',false);else if(page==='caress'||allive){navigate('caress',false);if(allive)await openSharedAllive(allive)}else navigate('home',false);
+  cardMaker=new CardMaker($('#trading-card-canvas'),catalog);initSound();initNav();initCreator();initCardDialog();initMuseum();gameController=initGamePage({catalog,API,sounds,navigate});await loadHome();
+  const params=new URLSearchParams(location.search);const page=params.get('page');const allive=params.get('allive');if(page==='create')navigate('create',false);else if(page==='game')navigate('game',false);else if(page==='caress'||allive){navigate('caress',false);if(allive)await openSharedAllive(allive)}else navigate('home',false);
 }
 
 function initSound(){const b=$('#sound-toggle');const paint=()=>{const on=sounds.enabled;b.setAttribute('aria-pressed',String(on));b.setAttribute('aria-label',on?'Silenciar sonidos':'Activar sonidos');b.title=on?'Sonido Activado':'Sonido Silenciado'};paint();b.onclick=()=>{sounds.setEnabled(!sounds.enabled);paint();if(sounds.enabled)sounds.play('ui_press_01',.55)}}
 function initNav(){$$('.nav-link').forEach(b=>b.addEventListener('click',()=>{sounds.play('nav_tab',.4);navigate(b.dataset.page)}));window.addEventListener('popstate',()=>{const p=new URLSearchParams(location.search).get('page')||'home';navigate(p,false)})}
-function navigate(page,push=true){if(!['home','create','caress'].includes(page))page='home';$$('.page').forEach(p=>p.classList.toggle('active',p.dataset.page===page));$$('.main-nav .nav-link').forEach(b=>b.classList.toggle('active',b.dataset.page===page));if(push){const u=new URL(location.href);if(page==='home')u.search='';else{u.search='';u.searchParams.set('page',page)}history.pushState({},'',u)}if(page==='caress'){startPresence();startLive()}else{stopPresence();stopLive()}window.scrollTo({top:0,behavior:'smooth'})}
+function navigate(page,push=true){if(!['home','create','caress','game'].includes(page))page='home';$$('.page').forEach(p=>p.classList.toggle('active',p.dataset.page===page));document.body.classList.toggle('game-mode',page==='game');$$('.main-nav .nav-link').forEach(b=>b.classList.toggle('active',b.dataset.page===page));if(push){const u=new URL(location.href);if(page==='home')u.search='';else{u.search='';u.searchParams.set('page',page)}history.pushState({},'',u)}if(page==='caress'){startPresence();startLive()}else{stopPresence();stopLive()}window.scrollTo({top:0,behavior:'smooth'})}
 
 function randomCreatorState(){for(const k of Object.keys(partNames)){creator.parts[k]=rand(pomParts.has(k)?catalog.poms:catalog.gems).id}creator.scentIndex=Math.floor(Math.random()*catalog.scents.length);creator.scentId=catalog.scents[creator.scentIndex].id}
 function creatorData(){return {parts:{...creator.parts},scentId:creator.scentId,subjectName:$('#subject-name').value.trim(),exhibitedBy:$('#exhibited-by').value.trim()||null}}

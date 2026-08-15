@@ -7,6 +7,7 @@
   <meta name="description" content="Museo De ALLIVES — crea, exhibe y acaricia ALLIVES.">
   <title>Museo De ALLIVES</title>
   <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/game.css">
 </head>
 <body>
   <header class="topbar">
@@ -15,6 +16,7 @@
       <button class="nav-link" data-page="home">Museo</button>
       <button class="nav-link" data-page="create">Crear</button>
       <button class="nav-link" data-page="caress">Acariciar</button>
+      <button class="nav-link" data-page="game">Jugar</button>
     </nav>
     <button id="sound-toggle" class="sound-toggle icon-button" aria-pressed="true" aria-label="Silenciar sonidos" title="Sonido">
       <svg class="sound-on-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 9.25h3.25L12 5.8v12.4l-4.25-3.45H4.5z"/><path d="M15.2 8.3c1.15.9 1.8 2.15 1.8 3.7s-.65 2.8-1.8 3.7"/><path d="M17.8 5.8c1.85 1.5 2.95 3.6 2.95 6.2s-1.1 4.7-2.95 6.2"/></svg>
@@ -32,6 +34,7 @@
           <div class="hero-actions">
             <button class="candy-button primary nav-link" data-page="create">Crea Tu ALLIVE Haciendo Click Aquí</button>
             <button class="candy-button secondary nav-link" data-page="caress">Acaricia ALLIVES Haciendo Click Aquí</button>
+            <button class="candy-button secondary nav-link" data-page="game">Juega El Pedido</button>
           </div>
         </div>
         <section class="champion-zone" aria-labelledby="champion-title">
@@ -138,6 +141,10 @@
         <button id="jump-top" class="icon-button" title="Ir hasta arriba" aria-label="Ir hasta arriba"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 14.5 12 9l5.5 5.5"/></svg></button>
         <button id="jump-bottom" class="icon-button" title="Ir hasta abajo" aria-label="Ir hasta abajo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6.5 9.5 5.5 5.5 5.5-5.5"/></svg></button>
       </div>
+    </section>
+
+    <section id="page-game" class="page page-game" data-page="game">
+      <div id="allives-game-root" aria-live="polite"></div>
     </section>
   </main>
 
