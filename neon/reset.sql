@@ -5,6 +5,7 @@
 drop function if exists refresh_allive_windows();
 drop function if exists caress_allive(uuid, text, text);
 
+drop table if exists game_scores cascade;
 drop table if exists visitor_presence cascade;
 drop table if exists visitor_caress_state cascade;
 drop table if exists allive_caress_minute cascade;

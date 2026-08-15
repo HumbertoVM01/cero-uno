@@ -216,3 +216,27 @@ begin
   delete from visitor_caress_state where updated_at < clock_timestamp() - interval '90 days';
 end;
 $$;
+
+-- El Pedido leaderboard. All historical scoring versions remain stored; the
+-- public current leaderboard filters by score_version.
+create table if not exists game_scores (
+  id uuid primary key default gen_random_uuid(),
+  round_id text not null unique check (char_length(round_id) between 8 and 120),
+  visitor_hash text not null,
+  alias text not null check (char_length(trim(alias)) between 1 and 20),
+  score_version integer not null default 1 check (score_version > 0),
+  target_id uuid references allives(id) on delete set null,
+  memory_score smallint not null check (memory_score between 0 and 9),
+  skill_score numeric(5,1) not null check (skill_score between 0 and 100),
+  elapsed_ms bigint not null check (elapsed_ms between 5000 and 7200000),
+  total_score integer not null check (total_score between 0 and 1000),
+  speed_points numeric(6,2) not null check (speed_points between 0 and 100),
+  mistakes jsonb not null,
+  task_ids text[] not null,
+  created_at timestamptz not null default clock_timestamp()
+);
+create index if not exists game_scores_total_idx on game_scores (score_version, total_score desc, memory_score desc, skill_score desc, elapsed_ms asc, created_at asc, id asc);
+create index if not exists game_scores_parts_idx on game_scores (score_version, memory_score desc, skill_score desc, elapsed_ms asc, created_at asc, id asc);
+create index if not exists game_scores_skill_idx on game_scores (score_version, skill_score desc, memory_score desc, elapsed_ms asc, created_at asc, id asc);
+create index if not exists game_scores_time_idx on game_scores (score_version, elapsed_ms asc, skill_score desc, created_at asc, id asc);
+create index if not exists game_scores_visitor_recent_idx on game_scores (visitor_hash, created_at desc);
