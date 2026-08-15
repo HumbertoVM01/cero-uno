@@ -60,3 +60,6 @@ button,input{font:inherit;color:inherit}button{cursor:pointer}button:disabled{cu
 /* v11 — exhibition cards fit complete scent copy and keep controls above adjacent cards */
 .exhibit-card{isolation:isolate}
 .exhibit-card .card-actions,.exhibit-card .card-stats{position:relative;z-index:3}
+
+/* v14 creator validation: make the missing ALLIVE name instruction unmistakable. */
+.creator-message{color:#d74663;font-size:12px;font-weight:850}
