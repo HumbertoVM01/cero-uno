@@ -69,3 +69,39 @@ assert.equal(scoreCore.totalScore({memory:0,skill:100,elapsed:45_000}).total,300
 assert.equal(scoreCore.totalScore({memory:9,skill:100,elapsed:180_000}).total,900);
 assert.equal(scoreCore.formatTimeTenths(72_400),'1:12.4');
 console.log('ALL V14 DEPLOY REGRESSION CHECKS PASS');
+
+// V15 systemic correction regressions.
+const taskModule = await import('../public/js/game/tasks.js');
+const internals = taskModule.__taskTestInternals;
+assert.ok(internals,'task test internals are exposed for geometry/logic regression checks');
+assert.doesNotMatch(css,/\.game-carousel-slot\.selected\{opacity:1;transform:scale\(1\.05\)/,'legacy selected transform can no longer override reel geometry');
+assert.match(css,/\.game-carousel-slot\.selected\{transform:translate\(-50%,-50%\) translateX\(var\(--slot-x,0px\)\) scale\(var\(--slot-scale,1\)\)\}/,'selected pom uses the same geometric transform as every reel item');
+assert.match(css,/\.game-carousel-slot\.selected \.game-carousel-rainbow\{opacity:1/,'iridescent selection halo belongs to the selected pom');
+assert.match(css,/\.quantity-choice-grid/,'Which Has More uses a specialized equal-card layout');
+assert.match(css,/\.permutation-choice-grid/,'Permutation uses wide arrangement answer cards');
+assert.match(tasks,/attentionPositions\(rng,n\)/,'attention tasks use hitbox-aware packed positions');
+assert.match(tasks,/answer=\{\.\.\.base,rotation:0,mark:'bar'\}/,'Sequence L8 resets rotation+mark cycle to bar');
+assert.match(tasks,/buildCircuitModel/,'broken circuit uses a graph model with candidate validation');
+assert.match(gameJs,/qaGeometryReport/,'QA view reports geometry issues');
+
+for(let level=1;level<=9;level++)for(let i=0;i<200;i++){
+  const model=internals.buildCircuitModel(new RNG(`circuit-${level}-${i}`),level);
+  assert.equal(internals.graphReachable(model.n,model.edges,0,model.n-1),false);
+  const valid=model.candidates.filter(x=>internals.graphReachable(model.n,model.edges,0,model.n-1,x.edge));
+  assert.equal(valid.length,1,`circuit L${level} seed ${i} has exactly one repair`);
+}
+for(let n=3;n<=10;n++)for(let i=0;i<100;i++){
+  const pts=internals.attentionPositions(new RNG(`attention-${n}-${i}`),n);
+  const rects=pts.map(p=>({l:p.x/100*390-31,r:p.x/100*390+31,t:p.y/100*195-31,b:p.y/100*195+31}));
+  for(let a=0;a<rects.length;a++)for(let b=a+1;b<rects.length;b++){
+    const x=Math.min(rects[a].r,rects[b].r)-Math.max(rects[a].l,rects[b].l),y=Math.min(rects[a].b,rects[b].b)-Math.max(rects[a].t,rects[b].t);
+    assert.ok(x<=0||y<=0,`attention hitboxes overlap n=${n} seed=${i} pair=${a}-${b}`);
+  }
+}
+for(let level=1;level<=9;level++)for(let i=0;i<40;i++){
+  const total=1+[0,1,2,2,3,4,4,5,6][level-1],duration=[2000,2300,2600,3000,3300,3600,4000,4500,5000][level-1];
+  const rng=new RNG(`follow-${level}-${i}`),dummy=Array.from({length:total},(_,j)=>({shape:'L',rotation:(j%4)*90,fill:'outline',mark:'dot',markPos:'top',count:1,mirror:false}));
+  const scenario=internals.buildFollowScenario(rng,level,total,duration,dummy);
+  assert.equal(internals.followScenarioFair(scenario,duration,level),true,`follow target L${level} seed ${i} remains trackable`);
+}
+console.log('ALL V15 SYSTEMIC REGRESSION CHECKS PASS');
