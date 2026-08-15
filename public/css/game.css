@@ -1,6 +1,6 @@
 /* Museo De ALLIVES · El Pedido minigame */
 body.game-mode{overflow:hidden}
-body.game-mode .topbar{display:none}
+body.game-mode .topbar{display:grid}
 #page-game{max-width:none!important;padding:0!important;height:100vh;min-height:100vh;display:none}
 #page-game.active{display:grid;place-items:center}
 #allives-game-root{width:100%;height:100%;display:grid;place-items:center;padding:max(6px,env(safe-area-inset-top)) max(6px,env(safe-area-inset-right)) max(6px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left));background:radial-gradient(circle at 20% 0%,#ffdbe9 0,transparent 34%),radial-gradient(circle at 80% 100%,#d8ceff 0,transparent 34%),#fff7ec}
@@ -30,3 +30,76 @@ body.game-mode .topbar{display:none}
 @media(prefers-reduced-motion:reduce){.game-spinner{animation:none}.game-customer-group,.game-small-build{transition-duration:.12s!important}.game-customer-group.celebrate{animation:none}.follow-object.target.intro{animation:none}.game-task-content.task-wrong{animation:none}.game-carousel-track,.game-scent-track{transition:none}}
 .bridge-context{display:grid;place-items:center;width:170px;height:110px;border-radius:22px;background:#f3e9ef}.bridge-context .bridge-hole{position:relative;width:82px;height:82px}.bridge-context .bridge-hole b{font-size:28px}.bridge-context .port{position:absolute;background:#5a4a55;border-radius:999px}.bridge-context .port.n,.bridge-context .port.s{width:12px;height:28px;left:50%;transform:translateX(-50%)}.bridge-context .port.n{top:-17px}.bridge-context .port.s{bottom:-17px}.bridge-context .port.e,.bridge-context .port.w{width:28px;height:12px;top:50%;transform:translateY(-50%)}.bridge-context .port.e{right:-17px}.bridge-context .port.w{left:-17px}
 .perm-stage-stack{width:150px;max-height:160px;overflow:hidden;display:grid;place-items:center}.perm-stage-stack>b{line-height:8px}.perm-map-svg{width:145px;height:74px}.perm-map-svg .perm-dot{fill:#fff;stroke:#6c5a66;stroke-width:3}.perm-map-svg .perm-map-arrow{fill:none;stroke:#ff79ae;stroke-width:4;stroke-linecap:round}
+
+/* v13 — live QA polish: keep navigation, anchor the shop scene correctly, smooth selectors, and prevent task clipping */
+:root{--game-top-clearance:84px}
+body.game-mode{overflow:hidden}
+body.game-mode .topbar{display:grid}
+#page-game{height:100svh;min-height:100svh;padding:var(--game-top-clearance) 6px 8px!important}
+#page-game.active{display:grid;place-items:center}
+#allives-game-root{height:100%;min-height:0;padding:0 6px 4px}
+.allives-game-frame{width:min(450px,calc(100vw - 12px),calc((100svh - var(--game-top-clearance) - 12px)*2/3));max-height:calc(100svh - var(--game-top-clearance) - 12px)}
+
+/* The customer is hidden immediately behind the counter, not below the frame. */
+.game-customer-group{top:48%;width:150px;height:150px;transform:translate(-50%,-14%);transition:transform .52s cubic-bezier(.2,.78,.24,1)}
+.game-customer-group.visible{transform:translate(-50%,-84%)}
+.game-customer-group.exit{transform:translate(-50%,-14%);transition:transform .5s cubic-bezier(.4,0,1,1)}
+.game-small-build{top:25%;width:80px;height:80px}
+.game-small-build.picked-up{transform:translate(62px,-48px) scale(.88) rotate(5deg)}
+.game-small-build.exit-with-client{transform:translate(62px,34px) scale(.88) rotate(5deg);transition-duration:.5s}
+.game-customer-group.celebrate{animation:customerCelebrateV13 .68s ease-in-out}
+@keyframes customerCelebrateV13{0%,100%{transform:translate(-50%,-84%) scale(1)}20%{transform:translate(-50%,-81%) scale(1.04,.96) rotate(-2deg)}48%{transform:translate(-50%,-92%) scale(.98,1.04) rotate(3deg)}72%{transform:translate(-50%,-84%) rotate(-3deg)}}
+
+/* More usable workspace without violating the fixed 2:3 game frame. */
+.game-workspace{padding:9px 14px 6px;overflow:hidden}
+.task-host,.game-task-root{width:100%;height:100%;min-height:0}
+.game-task-instruction{font-size:14px;margin-bottom:5px;min-height:19px;line-height:1.15}
+.game-task-content{gap:5px;justify-content:flex-start;overflow:visible;transform-origin:top center}
+.game-task-content.task-fit{scale:var(--task-fit-scale,1)}
+.game-reference{min-height:0;max-height:148px;flex:0 1 auto}
+.game-reference .game-diagram,.game-diagram{max-width:100%;max-height:148px}
+.game-choice-grid{grid-template-columns:repeat(auto-fit,minmax(var(--choice-min,70px),1fr));gap:5px}
+.game-choice{min-height:54px;padding:3px;border-radius:14px}
+.game-choice .game-shape,.game-choice svg{max-width:100%;max-height:54px}
+.game-task-confirm{margin-top:2px;padding:7px 16px!important;min-height:34px}
+.game-pattern-grid{gap:4px;padding:5px}.game-pattern-grid.matrix{grid-template-columns:repeat(3,52px)}.game-pattern-grid.matrix .game-pattern-cell{height:52px}
+.count-field{height:150px}.tap-order-field{height:164px}.attention-scene{height:184px}.follow-board{height:212px}.trace-input{height:142px}.operator-chain{max-height:175px}.perm-stage-stack{max-height:132px}
+
+/* Build preview and carousel: five true slots, no overlap, persistent DOM, direct finger tracking. */
+.build-preview{width:36%}.big-build{width:148px;max-width:96%}
+.selector-host{margin-left:36%;width:64%;gap:5px}.selector-host.scent-host{margin-left:0;width:100%}
+.game-selector-head h2{font-size:16px}.game-selector-head p{font-size:9px}
+.game-carousel{height:122px;overflow:hidden;touch-action:none;user-select:none}
+.game-carousel-marker{left:50%;top:8px;bottom:8px;width:calc(var(--carousel-slot-px,52px)*.92);border-radius:16px;background:rgba(255,242,247,.86)}
+.game-carousel-track{position:absolute;left:50%;top:0;height:100%;width:max-content;margin-left:calc(var(--carousel-slot-px,52px)*-3.5);display:flex;align-items:center;transition:none!important;will-change:transform}
+.game-carousel-slot{width:var(--carousel-slot-px,52px);height:100%;flex:0 0 var(--carousel-slot-px,52px);display:grid;grid-template-rows:1fr 16px;place-items:center;align-content:center;min-width:0;opacity:.28;transform:scale(.76);transition:opacity .12s ease,scale .12s ease}
+.game-carousel-slot[data-offset="-1"],.game-carousel-slot[data-offset="1"]{opacity:.58;transform:scale(.86)}
+.game-carousel-slot.selected{opacity:1;transform:scale(1)}
+.game-carousel-slot img,.game-carousel-slot.selected img{width:min(86%,50px);height:58px;object-fit:contain;display:block}
+.game-carousel-slot span{width:calc(var(--carousel-slot-px,52px) - 3px);max-width:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:7px;line-height:1;text-align:center;opacity:0}
+.game-carousel-slot.selected span{opacity:1}
+.game-carousel.dragging{cursor:grabbing}
+
+/* Scent wheel: seven readable rows, continuous inertia, no roulette-like 3D or random flick. */
+.game-scent-wheel{width:94%;height:266px;overflow:hidden;touch-action:none;user-select:none}
+.game-scent-band{left:6%;right:6%;height:40px;border-radius:15px;background:rgba(255,255,255,.9)}
+.game-scent-track{position:absolute;inset:0;transition:none!important;will-change:transform}
+.game-scent-row{position:absolute;left:7%;right:7%;top:50%;height:36px;min-height:36px;transform:translateY(calc(-50% + var(--d)*var(--scent-step-px,38px))) scale(calc(1 - min(var(--abs),4)*.055));display:flex;align-items:center;justify-content:center;text-align:center;font-size:calc(13px - min(var(--abs),4)*.55px);font-weight:850;line-height:1.05;padding:2px 8px;opacity:calc(1 - min(var(--abs),4)*.18);overflow:hidden;text-wrap:balance}
+.game-scent-row.selected{font-size:14px;font-weight:950;opacity:1}
+.game-scent-wheel.dragging{cursor:grabbing}
+
+@media(max-width:620px){:root{--game-top-clearance:72px}#page-game{padding-top:var(--game-top-clearance)!important}.allives-game-frame{width:min(450px,calc(100vw - 8px),calc((100svh - var(--game-top-clearance) - 8px)*2/3));max-height:calc(100svh - var(--game-top-clearance) - 8px)}#allives-game-root{padding-left:2px;padding-right:2px}.game-workspace{padding-left:11px;padding-right:11px}.game-choice-grid{gap:4px}}
+@media(max-height:700px){.game-scent-wheel{height:232px}.attention-scene{height:164px}.follow-board{height:190px}.trace-input{height:128px}.game-reference .game-diagram,.game-diagram{max-height:132px}}
+@media(prefers-reduced-motion:reduce){.game-carousel-slot{transition:none}.game-customer-group.celebrate{animation:none}}
+
+/* v13 QA follow-up — denser task hit areas and legible circuit choices. */
+.attention-object{width:54px;height:54px}
+.tap-target{width:48px;height:48px}
+.node-path-wrap{width:100%;display:grid;place-items:center;min-height:0}
+.circuit .circuit-label-bg{fill:#fffdf8;stroke:#ff8bbb;stroke-width:2}
+.circuit .circuit-label{font-size:10px;fill:#514553;font-weight:950;pointer-events:none}
+.game-choice:has(.perm-arr.grid){min-height:88px}
+.game-choice:has(.quantity-group){min-height:70px}
+.game-choice:has(.bridge-tile){min-height:62px}
+.game-task-content.task-fit{scale:var(--task-fit-scale,1);transform-origin:top center}
+@supports not (scale:1){.game-task-content.task-fit{transform:scale(var(--task-fit-scale,1))}}
