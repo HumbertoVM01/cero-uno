@@ -96,7 +96,7 @@ for(const task of TASKS){
         case 'what_changed':{
           if(s.beforePos[s.target].x===s.afterPos[s.target].x&&s.beforePos[s.target].y===s.afterPos[s.target].y)assert.notEqual(visualSignature(s.before[s.target]),visualSignature(s.after[s.target]));else assert.ok(dist(s.beforePos[s.target],s.afterPos[s.target])>=25);for(let j=0;j<s.before.length;j++)if(j!==s.target)assert.equal(visualSignature(s.before[j]),visualSignature(s.after[j]));break;
         }
-        case 'what_disappeared':assert.ok(!s.after.some(x=>visualSignature(x)===visualSignature(s.correct)));assert.equal(correctCount(s.items),1);assert.ok(uniqueVisual(s.items));assert.equal(new Set(s.before.map(visualSignature)).size,s.before.length);break;
+        case 'what_disappeared':assert.ok(!s.after.some(x=>visualSignature(x)===visualSignature(s.correct)));assert.equal(correctCount(s.items),1);assert.ok(uniqueVisual(s.items));assert.equal(new Set(s.before.map(visualSignature)).size,s.before.length);assert.equal(s.visibleCount,s.before.length);assert.equal(s.observeMs,900+s.visibleCount*300);break;
         case 'follow_target':assert.ok(I.followScenarioFair(s.objs,s.duration,level));assert.equal(new Set(s.objs.map(x=>coarseVisualSignature(x.d))).size,s.objs.length);for(const o of s.objs)for(const t of [0,s.duration/2000,s.duration/1000]){const p=I.followPosAt(o,t);assert.ok(p.x>=7.99&&p.x<=92.01&&p.y>=9.99&&p.y<=90.01)}break;
       }
     }
