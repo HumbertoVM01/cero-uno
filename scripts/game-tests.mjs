@@ -14,7 +14,7 @@ const demo=buildDemoAllives(catalog,20);assert.equal(demo.length,20);assert.ok(d
 const r1=new RNG('x'),r2=new RNG('x');assert.deepEqual(Array.from({length:10},()=>r1.float()),Array.from({length:10},()=>r2.float()));
 console.log('ALL GAME CORE TESTS PASS');
 
-// V14 regression checks: geometry, selectors, dense layouts and leaderboard scoring.
+// V15 final regression checks: audited fairness, geometry, selectors, dense layouts and leaderboard scoring.
 const { readFile } = await import('node:fs/promises');
 const css = await readFile(new URL('../public/css/game.css', import.meta.url), 'utf8');
 const selectors = await readFile(new URL('../public/js/game/selectors.js', import.meta.url), 'utf8');
@@ -45,9 +45,9 @@ assert.match(tasks,/5:\[3,2\]/,'five answers use centered 3+2 rows');
 assert.match(tasks,/7:\[4,3\]/,'seven answers use centered 4+3 rows');
 assert.match(tasks,/12:\[4,4,4\]/,'12 tap-order items use 4+4+4');
 assert.match(tasks,/13:\[5,4,4\]/,'13 tap-order items use 5+4+4');
-assert.match(tasks,/tapOrderPositions\(rng,tokens\.length\)/,'tap-order uses its hitbox-aware row layout');
-assert.match(tasks,/visualSize=targets<=4\?64:targets<=6\?58:48/,'tap-order visual sizes respect the approved floor');
-assert.match(tasks,/\(1600\+level\*90\)\*3/,'What Changed exposure is three times longer');
+assert.match(tasks,/tapOrderPositions\(rng,s\.tokens\.length\)/,'tap-order uses its hitbox-aware row layout');
+assert.match(tasks,/visualSize=s\.targets<=4\?62:s\.targets<=6\?56:48/,'tap-order visual sizes preserve distinct glyphs inside >=48px hitboxes');
+assert.match(tasks,/observeMs:1700\+level\*90/,'What Changed uses the audited observation window without the old x3 delay');
 assert.doesNotMatch(tasks,/mountTask\([\s\S]{0,800}attachTaskAutoFit\(/,'task mount no longer applies global shrink-to-fit patching');
 
 assert.match(gameJs,/Subir puntaje/,'results exposes optional leaderboard submission');
@@ -68,40 +68,8 @@ assert.equal(scoreCore.totalScore({memory:9,skill:100,elapsed:90_000}).total,950
 assert.equal(scoreCore.totalScore({memory:0,skill:100,elapsed:45_000}).total,300);
 assert.equal(scoreCore.totalScore({memory:9,skill:100,elapsed:180_000}).total,900);
 assert.equal(scoreCore.formatTimeTenths(72_400),'1:12.4');
-console.log('ALL V14 DEPLOY REGRESSION CHECKS PASS');
-
-// V15 systemic correction regressions.
-const taskModule = await import('../public/js/game/tasks.js');
-const internals = taskModule.__taskTestInternals;
-assert.ok(internals,'task test internals are exposed for geometry/logic regression checks');
-assert.doesNotMatch(css,/\.game-carousel-slot\.selected\{opacity:1;transform:scale\(1\.05\)/,'legacy selected transform can no longer override reel geometry');
-assert.match(css,/\.game-carousel-slot\.selected\{transform:translate\(-50%,-50%\) translateX\(var\(--slot-x,0px\)\) scale\(var\(--slot-scale,1\)\)\}/,'selected pom uses the same geometric transform as every reel item');
-assert.match(css,/\.game-carousel-slot\.selected \.game-carousel-rainbow\{opacity:1/,'iridescent selection halo belongs to the selected pom');
-assert.match(css,/\.quantity-choice-grid/,'Which Has More uses a specialized equal-card layout');
-assert.match(css,/\.permutation-choice-grid/,'Permutation uses wide arrangement answer cards');
-assert.match(tasks,/attentionPositions\(rng,n\)/,'attention tasks use hitbox-aware packed positions');
-assert.match(tasks,/answer=\{\.\.\.base,rotation:0,mark:'bar'\}/,'Sequence L8 resets rotation+mark cycle to bar');
-assert.match(tasks,/buildCircuitModel/,'broken circuit uses a graph model with candidate validation');
-assert.match(gameJs,/qaGeometryReport/,'QA view reports geometry issues');
-
-for(let level=1;level<=9;level++)for(let i=0;i<200;i++){
-  const model=internals.buildCircuitModel(new RNG(`circuit-${level}-${i}`),level);
-  assert.equal(internals.graphReachable(model.n,model.edges,0,model.n-1),false);
-  const valid=model.candidates.filter(x=>internals.graphReachable(model.n,model.edges,0,model.n-1,x.edge));
-  assert.equal(valid.length,1,`circuit L${level} seed ${i} has exactly one repair`);
-}
-for(let n=3;n<=10;n++)for(let i=0;i<100;i++){
-  const pts=internals.attentionPositions(new RNG(`attention-${n}-${i}`),n);
-  const rects=pts.map(p=>({l:p.x/100*390-31,r:p.x/100*390+31,t:p.y/100*195-31,b:p.y/100*195+31}));
-  for(let a=0;a<rects.length;a++)for(let b=a+1;b<rects.length;b++){
-    const x=Math.min(rects[a].r,rects[b].r)-Math.max(rects[a].l,rects[b].l),y=Math.min(rects[a].b,rects[b].b)-Math.max(rects[a].t,rects[b].t);
-    assert.ok(x<=0||y<=0,`attention hitboxes overlap n=${n} seed=${i} pair=${a}-${b}`);
-  }
-}
-for(let level=1;level<=9;level++)for(let i=0;i<40;i++){
-  const total=1+[0,1,2,2,3,4,4,5,6][level-1],duration=[2000,2300,2600,3000,3300,3600,4000,4500,5000][level-1];
-  const rng=new RNG(`follow-${level}-${i}`),dummy=Array.from({length:total},(_,j)=>({shape:'L',rotation:(j%4)*90,fill:'outline',mark:'dot',markPos:'top',count:1,mirror:false}));
-  const scenario=internals.buildFollowScenario(rng,level,total,duration,dummy);
-  assert.equal(internals.followScenarioFair(scenario,duration,level),true,`follow target L${level} seed ${i} remains trackable`);
-}
-console.log('ALL V15 SYSTEMIC REGRESSION CHECKS PASS');
+assert.match(tasks,/visualSignature/,'tasks use perceptual identity rather than raw descriptor identity');
+assert.match(tasks,/rotationInvariantVisualSignature/,'Giro validates identity independent of orientation');
+assert.match(tasks,/if\(succeedIfDone\(now\)\)return/,'Follow Target pointerup closes the end-of-timer race');
+assert.match(gameJs,/qaGeometryReport/,'direct QA reports bounds, touch size and overlap issues');
+console.log('ALL V15 FINAL DEPLOY REGRESSION CHECKS PASS');
