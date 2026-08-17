@@ -41,8 +41,8 @@ assert.match(css,/body\.game-mode \.topbar\{display:grid\}/,'game keeps site nav
 assert.match(css,/100svh/,'game respects browser chrome using small viewport units');
 assert.match(css,/\.game-small-build\{top:68%;width:40px;height:40px\}/,'small ALLIVE uses the requested old position at half size');
 assert.match(css,/\.game-customer-group\{[^}]*top:49\.5%;[^}]*width:75px;height:75px/,'client is half-size and anchored between old/new visible positions');
-assert.match(css,/\.game-customer-group\.visible\{transform:translate\(-50%,-56%\)\}/,'client visible midpoint is frozen');
-assert.match(css,/\.game-customer-group\{[^}]*translate\(-50%,72%\)/,'client hidden pose reuses the old low position');
+assert.match(css,/\.game-customer-group\{[\s\S]*?left:-16%![^}]*transition:left 1\.5s/,'customer enters horizontally from offscreen left over a 3x-slower 1.5s transition');
+assert.match(css,/\.game-customer-group\.visible\{left:50%![^}]*translate\(-50%,-56%\)/,'customer finishes entry at the center shop anchor');
 assert.match(css,/\.game-workspace\{top:33\.333%;height:66\.667%/,'minitasks own the lower two thirds');
 assert.match(css,/\.game-choice-row\{[^}]*justify-content:center/,'answer rows center their contents');
 assert.match(css,/gap:12px/,'answer layouts retain the 12px safety gap');
@@ -95,3 +95,29 @@ assert.match(tasks,/rotationInvariantVisualSignature/,'Giro validates identity i
 assert.match(tasks,/if\(succeedIfDone\(now\)\)return/,'Follow Target pointerup closes the end-of-timer race');
 assert.match(gameJs,/qaGeometryReport/,'direct QA reports bounds, touch size and overlap issues');
 console.log('ALL V15 FINAL DEPLOY REGRESSION CHECKS PASS');
+
+
+// V15.2 regressions: tap-based Vertex Trace, non-overlapping More groups, Safari-safe Follow Target.
+assert.match(tasks,/taskCaption\(c\.root,'Toca el vértice gris y luego los vértices en el sentido de las flechas\.'/,'Vertex Trace explains the tap order and direction');
+assert.match(tasks,/traceDirectionArrows\(s\.pts,s\.seq\)/,'Vertex Trace renders explicit direction arrows');
+assert.match(tasks,/overlay\.addEventListener\('click'/,'Vertex Trace advances by taps instead of drag tracing');
+assert.doesNotMatch(tasks,/svg\.addEventListener\('pointermove'[\s\S]{0,1200}taskVertexTrace/,'Vertex Trace no longer depends on continuous pointer drawing');
+assert.match(css,/\.trace-node\{[^}]*width:52px;height:52px/,'Vertex Trace uses >=48px semantic tap targets');
+assert.match(css,/\.quantity-group\.fixed-grid\{[^}]*grid-template-columns:repeat\(4,minmax\(0,1fr\)\)[^}]*gap:3px[^}]*width:min\(112px,100%\)/,'More uses a responsive fixed 4x4 lattice with dedicated cells');
+assert.match(css,/\.quantity-group\.fixed-grid>\.game-shape[^}]*width:100%;height:100%/,'More glyphs stay inside their own grid cells');
+assert.match(css,/\.follow-board\{[^}]*-webkit-user-select:none[^}]*-webkit-touch-callout:none/,'Follow Target disables Safari selection and touch callout');
+assert.match(tasks,/\['contextmenu','selectstart','dragstart'\]/,'Follow Target blocks native Safari long-press/select events');
+console.log('ALL V15.2 INTERACTION REGRESSION CHECKS PASS');
+
+// V15.2 closeout regressions: adaptive memory timing, centered Tap Order,
+// horizontal customer traffic, instant hand pickup, and slow carry-out.
+assert.match(tasks,/function disappearedObserveMs\(n\)\{return 900\+n\*300\}/,'What Disappeared observation time scales from the actual visible count');
+assert.match(tasks,/observeMs:disappearedObserveMs\(n\),visibleCount:n/,'What Disappeared stores count-derived exposure time');
+assert.match(tasks,/class=\"tap-target-glyph\" aria-hidden=\"true\"/,'Tap Order isolates each glyph in a dedicated centering wrapper');
+assert.match(css,/\.tap-target-glyph\{[^}]*position:absolute;inset:0;display:grid;place-items:center/,'Tap Order centers glyphs independently from circular hitboxes');
+assert.match(css,/\.game-customer-group\.exit\{[\s\S]*?left:116%![\s\S]*?transition:left 1\.8s/,'customer exits horizontally to the right over a 3x-slower 1.8s transition');
+assert.match(css,/\.game-small-build\.picked-up\{[\s\S]*?translate\(32px,-42px\)[\s\S]*?transition:none!/,'delivered ALLIVE appears instantly in the customer hand');
+assert.match(css,/\.game-small-build\.picked-up\.exit-with-client\{[\s\S]*?left:116%![\s\S]*?translate\(32px,-42px\)[\s\S]*?transition:left 1\.8s/,'delivered ALLIVE stays in hand for the entire rightward exit');
+assert.doesNotMatch(gameJs,/pickup-arm-img/,'delivery no longer extends or animates the customer arm');
+assert.match(gameJs,/small\.classList\.add\('picked-up'\)[\s\S]*?cust\.classList\.add\('exit'\)[\s\S]*?small\.classList\.add\('exit-with-client'\)/,'pickup completes before customer and delivered ALLIVE leave together');
+console.log('ALL V15.2 CLOSEOUT REGRESSION CHECKS PASS');
