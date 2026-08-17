@@ -3,6 +3,7 @@ import { sounds } from './audio.js';
 import { AlliveView, REACTIONS, preloadCatalogAssets, glowMaskSrc } from './allive.js';
 import { CardMaker } from './card.js';
 import { initGamePage } from './game/game.js';
+import { versionCatalogAssets } from './build.js';
 
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
@@ -21,7 +22,7 @@ document.addEventListener('pointerdown',()=>sounds.unlock(),{capture:true,passiv
 async function init(){
   const catalogPromise=fetch('/data/catalog.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(`Catalog ${r.status}`);return r.json()});
   const soundPromise=sounds.preloadCritical();
-  catalog=await catalogPromise;
+  catalog=versionCatalogAssets(await catalogPromise);
   preloadCatalogAssets(catalog);
   await soundPromise;
   cardMaker=new CardMaker($('#trading-card-canvas'),catalog);initSound();initNav();initCreator();initCardDialog();initMuseum();gameController=initGamePage({catalog,API,sounds,navigate,visitorToken});await loadHome();

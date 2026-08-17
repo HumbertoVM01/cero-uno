@@ -1,3 +1,4 @@
+import { versionAsset } from './build.js';
 const FILES = [
 'affection_01','affection_02','affection_03','allive_random_finish','caress_contact','duplicate_allive','exhibit_arrival','exhibit_transition','gem_place_01','gem_place_02','gem_random_land','gem_touch_01','gem_touch_02','nav_tab','photo_card','pom_place_01','pom_place_02','pom_random_land','pom_touch_01','pom_touch_02','random_start','random_tick_fast','random_tick_medium','random_tick_slow','reaction_dance','reaction_excited','reaction_jump','reaction_shimmy','reaction_sidehop','reaction_wave','refresh_allives','scent_flick_start','scent_manual_lock','scent_random_lock','scent_spin_loop','scent_tick','ui_press_01','ui_press_02','validation_missing'
 ];
@@ -50,7 +51,7 @@ class SoundManager {
     const job = (async()=>{
       const ctx = this.ensureContext();
       if(!ctx) return null;
-      const res = await fetch(`/assets/sounds/${name}.wav`, {cache:'force-cache'});
+      const res = await fetch(versionAsset(`/assets/sounds/${name}.wav`), {cache:'no-cache'});
       if(!res.ok) throw new Error(`No se pudo cargar sonido: ${name}`);
       const bytes = await res.arrayBuffer();
       const buffer = await ctx.decodeAudioData(bytes.slice(0));
