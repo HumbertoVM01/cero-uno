@@ -4,6 +4,7 @@ import { AssetCarousel, GameScentWheel } from './selectors.js';
 import { mountTask } from './tasks.js';
 import { GameShareCard } from './share-card.js';
 import { preloadCatalogAssets } from '../allive.js';
+import { versionAsset } from '../build.js';
 
 const $=(s,r=document)=>r.querySelector(s);
 const isReduced=()=>matchMedia?.('(prefers-reduced-motion: reduce)').matches;
@@ -60,7 +61,7 @@ class AllivesGame{
     this.clear();this.mode='memorize';this.nextRequested=false;this.nextRoundError=null;this.clientExitComplete=false;this.round={...draft,roundId:crypto.randomUUID(),submitted:false,positions:null,player:blankBuild(this.catalog),preview:blankBuild(this.catalog),committed:new Set(),mistakes:Array(9).fill(0),tasks:chooseRoundTasks(draft.seed,this.previousTasks),step:0,startAt:null,endAt:null,result:null};this.previousTasks=this.round.tasks.map(t=>t.id);this.renderRoundShell();this.showMemorize();const nextSeed=`${draft.seed}|next|${this.roundNo+1}`;this.nextRoundPromise=this.prepareRound(nextSeed).catch(e=>{this.nextRoundError=e;return null});
   }
   renderRoundShell(){
-    const f=this.frame(`<div class="game-scene"><img class="game-scene-bg" src="/assets/game/shop-background.jpeg" alt=""><div class="game-customer-group"><div class="game-customer"></div></div><img class="game-counter" src="/assets/game/counter.png" alt=""><div class="game-small-build"></div></div><button class="game-exit" type="button">Salir</button><div class="game-timer" hidden>00:00</div><main class="game-workspace"></main><div class="game-control-zone"></div><div class="game-modal-layer"></div>`,'game-round-screen');
+    const f=this.frame(`<div class="game-scene"><img class="game-scene-bg" src="${versionAsset('/assets/game/shop-background.jpeg')}" alt=""><div class="game-customer-group"><div class="game-customer"></div></div><img class="game-counter" src="${versionAsset('/assets/game/counter.png')}" alt=""><div class="game-small-build"></div></div><button class="game-exit" type="button">Salir</button><div class="game-timer" hidden>00:00</div><main class="game-workspace"></main><div class="game-control-zone"></div><div class="game-modal-layer"></div>`,'game-round-screen');
     this.roundScene=f.querySelector('.game-scene');this.workspace=f.querySelector('.game-workspace');this.controls=f.querySelector('.game-control-zone');this.timerEl=f.querySelector('.game-timer');this.modalLayer=f.querySelector('.game-modal-layer');f.querySelector('.game-exit').onclick=()=>this.openExitModal();const cSlot=f.querySelector('.game-customer'),sSlot=f.querySelector('.game-small-build');this.clientView=new GameAllive(cSlot,this.catalog,this.round.client,{className:'customer-allive'});const partial={...this.round.player,parts:{...blankBuild(this.catalog).parts,...this.round.player.parts}};this.smallView=new GameAllive(sSlot,this.catalog,partial,{visibleParts:[]});this.destroyers.push(()=>this.clientView?.destroy(),()=>this.smallView?.destroy());requestAnimationFrame(()=>f.querySelector('.game-customer-group').classList.add('visible'));
   }
   scentName(id){return this.catalog.scents.find(s=>s.id===id)?.name||id||'—'}

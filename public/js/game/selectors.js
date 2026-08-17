@@ -9,7 +9,7 @@ function haptic(sounds,ms=5){
   if(!sounds?.enabled)return;
   try{navigator.vibrate?.(ms)}catch{}
 }
-function circularDelta(index,position,count){
+export function circularDelta(index,position,count){
   let d=index-mod(position,count);
   if(d>count/2)d-=count;
   if(d<-count/2)d+=count;
@@ -33,7 +33,10 @@ export class AssetCarousel{
     this.root=root;this.items=items;this.position=mod(startIndex,items.length);this.selectedIndex=mod(Math.round(this.position),items.length);
     this.sounds=sounds;this.onPreview=onPreview;this.onConfirm=onConfirm;this.label=label;this.reducedMotion=reducedMotion;
     this.dragging=false;this.moving=false;this.pointerId=null;this.lastX=0;this.lastT=0;this.velocity=0;this.rafId=0;this.destroyed=false;this.releasePosition=0;
-    this.keyHandler=e=>this.onKey(e);this.render();this.preview(true);
+    this.keyHandler=e=>this.onKey(e);
+    this.visibilityHandler=()=>{if(document.hidden)this.freezeForModal()};
+    this.lostCaptureHandler=e=>{if(this.dragging&&(this.pointerId==null||e.pointerId===this.pointerId)){this.dragging=false;this.pointerId=null;this.velocity=0;this.carousel?.classList.remove('dragging');this.snapToCenter()}};
+    this.render();this.preview(true);document.addEventListener('visibilitychange',this.visibilityHandler);
   }
   render(){
     this.root.innerHTML=`<div class="game-selector-head"><h2>${this.label}</h2><p>Desliza · centro = selección</p></div>
@@ -49,13 +52,14 @@ export class AssetCarousel{
     });
     this.measure();this.paint();
     this.resizeObserver=typeof ResizeObserver!=='undefined'?new ResizeObserver(()=>{this.measure();this.paint()}):null;this.resizeObserver?.observe(this.carousel);
-    this.carousel.addEventListener('pointerdown',e=>this.pointerDown(e));this.carousel.addEventListener('pointermove',e=>this.pointerMove(e));this.carousel.addEventListener('pointerup',e=>this.pointerUp(e));this.carousel.addEventListener('pointercancel',e=>this.pointerCancel(e));this.carousel.addEventListener('keydown',this.keyHandler);
+    this.carousel.addEventListener('pointerdown',e=>this.pointerDown(e));this.carousel.addEventListener('pointermove',e=>this.pointerMove(e));this.carousel.addEventListener('pointerup',e=>this.pointerUp(e));this.carousel.addEventListener('pointercancel',e=>this.pointerCancel(e));this.carousel.addEventListener('lostpointercapture',this.lostCaptureHandler);this.carousel.addEventListener('keydown',this.keyHandler);
     this.confirm.onclick=()=>{if(this.moving||this.dragging)return;this.confirm.disabled=true;this.sounds?.play('ui_press_01',.5);this.onConfirm?.(this.items[this.selectedIndex],this.selectedIndex)};
     this.updateDisabled();
   }
   measure(){
     const w=this.carousel?.clientWidth||360;
-    this.stepPx=Math.max(58,w/5);
+    // Five settled slots must fit even on narrow mobile viewports without overlap.
+    this.stepPx=clamp(w/5.15,68,90);
     this.carousel?.style.setProperty('--carousel-slot-px',`${this.stepPx}px`);
   }
   updateSelected({sound=true,force=false}={}){
@@ -69,9 +73,11 @@ export class AssetCarousel{
     if(!this.nodes)return;
     for(let i=0;i<this.nodes.length;i++){
       const node=this.nodes[i],d=circularDelta(i,this.position,this.items.length),ad=Math.abs(d);
-      if(ad>3.15){node.style.visibility='hidden';continue}
+      // Exactly five assets are visible at rest (center + 2 on each side).
+      // A sixth may briefly enter at the edge while crossing the half-step so the reel never pops.
+      if(ad>2.55){node.style.visibility='hidden';continue}
       node.style.visibility='visible';
-      const scale=sampleStops([1,.79,.59,.5],ad);
+      const scale=sampleStops([1,.79,.59,.52],ad);
       node.style.setProperty('--slot-x',`${d*this.stepPx}px`);
       node.style.setProperty('--slot-scale',String(scale));
       node.style.zIndex=String(20-Math.round(ad*3));
@@ -94,13 +100,13 @@ export class AssetCarousel{
   }
   pointerCancel(e){if(this.pointerId!=null&&e.pointerId!==this.pointerId)return;this.freezeForModal()}
   startInertia(v){
-    if(this.reducedMotion||Math.abs(v)<.0014){this.snapToCenter();return}
-    this.moving=true;this.updateDisabled();this.velocity=clamp(v,-.05,.05);this.releasePosition=this.position;let last=performance.now();
+    if(this.reducedMotion||Math.abs(v)<.001){this.snapToCenter();return}
+    this.moving=true;this.updateDisabled();this.velocity=clamp(v,-.065,.065);this.releasePosition=this.position;let last=performance.now();
     const frame=now=>{
       if(this.destroyed||!this.moving)return;const dt=Math.min(34,Math.max(1,now-last));last=now;let next=this.position+this.velocity*dt;
       const travel=next-this.releasePosition;if(Math.abs(travel)>6){next=this.releasePosition+Math.sign(travel)*6;this.velocity=0}
-      this.position=next;this.updateSelected();this.paint();this.velocity*=Math.exp(-.0068*dt);
-      if(Math.abs(this.velocity)<.00125||Math.abs(this.position-this.releasePosition)>=5.999){this.velocity=0;this.snapToCenter();return}
+      this.position=next;this.updateSelected();this.paint();this.velocity*=Math.exp(-.0055*dt);
+      if(Math.abs(this.velocity)<.00095||Math.abs(this.position-this.releasePosition)>=5.999){this.velocity=0;this.snapToCenter();return}
       this.rafId=raf(frame)
     };
     this.rafId=raf(frame);
@@ -110,7 +116,7 @@ export class AssetCarousel{
     if(this.reducedMotion||distance<.001){this.position=to;this.updateSelected({sound:false});this.paint();this.moving=false;this.updateDisabled();return}
     this.moving=true;this.updateDisabled();const start=performance.now(),dur=clamp(185+distance*45,185,240);
     const frame=now=>{
-      if(this.destroyed)return;const t=clamp((now-start)/dur,0,1),e=easeOutCubic(t);this.position=from+(to-from)*e;this.updateSelected();this.paint();
+      if(this.destroyed)return;const t=clamp((now-start)/dur,0,1),e=easeOutQuint(t);this.position=from+(to-from)*e;this.updateSelected();this.paint();
       if(t<1)this.rafId=raf(frame);else{this.position=to;this.updateSelected({sound:false});this.paint();this.moving=false;this.rafId=0;this.updateDisabled();this.sounds?.play('scent_manual_lock',.22)}
     };this.rafId=raf(frame);
   }
@@ -119,7 +125,7 @@ export class AssetCarousel{
   freezeForModal(){
     caf(this.rafId);this.rafId=0;if(this.dragging){try{this.carousel.releasePointerCapture?.(this.pointerId)}catch{}}this.dragging=false;this.moving=false;this.pointerId=null;this.velocity=0;this.carousel?.classList.remove('dragging');this.position=Math.round(this.position);this.updateSelected({sound:false});this.paint();this.updateDisabled();
   }
-  destroy(){this.destroyed=true;this.freezeForModal();this.resizeObserver?.disconnect();this.root.replaceChildren()}
+  destroy(){this.destroyed=true;this.freezeForModal();document.removeEventListener('visibilitychange',this.visibilityHandler);this.carousel?.removeEventListener('lostpointercapture',this.lostCaptureHandler);this.resizeObserver?.disconnect();this.root.replaceChildren()}
 }
 
 /** Vertical game scent wheel. It uses the creator's seven-row hierarchy, but

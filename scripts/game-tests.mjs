@@ -22,7 +22,21 @@ const tasks = await readFile(new URL('../public/js/game/tasks.js', import.meta.u
 const gameJs = await readFile(new URL('../public/js/game/game.js', import.meta.url), 'utf8');
 const apiJs = await readFile(new URL('../public/js/api.js', import.meta.url), 'utf8');
 const netlifyToml = await readFile(new URL('../netlify.toml', import.meta.url), 'utf8');
+const buildJs = await readFile(new URL('../public/js/build.js', import.meta.url), 'utf8');
+const appJs = await readFile(new URL('../public/js/app.js', import.meta.url), 'utf8');
+const audioJs = await readFile(new URL('../public/js/audio.js', import.meta.url), 'utf8');
 
+assert.match(netlifyToml,/for = "\/assets\/\*"[\s\S]*max-age=0, must-revalidate/,'mutable assets are revalidated instead of cached immutable for a year');
+assert.match(buildJs,/ASSET_CACHE_VERSION = 'v15\.1-20260816'/,'asset URLs use a new V15.1 cache namespace');
+assert.match(appJs,/versionCatalogAssets\(await catalogPromise\)/,'pom and gem catalog URLs are cache-busted before preload/render');
+assert.match(audioJs,/versionAsset\(`\/assets\/sounds\/\$\{name\}\.wav`\)/,'sound assets use the same cache-busting layer');
+assert.match(gameJs,/versionAsset\('\/assets\/game\/shop-background\.jpeg'\)/,'game scene background is cache-busted');
+assert.match(gameJs,/versionAsset\('\/assets\/game\/counter\.png'\)/,'game counter is cache-busted');
+const { versionAsset, versionCatalogAssets } = await import('../public/js/build.js');
+assert.equal(versionAsset('/assets/pom-poms/pom_16.png'),'/assets/pom-poms/pom_16.png?av=v15.1-20260816','coffee pom receives fresh cache namespace');
+assert.equal(versionAsset('/not-an-asset.png'),'/not-an-asset.png','non-assets are untouched');
+const vc={poms:[{src:'/assets/pom-poms/pom_16.png'}],gems:[{src:'/assets/gems/gem_11.png'}]};versionCatalogAssets(vc);
+assert.match(vc.poms[0].src,/av=v15\.1-20260816/,'catalog pom source versioned');assert.match(vc.gems[0].src,/av=v15\.1-20260816/,'catalog gem source versioned');
 assert.match(css,/body\.game-mode \.topbar\{display:grid\}/,'game keeps site navigation visible');
 assert.match(css,/100svh/,'game respects browser chrome using small viewport units');
 assert.match(css,/\.game-small-build\{top:68%;width:40px;height:40px\}/,'small ALLIVE uses the requested old position at half size');
@@ -33,13 +47,21 @@ assert.match(css,/\.game-workspace\{top:33\.333%;height:66\.667%/,'minitasks own
 assert.match(css,/\.game-choice-row\{[^}]*justify-content:center/,'answer rows center their contents');
 assert.match(css,/gap:12px/,'answer layouts retain the 12px safety gap');
 assert.match(css,/\.game-carousel-slot\{[^}]*opacity:1/,'part carousel keeps every pom full-colour');
-assert.match(css,/conic-gradient\(/,'selected part has an iridescent centre marker');
+assert.match(css,/\.game-carousel-slot\.selected \.game-carousel-rainbow\{opacity:1\}/,'rainbow halo travels with the provisional selected asset');
+assert.match(css,/\.game-carousel-marker\{[^}]*background:transparent/,'fixed centre marker is transparent and cannot cover the selected asset');
+assert.doesNotMatch(css,/\.game-carousel-marker:after\{[^}]*background:#fff/,'centre marker never paints an opaque white disc over the selected asset');
 
 assert.doesNotMatch(selectors,/randomOnStrongFlick\s*:\s*true/,'game scent selector never randomizes on a strong flick');
 assert.match(selectors,/this\.items\.map/,'part carousel keeps persistent item nodes instead of swapping the centre image');
 assert.match(selectors,/Math\.abs\(travel\)>6/,'strong part flick is capped at six slots');
 assert.match(selectors,/const scales=\[1,\.91,\.78,\.64\],opacities=\[1,\.78,\.48,\.20\]/,'scent hierarchy matches creator feel');
 assert.match(selectors,/requestAnimationFrame|\braf\(/,'selectors use frame-based inertia');
+assert.match(selectors,/ad>2\.55/,'settled part carousel renders the centre plus two neighbours per side');
+assert.match(selectors,/Math\.exp\(-\.0055\*dt\)/,'part selector uses the same inertial friction constant as the game scent wheel');
+const { circularDelta } = await import('../public/js/game/selectors.js');
+for(const n of [13,18]){for(let p=0;p<n;p++){const visible=Array.from({length:n},(_,i)=>Math.abs(circularDelta(i,p,n))<=2.55).filter(Boolean).length;assert.equal(visible,5,`five settled carousel assets for ${n} items at ${p}`)}}
+assert.equal(circularDelta(0,17,18),1,'pom wrap 17→0 is one physical step');
+assert.equal(circularDelta(17,0,18),-1,'pom wrap 0→17 is one physical step');
 
 assert.match(tasks,/5:\[3,2\]/,'five answers use centered 3+2 rows');
 assert.match(tasks,/7:\[4,3\]/,'seven answers use centered 4+3 rows');
