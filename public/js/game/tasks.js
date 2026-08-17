@@ -331,7 +331,11 @@ function chainScenario(rng,level){
   for(let i=0;i<ops.length;i++){const alt=[...ops],options=['ROTATE','ROTATE_CCW','MIRROR','FILL','ADD','MOVE'].filter(o=>o!==ops[i]);alt[i]=rng.pick(options);push(applyOps(initial,alt))}
   const need=level<=2?3:level<=5?4:5;if(wrong.length<need-1)wrong.push(...visualVariants(answer,rng,['shape','fill','rotation'],need-1-wrong.length));const items=[{d:answer,correct:true},...uniqueVisualDescs(wrong).filter(d=>!visualEquals(d,answer)).slice(0,need-1).map(d=>({d,correct:false}))];if(items.length!==need)throw new Error('CHAIN_CANDIDATE_COUNT');return {initial,ops,answer,items:rng.shuffle(items)};
 }
-function taskOperatorChain(c,rng,level){const s=chainScenario(rng,level);addReference(c.root,`<div class="operator-chain"><div>${shapeSvg(s.initial,{size:64})}</div>${s.ops.map(o=>`<span>↓</span><div class="operator-card">${opGlyph(o)}</div>`).join('')}<span>↓</span><b>?</b></div>`);mountChoiceGrid(c,s.items.map((x,i)=>({html:shapeSvg(x.d,{size:54}),correct:x.correct,label:`Resultado ${i+1}`})))}
+function taskOperatorChain(c,rng,level){
+  const s=chainScenario(rng,level);
+  addReference(c.root,`<div class="operator-chain" style="--operator-count:${s.ops.length}"><div class="operator-chain-start">${shapeSvg(s.initial,{size:48})}</div>${s.ops.map(o=>`<span class="operator-arrow">→</span><div class="operator-card">${opGlyph(o)}</div>`).join('')}<span class="operator-arrow">→</span><b class="operator-result">?</b></div>`,'game-reference operator-chain-reference');
+  mountChoiceGrid(c,s.items.map((x,i)=>({html:shapeSvg(x.d,{size:54}),correct:x.correct,label:`Resultado ${i+1}`})),{gridClass:'operator-chain-choices'});
+}
 
 // 21 Permutación -------------------------------------------------------------
 function permutationTokens(rng,n){return genUniqueShapes(rng,n,{directional:true,mark:false,simple:true,coarse:true,shapes:['L','T','chevron','triangle','bar']})}
@@ -369,7 +373,14 @@ function taskPermutation(c,rng,level){
 
 // 22 Toca en Orden -----------------------------------------------------------
 function tapOrderScenario(rng,level){const targets=[2,3,4,4,5,6,7,8,9][level-1],dist=[0,0,0,2,2,2,3,4,4][level-1],descs=genUniqueShapes(rng,targets+dist,{directional:true,mark:false,simple:true,coarse:true,shapes:['L','T','chevron','triangle','bar']});return {targets,dist,descs,sequence:descs.slice(0,targets),tokens:rng.shuffle(descs.map((d,i)=>({d,seq:i<targets?i:null})))}}
-function taskTapOrder(c,rng,level){const s=tapOrderScenario(rng,level);addReference(c.root,`<div class="tap-sequence">${s.sequence.map(d=>shapeSvg(d,{size:s.targets>6?32:40})).join('<span>→</span>')}</div>`);const field=el('div','tap-order-field'),positions=tapOrderPositions(rng,s.tokens.length),visualSize=s.targets<=4?62:s.targets<=6?56:48;field.classList.toggle('dense',s.tokens.length>=12);s.tokens.forEach((x,i)=>{const b=el('button','tap-target');b.type='button';b.innerHTML=`<span class="tap-target-glyph" aria-hidden="true">${shapeSvg(x.d,{size:visualSize})}</span>`;b.style.left=`${positions[i].x}%`;b.style.top=`${positions[i].y}%`;b.dataset.seq=x.seq??'';b.setAttribute('aria-label',x.seq==null?`Distractor ${i+1}`:`Figura de secuencia ${x.seq+1}`);field.append(b)});c.root.append(field);let expected=0;field.onclick=e=>{const b=e.target.closest('.tap-target');if(!b||c.locked||b.classList.contains('consumed'))return;const seq=b.dataset.seq===''?null:Number(b.dataset.seq);if(seq===expected){b.classList.add('consumed');b.disabled=true;expected++;c.sounds?.play('random_tick_fast',.18);if(expected===s.targets)c.ok()}else c.bad(b)}}
+function tapGlyphOffset(desc,size){
+  // Center the rendered silhouette, not only the 88×88 SVG box. L/chevron
+  // paths are asymmetric and otherwise look visibly off-center in the circle.
+  const centers={L:[.14*28,0],chevron:[-.425*28,0],triangle:[0,-.10*28]},base=centers[desc.shape]||[0,0];
+  let [x,y]=base;if(desc.mirror)x=-x;const a=(desc.rotation||0)*Math.PI/180,c=Math.cos(a),sn=Math.sin(a),rx=x*c-y*sn,ry=x*sn+y*c,scale=size/88;
+  return {x:-rx*scale,y:-ry*scale};
+}
+function taskTapOrder(c,rng,level){const s=tapOrderScenario(rng,level);addReference(c.root,`<div class="tap-sequence">${s.sequence.map(d=>shapeSvg(d,{size:s.targets>6?32:40})).join('<span>→</span>')}</div>`);const field=el('div','tap-order-field'),positions=tapOrderPositions(rng,s.tokens.length),visualSize=s.targets<=4?62:s.targets<=6?56:48;field.classList.toggle('dense',s.tokens.length>=12);s.tokens.forEach((x,i)=>{const b=el('button','tap-target'),off=tapGlyphOffset(x.d,visualSize);b.type='button';b.innerHTML=`<span class="tap-target-glyph" aria-hidden="true" style="transform:translate(${off.x.toFixed(2)}px,${off.y.toFixed(2)}px)">${shapeSvg(x.d,{size:visualSize})}</span>`;b.style.left=`${positions[i].x}%`;b.style.top=`${positions[i].y}%`;b.dataset.seq=x.seq??'';b.setAttribute('aria-label',x.seq==null?`Distractor ${i+1}`:`Figura de secuencia ${x.seq+1}`);field.append(b)});c.root.append(field);let expected=0;field.onclick=e=>{const b=e.target.closest('.tap-target');if(!b||c.locked||b.classList.contains('consumed'))return;const seq=b.dataset.seq===''?null:Number(b.dataset.seq);if(seq===expected){b.classList.add('consumed');b.disabled=true;expected++;c.sounds?.play('random_tick_fast',.18);if(expected===s.targets)c.ok()}else c.bad(b)}}
 
 // 23 Camino por Nodos --------------------------------------------------------
 const GRID_COLS=5,GRID_ROWS=3;
@@ -450,8 +461,26 @@ function taskVertexTrace(c,rng,level){
   render();
 }
 
-// 25 ¿Qué Cambió? ------------------------------------------------------------
+// 25–26 Attention compare tasks ----------------------------------------------
 function attentionScene(descs,positions,{disabled=false}={}){return `<div class="attention-scene">${descs.map((d,i)=>`<button class="attention-object" data-i="${i}" type="button" ${disabled?'disabled':''} aria-label="Figura ${i+1}" style="left:${positions[i].x}%;top:${positions[i].y}%">${shapeSvg(d,{size:48})}</button>`).join('')}</div>`}
+function mountAttentionCompare(c,{before,beforePos,after,afterPos,target,disappeared=false}){
+  c.root.innerHTML=`<div class="attention-compare-tabs" role="group" aria-label="Comparar estados"><button class="attention-compare-tab active" type="button" data-view="before" aria-pressed="true">Antes</button><button class="attention-compare-tab" type="button" data-view="after" aria-pressed="false">Después</button></div><div class="attention-compare-stage"></div><p class="attention-compare-hint" aria-live="polite"></p>`;
+  const stage=c.root.querySelector('.attention-compare-stage'),hint=c.root.querySelector('.attention-compare-hint'),tabs=[...c.root.querySelectorAll('.attention-compare-tab')];let view='before';
+  const paint=()=>{
+    tabs.forEach(b=>{const active=b.dataset.view===view;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active))});
+    const isBefore=view==='before',descs=isBefore?before:after,positions=isBefore?beforePos:afterPos,disabled=disappeared&&!isBefore;stage.innerHTML=attentionScene(descs,positions,{disabled});
+    if(disappeared){
+      hint.textContent=isBefore?'Compara ambos estados y toca aquí la figura que desaparece.':'Aquí falta una figura. Vuelve a Antes y tócala.';
+      if(isBefore)stage.querySelectorAll('.attention-object').forEach(b=>b.onclick=()=>Number(b.dataset.i)===target?c.ok():c.bad(b));
+    }else{
+      hint.textContent='Puedes alternar Antes y Después todas las veces que quieras. Toca la figura que cambió.';
+      stage.querySelectorAll('.attention-object').forEach(b=>b.onclick=()=>Number(b.dataset.i)===target?c.ok():c.bad(b));
+    }
+  };
+  tabs.forEach(b=>b.onclick=()=>{if(c.locked||b.dataset.view===view)return;view=b.dataset.view;c.sounds?.play('ui_press_02',.18);paint()});paint();
+}
+
+// 25 ¿Qué Cambió? ------------------------------------------------------------
 function whatChangedScenario(rng,level){
   const n=[3,4,4,5,5,6,6,8,10][level-1],change=['shape','position','rotation','shape','markPos','rotation','combo','markPos','mark'][level-1],before=genUniqueShapes(rng,n,{directional:change==='rotation'||change==='combo',mark:change==='markPos'||change==='mark',simple:true}),target=rng.int(0,n-1),positions=[...attentionPositions(rng,n),...safeScatter(rng,change==='position'?6:0,{xMin:10,xMax:90,yMin:12,yMax:88,aspectBias:1.55})],beforePos=positions.slice(0,n),afterPos=beforePos.map(p=>({...p})),after=before.map(cloneDesc);
   if(change==='position'){
@@ -461,17 +490,16 @@ function whatChangedScenario(rng,level){
   }
   else if(change==='combo'){after[target]=mutateDesc(after[target],rng,'fill');after[target]=mutateDesc(after[target],rng,'rotation')}
   else{if(change==='markPos'&&after[target].mark==='none')after[target].mark=rng.pick(['dot','bar','two']);if(change==='mark'&&after[target].mark==='none')after[target].mark='dot';after[target]=mutateDesc(after[target],rng,change)}
-  if(change!=='position'&&visualEquals(before[target],after[target]))throw new Error('WHAT_CHANGED_INVISIBLE');return {before,after,target,beforePos,afterPos,observeMs:1700+level*90};
+  if(change!=='position'&&visualEquals(before[target],after[target]))throw new Error('WHAT_CHANGED_INVISIBLE');return {before,after,target,beforePos,afterPos};
 }
-function taskWhatChanged(c,rng,level){const s=whatChangedScenario(rng,level);let timers=[];const cancel=()=>timers.splice(0).forEach(clearTimeout),run=()=>{cancel();c.root.innerHTML=attentionScene(s.before,s.beforePos,{disabled:true});const t1=setTimeout(()=>{if(c.locked)return;c.root.innerHTML='<div class="attention-cover"></div>';const t2=setTimeout(()=>{if(c.locked)return;c.root.innerHTML=attentionScene(s.after,s.afterPos);c.root.querySelectorAll('.attention-object').forEach(b=>b.onclick=()=>Number(b.dataset.i)===s.target?c.ok():c.bad(b))},reduced()?70:190);timers.push(t2)},s.observeMs);timers.push(t1)};run();c.pauseFn=cancel;c.resumeFn=run;c.cleanup.push(cancel)}
+function taskWhatChanged(c,rng,level){const s=whatChangedScenario(rng,level);mountAttentionCompare(c,s)}
 
 // 26 ¿Qué Desapareció? -------------------------------------------------------
-function disappearedObserveMs(n){return 900+n*300}
 function whatDisappearedScenario(rng,level){
-  const n=[3,4,5,5,6,6,7,8,9][level-1],before=genUniqueShapes(rng,n,{directional:level>=6,mark:level>=4,simple:true}),target=rng.int(0,n-1),positions=attentionPositions(rng,n),correct=before[target],after=before.filter((_,i)=>i!==target),afterPos=positions.filter((_,i)=>i!==target),candidateN=level<=2?3:level<=6?4:5,wrong=[],present=new Set(before.map(visualSignature));
-  const types=['shape','rotation','fill','mark','markPos'];for(const t of types){const d=mutateDesc(correct,rng,t),sig=visualSignature(d);if(sig!==visualSignature(correct)&&!present.has(sig))addVisualUnique(wrong,d)}let guard=0;while(wrong.length<candidateN-1&&guard++<1200){const d=glyph(rng,{shapes:level>=6?DIRECTIONAL:PLAIN_SHAPES,mark:level>=4?'random':'none'}),sig=visualSignature(d);if(sig!==visualSignature(correct)&&!present.has(sig))addVisualUnique(wrong,d)}if(wrong.length<candidateN-1)throw new Error('DISAPPEARED_CANDIDATES');return {before,target,positions,after,afterPos,correct,items:rng.shuffle([{d:correct,correct:true},...wrong.slice(0,candidateN-1).map(d=>({d,correct:false}))]),observeMs:disappearedObserveMs(n),visibleCount:n};
+  const n=[3,4,5,5,6,6,7,8,9][level-1],before=genUniqueShapes(rng,n,{directional:level>=6,mark:level>=4,simple:true}),target=rng.int(0,n-1),positions=attentionPositions(rng,n),correct=before[target],after=before.filter((_,i)=>i!==target),afterPos=positions.filter((_,i)=>i!==target);
+  return {before,target,positions,beforePos:positions,after,afterPos,correct,visibleCount:n};
 }
-function taskWhatDisappeared(c,rng,level){const s=whatDisappearedScenario(rng,level),choices=s.items.map((x,i)=>({html:shapeSvg(x.d,{size:54}),correct:x.correct,label:`Figura ${i+1}`}));let timers=[];const cancel=()=>timers.splice(0).forEach(clearTimeout),run=()=>{cancel();c.root.innerHTML=attentionScene(s.before,s.positions,{disabled:true});const t1=setTimeout(()=>{if(c.locked)return;c.root.innerHTML='<div class="attention-cover"></div>';const t2=setTimeout(()=>{if(c.locked)return;c.root.innerHTML=attentionScene(s.after,s.afterPos,{disabled:true});mountChoiceGrid(c,choices)},reduced()?70:190);timers.push(t2)},s.observeMs);timers.push(t1)};run();c.pauseFn=cancel;c.resumeFn=run;c.cleanup.push(cancel)}
+function taskWhatDisappeared(c,rng,level){const s=whatDisappearedScenario(rng,level);mountAttentionCompare(c,{before:s.before,beforePos:s.positions,after:s.after,afterPos:s.afterPos,target:s.target,disappeared:true})}
 
 // 27 Sigue al Objetivo -------------------------------------------------------
 function followPosAt(o,t){return {x:o.cx+Math.sin(t*o.speed+o.phase)*o.ax,y:o.cy+Math.cos(t*(o.speed*.87)+o.phase*.73)*o.ay}}
@@ -522,7 +550,7 @@ export function buildTaskAuditScenario(taskId,level,seed){const fn=AUDIT_BUILDER
 export const __taskTestInternals={visualSignature,coarseVisualSignature,rotationInvariantVisualSignature,applyOp,applyOps,followPosAt,followScenarioFair,validateTraceRoute,graphConnected,segmentPointDistance,properCross,MASKS};
 
 export function mountTask({root,taskId,level,seed,sounds,onSuccess,onFailure}){
-  const meta=TASK_BY_ID[taskId];root.className='game-task-root';root.innerHTML=`<div class="game-task-instruction">${esc(meta?.instruction||'')}</div><div class="game-task-content"></div>`;const content=root.querySelector('.game-task-content'),dynamic=['vertex_trace','what_changed','what_disappeared','follow_target'].includes(taskId),c=new Controller({root:content,onSuccess,onFailure,sounds,dynamic}),rng=seeded(seed,taskId,level);
+  const meta=TASK_BY_ID[taskId];root.className='game-task-root';root.innerHTML=`<div class="game-task-instruction">${esc(meta?.instruction||'')}</div><div class="game-task-content"></div>`;const content=root.querySelector('.game-task-content'),dynamic=['vertex_trace','follow_target'].includes(taskId),c=new Controller({root:content,onSuccess,onFailure,sounds,dynamic}),rng=seeded(seed,taskId,level);
   if(dynamic&&typeof document!=='undefined'){const visibility=()=>{if(document.hidden)c.pauseForModal();else c.resumeAfterModal()};document.addEventListener('visibilitychange',visibility);c.cleanup.push(()=>document.removeEventListener('visibilitychange',visibility))}
   try{BUILDERS[taskId](c,rng,level)}catch(err){console.error('TASK_BUILD_FAILED',taskId,err);content.innerHTML='<div class="game-task-build-error">No se pudo preparar este mini-task.</div>';setTimeout(()=>onFailure?.({technical:true}),20)}return c;
 }
