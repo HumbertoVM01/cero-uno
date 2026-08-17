@@ -21,8 +21,8 @@ function choiceRowPattern(n){
   const exact={2:[2],3:[3],4:[2,2],5:[3,2],6:[3,3],7:[4,3],8:[4,4],9:[3,3,3],10:[4,3,3],11:[4,4,3],12:[4,4,4],13:[4,3,3,3],14:[4,4,3,3],15:[4,4,4,3],16:[4,4,4,4]};
   if(exact[n])return exact[n];const cols=n<=6?3:4,out=[];let left=n;while(left>0){out.push(Math.min(cols,left));left-=cols}return out;
 }
-function mountChoiceGrid(c,choices,{multi=false,onEvaluate=null,gridClass=''}={}){
-  const grid=el('div',`game-choice-grid choices-${choices.length}${gridClass?' '+gridClass:''}`),buttons=[],rows=choiceRowPattern(choices.length);c.root.append(grid);let cursor=0;
+function mountChoiceGrid(c,choices,{multi=false,onEvaluate=null,gridClass='',rowPattern=null}={}){
+  const grid=el('div',`game-choice-grid choices-${choices.length}${gridClass?' '+gridClass:''}`),buttons=[],rows=rowPattern||choiceRowPattern(choices.length);c.root.append(grid);let cursor=0;
   for(const count of rows){
     const row=el('div','game-choice-row');row.style.setProperty('--row-count',count);grid.append(row);
     for(let k=0;k<count&&cursor<choices.length;k++,cursor++){
@@ -353,11 +353,23 @@ function permutationScenario(rng,level){
 function permPositions(n){if(n>=5){const cols=3,rows=Math.ceil(n/cols);return Array.from({length:n},(_,i)=>[55+(i%cols)*105,55+Math.floor(i/cols)*(rows>1?90:0)])}return Array.from({length:n},(_,i)=>[35+i*(250/Math.max(1,n-1)),90])}
 let markerSeq=0;
 function permMapSvg(perm,n){const pts=permPositions(n),marker=`pa${markerSeq++}`,defs=`<defs><marker id="${marker}" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#ff79ae"/></marker></defs>`;let body=defs;for(let i=0;i<n;i++){const j=perm[i],a=pts[i],b=pts[j];body+=`<circle cx="${a[0]}" cy="${a[1]}" r="7" class="perm-dot"/>`;if(i!==j){const mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2+(i<j?-24:24);body+=`<path class="perm-map-arrow" d="M${a[0]},${a[1]} Q${mx},${my} ${b[0]},${b[1]}" marker-end="url(#${marker})"/>`}}return svgWrap(body,'0 0 320 190','perm-map-svg','Mapa de posiciones')}
-function taskPermutation(c,rng,level){const s=permutationScenario(rng,level),arrangement=state=>`<div class="perm-arr ${s.n>=5?'grid':''}">${state.map(i=>`<span>${shapeSvg(s.objs[i],{size:s.n>=5?34:42})}</span>`).join('')}</div>`;addReference(c.root,`<div class="permutation-board"><div>${arrangement(s.initial)}</div><div class="perm-stage-stack">${s.stages.map((p,i)=>`${i?'<b>↓</b>':''}${permMapSvg(p,s.n)}`).join('')}</div><b>?</b></div>`);mountChoiceGrid(c,s.items.map((x,i)=>({html:arrangement(x.state),correct:x.correct,label:`Orden ${i+1}`})))}
+function taskPermutation(c,rng,level){
+  const s=permutationScenario(rng,level);
+  const arrangement=(state,choice=false)=>{
+    // Choice cards get an explicit slot grid. Never let token SVGs determine card geometry:
+    // 4 tokens use 2×2; 5/6 use 3-column rows; smaller sets stay on one row.
+    const cols=choice?(s.n<=3?s.n:s.n===4?2:3):(s.n>=5?3:s.n);
+    const size=choice?(s.n>=5?28:s.n===4?32:36):(s.n>=5?34:42);
+    return `<div class="perm-arr${choice?' perm-arr-choice':' perm-arr-reference'}" style="--perm-cols:${cols}">${state.map(i=>`<span>${shapeSvg(s.objs[i],{size})}</span>`).join('')}</div>`;
+  };
+  addReference(c.root,`<div class="permutation-board"><div>${arrangement(s.initial)}</div><div class="perm-stage-stack">${s.stages.map((p,i)=>`${i?'<b>↓</b>':''}${permMapSvg(p,s.n)}`).join('')}</div><b>?</b></div>`);
+  const rows=s.items.length<=2?[s.items.length]:s.items.length===3?[2,1]:[2,2];
+  mountChoiceGrid(c,s.items.map((x,i)=>({html:arrangement(x.state,true),correct:x.correct,label:`Orden ${i+1}`})),{gridClass:'permutation-choices',rowPattern:rows});
+}
 
 // 22 Toca en Orden -----------------------------------------------------------
 function tapOrderScenario(rng,level){const targets=[2,3,4,4,5,6,7,8,9][level-1],dist=[0,0,0,2,2,2,3,4,4][level-1],descs=genUniqueShapes(rng,targets+dist,{directional:true,mark:false,simple:true,coarse:true,shapes:['L','T','chevron','triangle','bar']});return {targets,dist,descs,sequence:descs.slice(0,targets),tokens:rng.shuffle(descs.map((d,i)=>({d,seq:i<targets?i:null})))}}
-function taskTapOrder(c,rng,level){const s=tapOrderScenario(rng,level);addReference(c.root,`<div class="tap-sequence">${s.sequence.map(d=>shapeSvg(d,{size:s.targets>6?32:40})).join('<span>→</span>')}</div>`);const field=el('div','tap-order-field'),positions=tapOrderPositions(rng,s.tokens.length),visualSize=s.targets<=4?62:s.targets<=6?56:48;field.classList.toggle('dense',s.tokens.length>=12);s.tokens.forEach((x,i)=>{const b=el('button','tap-target');b.type='button';b.innerHTML=shapeSvg(x.d,{size:visualSize});b.style.left=`${positions[i].x}%`;b.style.top=`${positions[i].y}%`;b.dataset.seq=x.seq??'';b.setAttribute('aria-label',x.seq==null?`Distractor ${i+1}`:`Figura de secuencia ${x.seq+1}`);field.append(b)});c.root.append(field);let expected=0;field.onclick=e=>{const b=e.target.closest('.tap-target');if(!b||c.locked||b.classList.contains('consumed'))return;const seq=b.dataset.seq===''?null:Number(b.dataset.seq);if(seq===expected){b.classList.add('consumed');b.disabled=true;expected++;c.sounds?.play('random_tick_fast',.18);if(expected===s.targets)c.ok()}else c.bad(b)}}
+function taskTapOrder(c,rng,level){const s=tapOrderScenario(rng,level);addReference(c.root,`<div class="tap-sequence">${s.sequence.map(d=>shapeSvg(d,{size:s.targets>6?32:40})).join('<span>→</span>')}</div>`);const field=el('div','tap-order-field'),positions=tapOrderPositions(rng,s.tokens.length),visualSize=s.targets<=4?62:s.targets<=6?56:48;field.classList.toggle('dense',s.tokens.length>=12);s.tokens.forEach((x,i)=>{const b=el('button','tap-target');b.type='button';b.innerHTML=`<span class="tap-target-glyph" aria-hidden="true">${shapeSvg(x.d,{size:visualSize})}</span>`;b.style.left=`${positions[i].x}%`;b.style.top=`${positions[i].y}%`;b.dataset.seq=x.seq??'';b.setAttribute('aria-label',x.seq==null?`Distractor ${i+1}`:`Figura de secuencia ${x.seq+1}`);field.append(b)});c.root.append(field);let expected=0;field.onclick=e=>{const b=e.target.closest('.tap-target');if(!b||c.locked||b.classList.contains('consumed'))return;const seq=b.dataset.seq===''?null:Number(b.dataset.seq);if(seq===expected){b.classList.add('consumed');b.disabled=true;expected++;c.sounds?.play('random_tick_fast',.18);if(expected===s.targets)c.ok()}else c.bad(b)}}
 
 // 23 Camino por Nodos --------------------------------------------------------
 const GRID_COLS=5,GRID_ROWS=3;
@@ -389,7 +401,7 @@ function transformTraceRoute(rng,route){
 }
 function traceSegments(route,closed=false){const out=[];for(let i=0;i<route.length-1;i++)out.push([route[i],route[i+1]]);if(closed)out.push([route.at(-1),route[0]]);return out}
 function validateTraceRoute(route,{closed=false,allowCross=false}={}){
-  const segs=traceSegments(route,closed);for(let i=0;i<route.length;i++)for(let j=i+1;j<route.length;j++)if(pointDist(route[i],route[j])<46)return false;
+  const segs=traceSegments(route,closed);for(let i=0;i<route.length;i++)for(let j=i+1;j<route.length;j++)if(pointDist(route[i],route[j])<56)return false;
   for(const [a,b] of segs)if(pointDist(a,b)<58)return false;
   for(let si=0;si<segs.length;si++)for(let vi=0;vi<route.length;vi++){
     const [a,b]=segs[si],isEndpoint=pointDist(route[vi],a)<1||pointDist(route[vi],b)<1;if(!isEndpoint&&segmentPointDistance(a,b,route[vi])<34)return false;
@@ -397,34 +409,45 @@ function validateTraceRoute(route,{closed=false,allowCross=false}={}){
   let crossings=0;for(let i=0;i<segs.length;i++)for(let j=i+1;j<segs.length;j++){if(segmentsShareEndpoint(...segs[i],...segs[j]))continue;if(properCross(...segs[i],...segs[j]))crossings++}
   if(allowCross)return crossings===1;return crossings===0;
 }
-function traceScenario(rng,level){
-  const spec=TRACE_TEMPLATES[level-1];let route=null;for(let tries=0;tries<200&&!route;tries++){const candidate=transformTraceRoute(rng,spec.route);if(validateTraceRoute(candidate,spec))route=candidate}if(!route){const candidate=spec.route.map(([x,y])=>({x,y}));if(!validateTraceRoute(candidate,spec))throw new Error('TRACE_TEMPLATE_INVALID');route=candidate}
-  const segments=traceSegments(route,spec.closed),distractors=[],slots=[];for(let y=30;y<=190;y+=16)for(let x=32;x<=288;x+=16){const p={x,y},pathClear=Math.min(...segments.map(([a,b])=>segmentPointDistance(a,b,p))),nodeClear=Math.min(...route.map(q=>pointDist(p,q)));if(pathClear>=38&&nodeClear>=46)slots.push({...p,score:pathClear+rng.float()*5})}slots.sort((a,b)=>b.score-a.score);for(const p of slots){
-    if(distractors.length>=spec.d)break;if(distractors.some(q=>pointDist(p,q)<46))continue;distractors.push({x:p.x,y:p.y})
-  }
-  if(distractors.length!==spec.d)throw new Error('TRACE_DISTRACTOR_LAYOUT');const pts=[...route,...distractors],seq=Array.from({length:route.length},(_,i)=>i);if(spec.closed)seq.push(0);return {route,distractors,pts,seq,closed:!!spec.closed,allowCross:!!spec.allowCross};
+function placeTraceDistractors(rng,route,spec){
+  if(!spec.d)return [];const segments=traceSegments(route,spec.closed),slots=[];for(let y=30;y<=190;y+=8)for(let x=32;x<=288;x+=8){const p={x,y},pathClear=Math.min(...segments.map(([a,b])=>segmentPointDistance(a,b,p))),nodeClear=Math.min(...route.map(q=>pointDist(p,q)));if(pathClear>=38&&nodeClear>=56)slots.push({...p,score:pathClear+rng.float()*5})}slots.sort((a,b)=>b.score-a.score);const distractors=[];for(const p of slots){if(distractors.length>=spec.d)break;if(distractors.some(q=>pointDist(p,q)<56))continue;distractors.push({x:p.x,y:p.y})}return distractors.length===spec.d?distractors:null;
 }
-function pointOnSegment(a,b,t){return {x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t}}
-function sweepHitT(a,b,p,radius){const vx=b.x-a.x,vy=b.y-a.y,l2=vx*vx+vy*vy;if(!l2)return pointDist(a,p)<=radius?0:null;const t=clamp(((p.x-a.x)*vx+(p.y-a.y)*vy)/l2,0,1),q=pointOnSegment(a,b,t);return pointDist(q,p)<=radius?t:null}
-function sweepInCorridor(a,b,s1,s2,tol){for(const t of [0,.2,.4,.6,.8,1])if(segmentPointDistance(s1,s2,pointOnSegment(a,b,t))>tol)return false;return true}
+function traceScenario(rng,level){
+  const spec=TRACE_TEMPLATES[level-1];for(let tries=0;tries<400;tries++){
+    const route=transformTraceRoute(rng,spec.route);if(!validateTraceRoute(route,spec))continue;const distractors=placeTraceDistractors(rng,route,spec);if(!distractors)continue;const pts=[...route,...distractors],seq=Array.from({length:route.length},(_,i)=>i);if(spec.closed)seq.push(0);return {route,distractors,pts,seq,closed:!!spec.closed,allowCross:!!spec.allowCross}
+  }
+  const route=spec.route.map(([x,y])=>({x,y}));if(!validateTraceRoute(route,spec))throw new Error('TRACE_TEMPLATE_INVALID');const distractors=placeTraceDistractors(rng,route,spec);if(!distractors)throw new Error('TRACE_DISTRACTOR_LAYOUT');const pts=[...route,...distractors],seq=Array.from({length:route.length},(_,i)=>i);if(spec.closed)seq.push(0);return {route,distractors,pts,seq,closed:!!spec.closed,allowCross:!!spec.allowCross};
+}
+function traceDirectionArrows(points,seq){
+  const out=[];for(let i=0;i<seq.length-1;i++){
+    const a=points[seq[i]],b=points[seq[i+1]],mx=a.x+(b.x-a.x)*.57,my=a.y+(b.y-a.y)*.57,angle=Math.atan2(b.y-a.y,b.x-a.x)*180/Math.PI;
+    out.push(`<path class="trace-direction-arrow" d="M-7,-5 L7,0 L-7,5 Z" transform="translate(${mx.toFixed(1)} ${my.toFixed(1)}) rotate(${angle.toFixed(1)})"/>`)
+  }return out.join('')
+}
 function taskVertexTrace(c,rng,level){
-  const s=traceScenario(rng,level),path=s.seq.map((i,j)=>`${j?'L':'M'}${s.pts[i].x},${s.pts[i].y}`).join(' '),ref=svgWrap(`<path class="trace-ref" d="${path}"/>${s.pts.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="${i===0?8:6}" class="${i===0?'trace-start':i>=s.route.length?'trace-distractor':''}"/>`).join('')}`,'0 0 320 220','game-diagram trace-reference','Trazo de referencia');addReference(c.root,ref);
-  const field=el('div','trace-input');field.innerHTML=svgWrap(`${s.pts.map((p,i)=>`<circle data-i="${i}" cx="${p.x}" cy="${p.y}" r="${i===0?10:8}" class="trace-node ${i===0?'start':''} ${i>=s.route.length?'distractor':''}"/>`).join('')}<path class="live-trace" d=""/>`,'0 0 320 220','game-diagram trace-live','Área para trazar');c.root.append(field);
-  const svg=field.querySelector('svg'),live=field.querySelector('.live-trace');let active=false,pid=null,step=0,last=null,livePts=[];
-  const toLocal=e=>{const r=svg.getBoundingClientRect();return {x:(e.clientX-r.left)/r.width*320,y:(e.clientY-r.top)/r.height*220}};
-  const reset=()=>{active=false;step=0;last=null;livePts=[];live.setAttribute('d','');if(pid!=null)try{svg.releasePointerCapture(pid)}catch{};pid=null};
-  const renderLive=p=>{livePts.push(p);if(livePts.length>180)livePts.splice(1,1);live.setAttribute('d',livePts.map((q,i)=>`${i?'L':'M'}${q.x.toFixed(1)},${q.y.toFixed(1)}`).join(' '))};
-  const fail=()=>{active=false;field.classList.add('wrong');c.bad(field)};
-  const processSweep=(a,b)=>{
-    const expected=s.seq[step+1];if(expected==null)return 'done';const curIdx=s.seq[step],segA=s.pts[curIdx],segB=s.pts[expected],hit=sweepHitT(a,b,segB,25);
-    if(hit==null){if(!sweepInCorridor(a,b,segA,segB,24))return 'fail'}else{
-      const q=pointOnSegment(a,b,hit);if(!sweepInCorridor(a,q,segA,segB,24))return 'fail';step++;c.sounds?.play('random_tick_fast',.14);if(step===s.seq.length-1)return 'done';const next=s.pts[s.seq[step+1]];if(!sweepInCorridor(q,b,segB,next,27))return 'fail';
-    }
-    const completed=new Set(s.seq.slice(0,step+1));for(let i=0;i<s.pts.length;i++){if(i===s.seq[step+1]||completed.has(i))continue;if(sweepHitT(a,b,s.pts[i],19)!=null)return 'fail'}return 'ok';
+  const s=traceScenario(rng,level),path=s.seq.map((i,j)=>`${j?'L':'M'}${s.pts[i].x},${s.pts[i].y}`).join(' '),arrows=traceDirectionArrows(s.pts,s.seq);
+  const ref=svgWrap(`<path class="trace-ref" d="${path}"/>${arrows}${s.pts.map((p,i)=>`<circle cx="${p.x}" cy="${p.y}" r="${i===0?9:7}" class="trace-ref-node ${i===0?'trace-start':''}"/>`).join('')}`,'0 0 320 220','game-diagram trace-reference','Referencia del trazo. Empieza en el vértice gris y sigue el sentido de las flechas.');
+  addReference(c.root,ref);
+  taskCaption(c.root,'Toca el vértice gris y luego los vértices en el sentido de las flechas.');
+  const field=el('div','trace-input trace-tap-board');
+  field.innerHTML=svgWrap('<path class="live-trace" d=""/>','0 0 320 220','game-diagram trace-live','Trazo que vas completando');
+  const overlay=el('div','trace-tap-overlay');field.append(overlay);c.root.append(field);
+  const live=field.querySelector('.live-trace'),nodes=[];let step=-1,trail=[];
+  s.pts.forEach((p,i)=>{
+    const b=el('button',`trace-node ${i===0?'start':''}`);b.type='button';b.dataset.i=String(i);b.style.left=`${p.x/320*100}%`;b.style.top=`${p.y/220*100}%`;
+    b.setAttribute('aria-label',i===0?'Vértice gris de inicio':'Vértice');b.innerHTML='<span aria-hidden="true"></span>';overlay.append(b);nodes.push(b)
+  });
+  const render=()=>{
+    live.setAttribute('d',trail.map((idx,j)=>`${j?'L':'M'}${s.pts[idx].x},${s.pts[idx].y}`).join(' '));
+    const current=trail.at(-1);nodes.forEach((node,i)=>{node.classList.toggle('visited',trail.includes(i));node.classList.toggle('current',current===i);if(current===i)node.setAttribute('aria-current','step');else node.removeAttribute('aria-current')})
   };
-  svg.addEventListener('pointerdown',e=>{if(c.locked)return;const p=toLocal(e);if(pointDist(p,s.pts[0])>30)return;e.preventDefault();active=true;pid=e.pointerId;step=0;last=p;livePts=[s.pts[0],p];svg.setPointerCapture?.(pid);renderLive(p)});
-  svg.addEventListener('pointermove',e=>{if(!active||e.pointerId!==pid||c.locked)return;e.preventDefault();const p=toLocal(e),status=processSweep(last,p);renderLive(p);last=p;if(status==='done'){active=false;c.ok()}else if(status==='fail')fail()});
-  svg.addEventListener('pointerup',e=>{if(!active||e.pointerId!==pid||c.locked)return;const p=toLocal(e),status=processSweep(last,p);renderLive(p);if(status==='done'){active=false;c.ok()}else fail()});svg.addEventListener('pointercancel',reset);c.pauseFn=reset;c.resumeFn=reset;c.cleanup.push(reset);
+  const choose=node=>{
+    if(c.locked)return;const idx=Number(node.dataset.i),expected=s.seq[step+1];
+    if(idx!==expected){c.bad(node);return}
+    step++;trail.push(idx);render();c.sounds?.play('random_tick_fast',.16);if(step===s.seq.length-1)c.ok()
+  };
+  overlay.addEventListener('click',e=>{const node=e.target.closest('.trace-node');if(node)choose(node)});
+  render();
 }
 
 // 25 ¿Qué Cambió? ------------------------------------------------------------
@@ -443,9 +466,10 @@ function whatChangedScenario(rng,level){
 function taskWhatChanged(c,rng,level){const s=whatChangedScenario(rng,level);let timers=[];const cancel=()=>timers.splice(0).forEach(clearTimeout),run=()=>{cancel();c.root.innerHTML=attentionScene(s.before,s.beforePos,{disabled:true});const t1=setTimeout(()=>{if(c.locked)return;c.root.innerHTML='<div class="attention-cover"></div>';const t2=setTimeout(()=>{if(c.locked)return;c.root.innerHTML=attentionScene(s.after,s.afterPos);c.root.querySelectorAll('.attention-object').forEach(b=>b.onclick=()=>Number(b.dataset.i)===s.target?c.ok():c.bad(b))},reduced()?70:190);timers.push(t2)},s.observeMs);timers.push(t1)};run();c.pauseFn=cancel;c.resumeFn=run;c.cleanup.push(cancel)}
 
 // 26 ¿Qué Desapareció? -------------------------------------------------------
+function disappearedObserveMs(n){return 900+n*300}
 function whatDisappearedScenario(rng,level){
   const n=[3,4,5,5,6,6,7,8,9][level-1],before=genUniqueShapes(rng,n,{directional:level>=6,mark:level>=4,simple:true}),target=rng.int(0,n-1),positions=attentionPositions(rng,n),correct=before[target],after=before.filter((_,i)=>i!==target),afterPos=positions.filter((_,i)=>i!==target),candidateN=level<=2?3:level<=6?4:5,wrong=[],present=new Set(before.map(visualSignature));
-  const types=['shape','rotation','fill','mark','markPos'];for(const t of types){const d=mutateDesc(correct,rng,t),sig=visualSignature(d);if(sig!==visualSignature(correct)&&!present.has(sig))addVisualUnique(wrong,d)}let guard=0;while(wrong.length<candidateN-1&&guard++<1200){const d=glyph(rng,{shapes:level>=6?DIRECTIONAL:PLAIN_SHAPES,mark:level>=4?'random':'none'}),sig=visualSignature(d);if(sig!==visualSignature(correct)&&!present.has(sig))addVisualUnique(wrong,d)}if(wrong.length<candidateN-1)throw new Error('DISAPPEARED_CANDIDATES');return {before,target,positions,after,afterPos,correct,items:rng.shuffle([{d:correct,correct:true},...wrong.slice(0,candidateN-1).map(d=>({d,correct:false}))]),observeMs:1600+level*90};
+  const types=['shape','rotation','fill','mark','markPos'];for(const t of types){const d=mutateDesc(correct,rng,t),sig=visualSignature(d);if(sig!==visualSignature(correct)&&!present.has(sig))addVisualUnique(wrong,d)}let guard=0;while(wrong.length<candidateN-1&&guard++<1200){const d=glyph(rng,{shapes:level>=6?DIRECTIONAL:PLAIN_SHAPES,mark:level>=4?'random':'none'}),sig=visualSignature(d);if(sig!==visualSignature(correct)&&!present.has(sig))addVisualUnique(wrong,d)}if(wrong.length<candidateN-1)throw new Error('DISAPPEARED_CANDIDATES');return {before,target,positions,after,afterPos,correct,items:rng.shuffle([{d:correct,correct:true},...wrong.slice(0,candidateN-1).map(d=>({d,correct:false}))]),observeMs:disappearedObserveMs(n),visibleCount:n};
 }
 function taskWhatDisappeared(c,rng,level){const s=whatDisappearedScenario(rng,level),choices=s.items.map((x,i)=>({html:shapeSvg(x.d,{size:54}),correct:x.correct,label:`Figura ${i+1}`}));let timers=[];const cancel=()=>timers.splice(0).forEach(clearTimeout),run=()=>{cancel();c.root.innerHTML=attentionScene(s.before,s.positions,{disabled:true});const t1=setTimeout(()=>{if(c.locked)return;c.root.innerHTML='<div class="attention-cover"></div>';const t2=setTimeout(()=>{if(c.locked)return;c.root.innerHTML=attentionScene(s.after,s.afterPos,{disabled:true});mountChoiceGrid(c,choices)},reduced()?70:190);timers.push(t2)},s.observeMs);timers.push(t1)};run();c.pauseFn=cancel;c.resumeFn=run;c.cleanup.push(cancel)}
 
@@ -468,7 +492,7 @@ function taskFollowTargetReduced(c,rng,level,s){
 }
 function taskFollowTarget(c,rng,level){
   const s=followScenario(rng,level);if(reduced()){taskFollowTargetReduced(c,rng,level,s);return}
-  const board=el('div','follow-board');c.root.append(board);const nodes=s.objs.map((o,i)=>{const b=el('div',`follow-object ${i===0?'target intro':''}`);b.innerHTML=shapeSvg(o.d,{size:52});board.append(b);return b});let raf=0,active=false,pid=null,start=0,pointer={x:0,y:0},outsideSince=null,paused=false;
+  const board=el('div','follow-board');c.root.append(board);const nodes=s.objs.map((o,i)=>{const b=el('div',`follow-object ${i===0?'target intro':''}`);b.innerHTML=shapeSvg(o.d,{size:52});board.append(b);return b});const blockNative=e=>e.preventDefault();for(const type of ['contextmenu','selectstart','dragstart'])board.addEventListener(type,blockNative);let raf=0,active=false,pid=null,start=0,pointer={x:0,y:0},outsideSince=null,paused=false;
   const place=t=>{for(let i=0;i<s.objs.length;i++){const p=followPosAt(s.objs[i],t);nodes[i].style.left=`${p.x}%`;nodes[i].style.top=`${p.y}%`}};place(0);
   const succeedIfDone=now=>{if(active&&now-start>=s.duration){active=false;cancelAnimationFrame(raf);nodes[0].classList.remove('tracking');c.ok();return true}return false};
   const loop=now=>{if(!active||paused||c.locked)return;if(succeedIfDone(now))return;const elapsed=now-start,t=elapsed/1000;place(t);const r=board.getBoundingClientRect(),tp=followPosAt(s.objs[0],t),tx=r.left+tp.x/100*r.width,ty=r.top+tp.y/100*r.height,d=Math.hypot(pointer.x-tx,pointer.y-ty),tol=Math.max(31,Math.min(r.width,r.height)*.14);if(d>tol){if(outsideSince==null)outsideSince=now;if(now-outsideSince>150){active=false;nodes[0].classList.remove('tracking');c.bad(nodes[0]);return}}else outsideSince=null;raf=requestAnimationFrame(loop)};
@@ -476,7 +500,7 @@ function taskFollowTarget(c,rng,level){
   board.addEventListener('pointerdown',e=>{if(c.locked||active||paused)return;const r=nodes[0].getBoundingClientRect();if(e.clientX<r.left-14||e.clientX>r.right+14||e.clientY<r.top-14||e.clientY>r.bottom+14)return;e.preventDefault();active=true;pid=e.pointerId;pointer={x:e.clientX,y:e.clientY};outsideSince=null;nodes[0].classList.remove('intro');nodes[0].classList.add('tracking');board.setPointerCapture?.(pid);start=performance.now();raf=requestAnimationFrame(loop)});
   board.addEventListener('pointermove',e=>{if(active&&e.pointerId===pid){e.preventDefault();pointer={x:e.clientX,y:e.clientY}}});
   board.addEventListener('pointerup',e=>{if(!active||e.pointerId!==pid)return;e.preventDefault();const now=performance.now();if(succeedIfDone(now))return;active=false;nodes[0].classList.remove('tracking');c.bad(nodes[0])});
-  board.addEventListener('pointercancel',reset);c.pauseFn=()=>{paused=true;reset()};c.resumeFn=()=>{paused=false;reset()};c.cleanup.push(reset);
+  board.addEventListener('pointercancel',reset);c.pauseFn=()=>{paused=true;reset()};c.resumeFn=()=>{paused=false;reset()};c.cleanup.push(()=>{reset();for(const type of ['contextmenu','selectstart','dragstart'])board.removeEventListener(type,blockNative)});
 }
 
 const BUILDERS={
