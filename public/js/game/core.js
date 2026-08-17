@@ -30,8 +30,8 @@ export const TASKS = [
   ['tap_order','Toca en Orden','dexterity','Toca las figuras en el orden mostrado.'],
   ['node_path','Camino por Nodos','dexterity','Sigue el camino desde inicio hasta meta.'],
   ['vertex_trace','Trazo por Vértices','dexterity','Toca el vértice gris y luego los siguientes en el sentido de las flechas.'],
-  ['what_changed','¿Qué Cambió?','attention','Toca lo que cambió.'],
-  ['what_disappeared','¿Qué Desapareció?','attention','¿Qué desapareció?'],
+  ['what_changed','¿Qué Cambió?','attention','Compara Antes y Después. Toca la figura que cambió.'],
+  ['what_disappeared','¿Qué Desapareció?','attention','Compara Antes y Después. En Antes, toca la figura que desapareció.'],
   ['follow_target','Sigue al Objetivo','attention','Mantén presionado y sigue al objetivo.'],
 ].map(([id,name,family,instruction])=>({id,name,family,instruction}));
 
