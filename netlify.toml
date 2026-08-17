@@ -11,7 +11,7 @@
 [[headers]]
   for = "/assets/*"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=0, must-revalidate"
 
 [[headers]]
   for = "/data/*"
@@ -51,6 +51,21 @@
 [[redirects]]
   from = "/api/presence"
   to = "/.netlify/functions/presence"
+  status = 200
+
+[[redirects]]
+  from = "/api/game-score"
+  to = "/.netlify/functions/game-score"
+  status = 200
+
+[[redirects]]
+  from = "/api/game-rank-estimate"
+  to = "/.netlify/functions/game-rank-estimate"
+  status = 200
+
+[[redirects]]
+  from = "/api/game-rankings"
+  to = "/.netlify/functions/game-rankings"
   status = 200
 
 [[redirects]]

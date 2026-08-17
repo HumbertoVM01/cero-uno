@@ -1,13 +1,15 @@
 {
   "name": "museo-de-allives",
-  "version": "1.1.0",
+  "version": "1.5.1",
   "private": true,
   "type": "module",
-  "description": "Museo De ALLIVES — Crear, Exhibir y Acariciar.",
+  "description": "Museo De ALLIVES — Crear, Exhibir, Acariciar y jugar El Pedido.",
   "scripts": {
-    "check": "node --check public/js/app.js && node --check public/js/allive.js && node --check public/js/audio.js && node --check public/js/card.js && node --check public/js/api.js && node --check netlify/functions/exhibit-allive.mjs && node --check netlify/functions/list-allives.mjs && node --check netlify/functions/caress-allive.mjs",
+    "check": "node --check public/js/build.js && node --check public/js/app.js && node --check public/js/allive.js && node --check public/js/audio.js && node --check public/js/card.js && node --check public/js/api.js && node --check netlify/functions/exhibit-allive.mjs && node --check netlify/functions/list-allives.mjs && node --check netlify/functions/caress-allive.mjs && node --check netlify/functions/game-score.mjs && node --check netlify/functions/game-rank-estimate.mjs && node --check netlify/functions/game-rankings.mjs && npm run game:check",
     "db:apply": "node scripts/apply-schema.mjs",
-    "db:reset": "node scripts/reset-database.mjs"
+    "db:reset": "node scripts/reset-database.mjs",
+    "game:check": "node scripts/check-game.mjs && node scripts/game-tests.mjs && AUDIT_SEEDS=20 node scripts/game-audit-tests.mjs",
+    "game:audit": "node scripts/game-audit-tests.mjs"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.0"
